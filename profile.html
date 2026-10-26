@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profiles — CPOVERIFY</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-page">
+
+  <header class="app-header">
+    <a class="brand" href="dashboard.html">
+      <span class="brand-mark">✓</span>
+      <span>
+        <b>CPO<span>VERIFY</span></b>
+        <small>Verify. Connect. Trust.</small>
+      </span>
+    </a>
+    <span class="tag">My account</span>
+  </header>
+
+  <main class="app-main">
+    <p class="greeting">YOUR ACCOUNT</p>
+    <h1>Profiles</h1>
+
+    <section class="profile-card">
+      <div class="profile-avatar">U</div>
+      <div>
+        <b data-profile-email>user@example.com</b>
+        <small>
+          Account ID: <span data-account-id>CPV-DEMO-001</span>
+        </small>
+      </div>
+    </section>
+
+    <section class="settings-card">
+      <h2>Account details</h2>
+
+      <label>
+        Email account
+        <input type="email" data-email-field
+          value="user@example.com">
+      </label>
+
+      <label>
+        Account ID
+        <input type="text" value="CPV-DEMO-001" readonly>
+      </label>
+
+      <button class="btn full" type="button" data-save-profile>
+        Save profile
+      </button>
+    </section>
+
+    <section class="settings-card">
+      <h2>Security</h2>
+
+      <a class="settings-link" href="forgot-password.html">
+        <span>Forgot or reset password</span>
+        <span>›</span>
+      </a>
+
+      <button class="btn btn-outline full"
+        type="button" data-change-password>
+        Change password
+      </button>
+    </section>
+
+    <button class="btn btn-danger full"
+      type="button" data-logout>
+      Log out
+    </button>
+
+    <p class="small-note">
+      Profile data is a demo until secure authentication and
+      database storage are configured.
+    </p>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="dashboard.html"><span>⌂</span>Home</a>
+    <a href="buy-number.html"><span>☎</span>Buy numbers</a>
+    <a href="account-logs.html"><span>▤</span>Account logs</a>
+    <a href="boost-account.html"><span>↗</span>Boosting</a>
+    <a class="active" href="profile.html"><span>◎</span>Profiles</a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
