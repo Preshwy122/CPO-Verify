@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account — CPOVERIFY</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-page">
+
+  <a class="brand auth-brand" href="index.html">
+    <span class="brand-mark">✓</span>
+    <span>
+      <b>CPO<span>VERIFY</span></b>
+      <small>Verify. Connect. Trust.</small>
+    </span>
+  </a>
+
+  <main class="auth-card">
+    <h1>Create account</h1>
+    <p class="muted">Join CPOVERIFY today.</p>
+
+    <form data-demo-form
+      data-success="Demo registration only. Connect a secure backend to create real accounts.">
+
+      <label>
+        Full name
+        <input type="text" name="name"
+          placeholder="Enter your full name" required>
+      </label>
+
+      <label>
+        Email address
+        <input type="email" name="email"
+          placeholder="you@example.com" required>
+      </label>
+
+      <label>
+        Password
+        <input type="password" name="password"
+          placeholder="Create a password"
+          minlength="8" required>
+      </label>
+
+      <label>
+        Confirm password
+        <input type="password" name="confirm_password"
+          placeholder="Confirm your password"
+          minlength="8" required>
+      </label>
+
+      <button class="btn full" type="submit">
+        Create account
+      </button>
+
+      <button class="btn btn-google full"
+        type="button" data-google-demo>
+        Continue with Google
+      </button>
+    </form>
+
+    <p class="auth-foot">
+      Already have an account?
+      <a href="login.html">Log in</a>
+    </p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
