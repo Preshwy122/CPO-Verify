@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>CPOVERIFY — Verify. Connect. Trust.</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .landing-header {
+      max-width: 1180px;
+      margin: auto;
+    }
+
+    .landing-header .btn {
+      padding: 10px 15px;
+    }
+
+    .landing-hero {
+      max-width: 1180px;
+      margin: auto;
+      padding: 60px 24px 55px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 45px;
+    }
+
+    .landing-copy h1 {
+      max-width: 620px;
+      font-size: clamp(38px, 5.5vw, 62px);
+      line-height: 1.08;
+      letter-spacing: -2px;
+      margin: 16px 0;
+    }
+
+    .landing-copy h1 span {
+      color: var(--blue);
+    }
+
+    .landing-copy > p {
+      max-width: 500px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .landing-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 11px;
+      margin-top: 25px;
+    }
+
+    .trust-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 25px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .trust-line span::before {
+      content: "✓";
+      color: var(--blue);
+      font-weight: 900;
+      margin-right: 5px;
+    }
+
+    .preview-area {
+      min-width: 0;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .phone-preview {
+      width: min(100%, 310px);
+      padding: 12px;
+      border: 1px solid #dce5f2;
+      border-radius: 32px;
+      background: #fff;
+      box-shadow: 0 25px 65px #123d7418;
+      transform: rotate(1deg);
+    }
+
+    .phone-screen {
+      min-height: 430px;
+      padding: 18px 14px;
+      background: #f7f9fc;
+      border-radius: 23px;
+    }
+
+    .phone-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .phone-brand {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .phone-check {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      background: #eaf2ff;
+      color: var(--blue);
+      font-size: 18px;
+    }
+
+    .phone-welcome {
+      margin: 25px 0 13px;
+    }
+
+    .phone-welcome small {
+      color: var(--blue);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .phone-welcome h2 {
+      font-size: 22px;
+      margin: 6px 0;
+      letter-spacing: -.7px;
+    }
+
+    .phone-welcome p {
+      color: var(--muted);
+      font-size: 11px;
+      margin: 0;
+    }
+
+    .phone-balance {
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #1262d6, #0c3f91);
+      color: #fff;
+    }
+
+    .phone-balance small {
+      font-size: 10px;
+      opacity: .85;
+    }
+
+    .phone-balance strong {
+      display: block;
+      font-size: 25px;
+      margin: 8px 0 13px;
+    }
+
+    .phone-balance span {
+      display: inline-block;
+      background: #ffffff24;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 10px;
+    }
+
+    .phone-services-title {
+      margin: 21px 0 11px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .phone-services {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .phone-service {
+      padding: 13px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .phone-service span {
+      font-size: 19px;
+    }
+
+    .phone-service b {
+      display: block;
+      margin-top: 8px;
+      font-size: 11px;
+    }
+
+    .phone-service small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    .preview-note {
+      position: absolute;
+      left: 0;
+      bottom: 42px;
+      padding: 12px 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 12px 30px #10264b12;
+      font-size: 12px;
+    }
+
+    .preview-note b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .preview-note small {
+      color: var(--muted);
+    }
+
+    .landing-services {
+      background: #fff;
+      border-top: 1px solid var(--line);
+      padding: 50px 20px;
+    }
+
+    .landing-services-inner {
+      max-width: 1050px;
+      margin: auto;
+    }
+
+    .landing-section-heading {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .landing-section-heading h2 {
+      font-size: clamp(25px, 4vw, 34px);
+      letter-spacing: -1px;
+      margin: 10px 0;
+    }
+
+    .landing-section-heading p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .landing-service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .landing-service {
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 21px;
+      background: #fff;
+    }
+
+    .landing-service .service-icon {
+      margin-bottom: 14px;
+    }
+
+    .landing-service b {
+      display: block;
+      font-size: 15px;
+    }
+
+    .landing-service p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    .landing-cta {
+      max-width: 1050px;
+      margin: 35px auto;
+      padding: 30px 24px;
+      background: #eaf2ff;
+      border: 1px solid #d8e7ff;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .landing-cta h2 {
+      margin: 0 0 8px;
+      font-size: 23px;
+    }
+
+    .landing-cta p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 760px) {
+      .landing-header {
+        padding: 13px 15px;
+      }
+
+      .landing-header .brand b {
+        font-size: 19px;
+      }
+
+      .landing-header .brand-mark {
+        width: 36px;
+        height: 38px;
+        font-size: 22px;
+      }
+
+      .landing-header .btn {
+        padding: 9px 11px;
+        font-size: 12px;
+      }
+
+      .landing-hero {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 45px 20px 40px;
+      }
+
+      .landing-copy h1 {
+        font-size: clamp(39px, 10vw, 55px);
+      }
+
+      .preview-area {
+        padding: 15px 0 35px;
+      }
+
+      .preview-note {
+        left: 0;
+        bottom: 12px;
+      }
+
+      .landing-service-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .landing-cta {
+        margin: 25px 15px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header landing-header">
+    <a class="brand" href="index.html" aria-label="CPOVERIFY home">
+      <span class="brand-mark">✓</span>
+      <span>
+        <b>CPO<span>VERIFY</span></b>
+        <small>Verify. Connect. Trust.</small>
+      </span>
+    </a>
+
+    <div style="display:flex;gap:8px;align-items:center">
+      <a class="btn btn-outline" href="login.html">Log in</a>
+      <a class="btn" href="register.html">Get started</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="landing-hero">
+      <div class="landing-copy">
+        <span class="tag">SIMPLE. CLEAR. CONNECTED.</span>
+
+        <h1>Verification made <span>simple.</span></h1>
+
+        <p>
+          Welcome to CPOVERIFY. Explore virtual-number services,
+          manage your wallet, and keep your supported verification
+          activity organized in one convenient place.
+        </p>
+
+        <div class="landing-actions">
+          <a class="btn" href="register.html">Create your account →</a>
+          <a class="btn btn-outline" href="login.html">I already have an account</a>
+        </div>
+
+        <div class="trust-line">
+          <span>Easy-to-use dashboard</span>
+          <span>Wallet overview</span>
+          <span>Account controls</span>
+        </div>
+      </div>
+
+      <div class="preview-area" aria-label="Illustration of the CPOVERIFY dashboard">
+        <div class="phone-preview">
+          <div class="phone-screen">
+            <div class="phone-top">
+              <div class="phone-brand">
+                <span class="phone-check">✓</span>
+                <span>CPOVERIFY</span>
+              </div>
+              <span>•••</span>
+            </div>
+
+            <div class="phone-welcome">
+              <small>WELCOME BACK</small>
+              <h2>Your dashboard</h2>
+              <p>Your services, organized in one place.</p>
+            </div>
+
+            <div class="phone-balance">
+              <small>AVAILABLE BALANCE</small>
+              <strong>₦25,000.00</strong>
+              <span>＋ Add funds</span>
+            </div>
+
+            <div class="phone-services-title">Explore services</div>
+
+            <div class="phone-services">
+              <div class="phone-service">
+                <span>☎</span>
+                <b>Buy numbers</b>
+                <small>Virtual numbers</small>
+              </div>
+              <div class="phone-service">
+                <span>▤</span>
+                <b>Account logs</b>
+                <small>Available listings</small>
+              </div>
+              <div class="phone-service">
+                <span>↗</span>
+                <b>Boosting</b>
+                <small>Growth services</small>
+              </div>
+              <div class="phone-service">
+                <span>◎</span>
+                <b>My profile</b>
+                <small>Account settings</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-note">
+          <b>✓ Simple account management</b>
+          <small>Your dashboard at a glance</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-services">
+      <div class="landing-services-inner">
+        <div class="landing-section-heading">
+          <span class="eyebrow">BUILT FOR CLARITY</span>
+          <h2>Everything in one place</h2>
+          <p>Simple tools to help you manage your CPOVERIFY account.</p>
+        </div>
+
+        <div class="landing-service-grid">
+          <article class="landing-service">
+            <span class="service-icon blue">☎</span>
+            <b>Virtual numbers</b>
+            <p>Browse supported countries and services, with availability shown when a provider is connected.</p>
+          </article>
+
+          <article class="landing-service">
+            <span class="service-icon purple">▤</span>
+            <b>Account activity</b>
+            <p>Keep track of your account activity and available service listings.</p>
+          </article>
+
+          <article class="landing-service">
+            <span class="service-icon green">◎</span>
+            <b>Wallet and profile</b>
+            <p>View your balance and manage your account settings from your dashboard.</p>
+          </article>
+        </div>
+
+        <div class="landing-cta">
+          <div>
+            <h2>Ready to get started?</h2>
+            <p>Create your account to explore the CPOVERIFY dashboard.</p>
+          </div>
+          <a class="btn" href="register.html">Create an account →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © <span id="current-year">2026</span> CPOVERIFY. Verify. Connect. Trust.
+  </footer>
+
+  <script>
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+  </script>
+</body>
+</html>
