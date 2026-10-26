@@ -1,0 +1,705 @@
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #1262d6;
+  --blue-dark: #0c3f91;
+  --ink: #101828;
+  --muted: #667085;
+  --line: #e6eaf0;
+  --bg: #f7f9fc;
+  --white: #ffffff;
+}
+
+html {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.site-header,
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 46px;
+  background: #eaf2ff;
+  border: 2px solid var(--blue);
+  border-radius: 14px;
+  color: var(--blue);
+  font-size: 27px;
+  font-weight: 900;
+}
+
+.brand b {
+  font-size: 23px;
+  letter-spacing: -.7px;
+}
+
+.brand b span {
+  color: var(--blue);
+}
+
+.brand small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--blue);
+  background: var(--blue);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-outline {
+  background: #fff;
+  color: var(--blue);
+}
+
+.btn-light {
+  background: #fff;
+  color: var(--blue);
+  border-color: #fff;
+}
+
+.btn-google {
+  background: #fff;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.btn-small {
+  padding: 8px 11px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.full {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.btn-danger {
+  background: #fff;
+  color: #c43232;
+  border-color: #f0caca;
+}
+
+.hero {
+  max-width: 1050px;
+  margin: auto;
+  padding: 75px 24px;
+  min-height: 520px;
+}
+
+.eyebrow,
+.greeting {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--blue);
+}
+
+h1 {
+  font-size: clamp(34px, 6vw, 58px);
+  letter-spacing: -1.8px;
+  line-height: 1.08;
+  margin: 13px 0;
+}
+
+.hero h1 span {
+  color: var(--blue);
+}
+
+.hero p {
+  max-width: 520px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.hero-actions,
+.service-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+
+.service-pills {
+  margin-top: 40px;
+}
+
+.service-pills span,
+.tag {
+  font-size: 12px;
+  color: #1757ad;
+  background: #edf4ff;
+  border-radius: 100px;
+  padding: 7px 11px;
+  font-weight: 700;
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 25px;
+  font-size: 13px;
+}
+
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 18px;
+}
+
+.auth-brand {
+  margin: 14px 0 26px;
+}
+
+.auth-card {
+  width: min(100%, 430px);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 12px 35px #0b1e3a0a;
+}
+
+.auth-card h1 {
+  font-size: 30px;
+  letter-spacing: -.8px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.auth-card p {
+  line-height: 1.5;
+}
+
+.auth-card label,
+.settings-card label,
+.search-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 17px;
+}
+
+.auth-card input,
+.settings-card input,
+.search-label input,
+#user-search {
+  display: block;
+  width: 100%;
+  border: 1px solid #d9e0ea;
+  background: #fff;
+  border-radius: 11px;
+  padding: 12px;
+  margin-top: 7px;
+  outline-color: var(--blue);
+}
+
+.form-row {
+  text-align: right;
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.auth-foot {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 22px;
+}
+
+.app-page {
+  padding-bottom: 90px;
+  background: var(--bg);
+}
+
+.app-header {
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.app-header .brand-mark {
+  width: 36px;
+  height: 38px;
+  font-size: 22px;
+}
+
+.app-header .brand b {
+  font-size: 19px;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  background: #e8f1ff;
+  color: var(--blue);
+  font-weight: 800;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+}
+
+.app-main {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 26px 18px;
+}
+
+.app-main h1 {
+  font-size: 34px;
+  letter-spacing: -1px;
+  margin: 8px 0;
+}
+
+.greeting {
+  margin: 5px 0;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #1262d6, #0d4db4);
+  border-radius: 22px;
+  padding: 23px;
+  color: #fff;
+  margin: 23px 0;
+  box-shadow: 0 12px 25px #1262d626;
+}
+
+.balance-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  opacity: .9;
+}
+
+.balance-amount {
+  font-size: 35px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 12px 0 2px;
+}
+
+.balance-card p {
+  font-size: 12px;
+  opacity: .8;
+  margin: 0 0 18px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 28px 0 13px;
+}
+
+.section-heading h2,
+.settings-card h2 {
+  font-size: 17px;
+  margin: 0;
+}
+
+.section-heading .muted {
+  font-size: 12px;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  padding: 17px;
+  color: var(--ink);
+  min-height: 135px;
+}
+
+.service-card b {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.service-card small {
+  margin-top: 5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.service-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.blue {
+  background: #eaf2ff;
+  color: #1763d5;
+}
+
+.purple {
+  background: #f2eaff;
+  color: #7c3aed;
+}
+
+.green {
+  background: #e5f8ef;
+  color: #13945a;
+}
+
+.yellow {
+  background: #fff5d9;
+  color: #ae7900;
+}
+
+.notice {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 17px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.notice p {
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: #fff;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 3px max(8px, env(safe-area-inset-bottom));
+  box-shadow: 0 -5px 20px #10264b08;
+}
+
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #788397;
+  font-size: 10px;
+  font-weight: 650;
+  min-width: 0;
+  flex: 1;
+}
+
+.bottom-nav a span {
+  font-size: 22px;
+  line-height: 24px;
+}
+
+.bottom-nav a.active {
+  color: var(--blue);
+}
+
+.intro {
+  line-height: 1.6;
+}
+
+.search-label {
+  margin: 22px 0;
+}
+
+.country-list {
+  display: grid;
+  gap: 10px;
+}
+
+.country-card,
+.listing-card,
+.boost-card,
+.profile-card,
+.settings-card,
+.user-row,
+.admin-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.country-card .flag {
+  font-size: 29px;
+}
+
+.country-card div {
+  flex: 1;
+}
+
+.country-card small,
+.profile-card small,
+.user-details small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.small-note {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 22px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  overflow: auto;
+  margin: 20px 0;
+}
+
+.filter-chip {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  padding: 9px 15px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.filter-chip.active {
+  background: #eaf2ff;
+  color: var(--blue);
+  border-color: #c7dcff;
+}
+
+.listing-card {
+  margin: 10px 0;
+}
+
+.listing-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #edf4ff;
+  color: var(--blue);
+  font-size: 22px;
+}
+
+.listing-info {
+  flex: 1;
+}
+
+.listing-info small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+.boost-card {
+  align-items: flex-start;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+
+.boost-card > div {
+  flex: 1;
+  min-width: 130px;
+}
+
+.boost-card h2 {
+  font-size: 15px;
+  margin: 2px 0 6px;
+}
+
+.boost-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.profile-card {
+  margin: 20px 0;
+}
+
+.profile-avatar,
+.user-avatar {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eaf2ff;
+  color: var(--blue);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.settings-card {
+  display: block;
+  margin: 13px 0;
+}
+
+.settings-card h2 {
+  margin-bottom: 8px;
+}
+
+.settings-link {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+
+.settings-card .btn {
+  margin-top: 15px;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.admin-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--ink);
+}
+
+.admin-card small {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.admin-card span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.user-row {
+  margin-top: 12px;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-details b {
+  font-size: 14px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (min-width: 700px) {
+  .hero {
+    padding-top: 120px;
+  }
+
+  .app-main {
+    padding-top: 34px;
+  }
+}
+
+@media (max-width: 380px) {
+  .bottom-nav a {
+    font-size: 9px;
+  }
+
+  .bottom-nav a span {
+    font-size: 20px;
+  }
+
+  .app-header {
+    padding: 12px;
+  }
+
+  .app-main {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .country-card {
+    gap: 8px;
+  }
+
+  .country-card .btn {
+    padding: 8px;
+    font-size: 11px;
+  }
+}
