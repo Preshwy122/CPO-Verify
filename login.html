@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — CPOVERIFY</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-page">
+
+  <a class="brand auth-brand" href="index.html">
+    <span class="brand-mark">✓</span>
+    <span>
+      <b>CPO<span>VERIFY</span></b>
+      <small>Verify. Connect. Trust.</small>
+    </span>
+  </a>
+
+  <main class="auth-card">
+    <h1>Welcome back</h1>
+    <p class="muted">Log in to your CPOVERIFY account.</p>
+
+    <form data-demo-form
+      data-success="Demo login only. Secure authentication must be configured before launch.">
+
+      <label>
+        Email address
+        <input type="email" name="email"
+          placeholder="you@example.com" required>
+      </label>
+
+      <label>
+        Password
+        <input type="password" name="password"
+          placeholder="Enter your password" required>
+      </label>
+
+      <div class="form-row">
+        <a href="forgot-password.html">Forgot password?</a>
+      </div>
+
+      <button class="btn full" type="submit">Log in</button>
+
+      <button class="btn btn-google full"
+        type="button" data-google-demo>
+        Continue with Google
+      </button>
+    </form>
+
+    <p class="auth-foot">
+      Don't have an account?
+      <a href="register.html">Create one</a>
+    </p>
+
+    <p class="auth-foot">
+      <a href="index.html">← Back to home</a>
+    </p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
