@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Logs — CPOVERIFY</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-page">
+
+  <header class="app-header">
+    <a class="brand" href="dashboard.html">
+      <span class="brand-mark">✓</span>
+      <span>
+        <b>CPO<span>VERIFY</span></b>
+        <small>Verify. Connect. Trust.</small>
+      </span>
+    </a>
+    <a class="avatar" href="profile.html">U</a>
+  </header>
+
+  <main class="app-main">
+    <p class="greeting">ACCOUNT SERVICES</p>
+    <h1>Account logs</h1>
+    <p class="muted intro">
+      Browse account-related service listings and their details.
+    </p>
+
+    <div class="filter-row">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="social">Social</button>
+      <button class="filter-chip" data-filter="email">Email</button>
+      <button class="filter-chip" data-filter="other">Other</button>
+    </div>
+
+    <article class="listing-card" data-category="social">
+      <span class="listing-icon">◎</span>
+      <div class="listing-info">
+        <b>Social account service</b>
+        <small>Provider details and availability required</small>
+      </div>
+      <span class="tag">Demo</span>
+    </article>
+
+    <article class="listing-card" data-category="email">
+      <span class="listing-icon">✉</span>
+      <div class="listing-info">
+        <b>Email account service</b>
+        <small>Review service terms before ordering</small>
+      </div>
+      <span class="tag">Demo</span>
+    </article>
+
+    <article class="listing-card" data-category="other">
+      <span class="listing-icon">▤</span>
+      <div class="listing-info">
+        <b>Other account service</b>
+        <small>Provider details required</small>
+      </div>
+      <span class="tag">Demo</span>
+    </article>
+
+    <section class="notice">
+      <b>No live listings connected</b>
+      <p>
+        Connect your inventory and payment backend to display
+        real prices, availability, and order status.
+      </p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="dashboard.html"><span>⌂</span>Home</a>
+    <a href="buy-number.html"><span>☎</span>Buy numbers</a>
+    <a class="active" href="account-logs.html">
+      <span>▤</span>Account logs
+    </a>
+    <a href="boost-account.html"><span>↗</span>Boosting</a>
+    <a href="profile.html"><span>◎</span>Profiles</a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
