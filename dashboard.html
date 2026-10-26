@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>Dashboard — CPOVERIFY</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-page">
+
+  <header class="app-header">
+    <a class="brand" href="dashboard.html">
+      <span class="brand-mark">✓</span>
+      <span>
+        <b>CPO<span>VERIFY</span></b>
+        <small>Verify. Connect. Trust.</small>
+      </span>
+    </a>
+
+    <a class="avatar" href="profile.html" aria-label="My profile">U</a>
+  </header>
+
+  <main class="app-main">
+    <p class="greeting">WELCOME BACK</p>
+    <h1>Your dashboard</h1>
+    <p class="muted intro">Manage your wallet and explore your services.</p>
+
+    <section class="balance-card">
+      <div class="balance-top">
+        <span>Available balance</span>
+        <span>NGN</span>
+      </div>
+
+      <div class="balance-amount" data-balance>₦0.00</div>
+      <p>Wallet balance</p>
+
+      <a class="btn btn-light" href="#" data-deposit>
+        + Deposit via WhatsApp
+      </a>
+    </section>
+
+    <div class="section-heading">
+      <h2>Our services</h2>
+      <span class="muted">Choose a service</span>
+    </div>
+
+    <div class="service-grid">
+      <a class="service-card" href="buy-number.html">
+        <span class="service-icon blue">☎</span>
+        <b>Buy numbers</b>
+        <small>Virtual verification numbers</small>
+      </a>
+
+      <a class="service-card" href="account-logs.html">
+        <span class="service-icon purple">▤</span>
+        <b>Account logs</b>
+        <small>Browse available listings</small>
+      </a>
+
+      <a class="service-card" href="boost-account.html">
+        <span class="service-icon green">↗</span>
+        <b>Account boosting</b>
+        <small>Growth and promotion</small>
+      </a>
+
+      <a class="service-card" href="tools.html">
+        <span class="service-icon yellow">⚒</span>
+        <b>Tools</b>
+        <small>Admin updates, books and useful resources</small>
+      </a>
+    </div>
+
+    <section class="notice">
+      <b>Updates and useful resources</b>
+      <p>
+        Visit Tools to read admin-posted updates, book information,
+        guides, and other resources shared with users.
+      </p>
+      <a href="tools.html">Explore tools →</a>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a class="active" href="dashboard.html">
+      <span>⌂</span>Home
+    </a>
+    <a href="buy-number.html">
+      <span>☎</span>Buy numbers
+    </a>
+    <a href="account-logs.html">
+      <span>▤</span>Account logs
+    </a>
+    <a href="boost-account.html">
+      <span>↗</span>Boosting
+    </a>
+    <a href="profile.html">
+      <span>◎</span>Profiles
+    </a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
