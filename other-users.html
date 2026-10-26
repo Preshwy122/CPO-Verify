@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Other Users — CPOVERIFY</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-page">
+
+  <header class="app-header">
+    <a class="brand" href="admin.html">
+      <span class="brand-mark">✓</span>
+      <span>
+        <b>CPO<span>VERIFY</span></b>
+        <small>Admin console</small>
+      </span>
+    </a>
+    <a class="btn btn-outline btn-small" href="admin.html">
+      ← Admin
+    </a>
+  </header>
+
+  <main class="app-main">
+    <p class="greeting">USER MANAGEMENT</p>
+    <h1>Other Users</h1>
+    <p class="muted intro">
+      Search registered user records. Real user data requires
+      a connected database.
+    </p>
+
+    <input type="search" id="user-search"
+      placeholder="Search email or account ID">
+
+    <div id="users-list">
+      <article class="user-row"
+        data-user="demo user@example.com cpv-demo-001">
+        <div class="user-avatar">U</div>
+        <div class="user-details">
+          <b>Demo User</b>
+          <small>user@example.com</small>
+          <small>Account ID: CPV-DEMO-001</small>
+        </div>
+        <span class="tag">Demo</span>
+      </article>
+    </div>
+
+    <section class="notice">
+      <b>Manual wallet credit</b>
+      <p>
+        Verify deposits before crediting users. Real balance
+        changes must be performed through a secure backend,
+        using the user's email or account ID.
+      </p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
