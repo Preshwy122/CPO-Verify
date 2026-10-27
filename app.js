@@ -1,11 +1,63 @@
-
 /*
   CPOVERIFY shared JavaScript.
-
-  Demo only:
-  Connect a secure backend before enabling real accounts,
-  authentication, wallet credits, and live purchases.
+  Firebase Google sign-in setup.
+  Wallet and admin operations still require a secure backend.
 */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAS25JvO0dNVZmxw7rV9O-Pgcb_bdmj-A0",
+  authDomain: "cpoverify.firebaseapp.com",
+  projectId: "cpoverify",
+  storageBucket: "cpoverify.firebasestorage.app",
+  messagingSenderId: "981815301734",
+  appId: "1:981815301734:web:1f5890fa643c2c3f37bfa7",
+  measurementId: "G-MVC4EHLQ1Z"
+};
+
+// The designated admin Google account
+const ADMIN_EMAIL = "preshwy122@gmail.com";
+
+// Load Firebase compat SDK files
+function loadFirebase() {
+  return new Promise(function (resolve, reject) {
+
+    if (window.firebase && firebase.apps.length) {
+      resolve();
+      return;
+    }
+
+    const scripts = [
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js",
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js",
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"
+    ];
+
+    function loadNext(index) {
+      if (index >= scripts.length) {
+        try {
+          firebase.initializeApp(firebaseConfig);
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = scripts[index];
+      script.onload = function () {
+        loadNext(index + 1);
+      };
+      script.onerror = function () {
+        reject(new Error("Unable to load Firebase SDK."));
+      };
+
+      document.head.appendChild(script);
+    }
+
+    loadNext(0);
+  });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -19,10 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", function (event) {
       event.preventDefault();
 
-      // Basic confirmation-password check on registration
-      const password = form.querySelector(
-        '[name="password"]'
-      );
+      const password = form.querySelector('[name="password"]');
       const confirmPassword = form.querySelector(
         '[name="confirm_password"]'
       );
@@ -43,13 +92,50 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Google sign-in placeholder
+  // Firebase Google sign-in
   document.querySelectorAll("[data-google-demo]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      alert(
-        "Google sign-in requires OAuth configuration and a secure authentication provider."
-      );
+
+    button.addEventListener("click", async function () {
+
+      button.disabled = true;
+
+      try {
+        await loadFirebase();
+
+        const auth = firebase.auth();
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+
+        if (!user || !user.email) {
+          throw new Error("Unable to retrieve your Google account.");
+        }
+
+        const email = user.email.toLowerCase();
+
+        // Choose the destination page.
+        // This email check is NOT secure admin authorization.
+        if (email === ADMIN_EMAIL.toLowerCase()) {
+          window.location.href = "admin.html";
+        } else {
+          window.location.href = "dashboard.html";
+        }
+
+      } catch (error) {
+        console.error("Google sign-in error:", error);
+
+        alert(
+          error.message ||
+          "Google sign-in failed. Please try again."
+        );
+
+      } finally {
+        button.disabled = false;
+      }
+
     });
+
   });
 
   // WhatsApp wallet deposit link
@@ -57,8 +143,6 @@ document.addEventListener("DOMContentLoaded", function () {
     link.addEventListener("click", function (event) {
       event.preventDefault();
 
-      // Replace with your official WhatsApp number.
-      // Use country code only, without +, spaces, or dashes.
       const whatsappNumber = "2340000000000";
 
       const message =
@@ -169,10 +253,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const logoutButton = document.querySelector("[data-logout]");
 
   if (logoutButton) {
-    logoutButton.addEventListener("click", function () {
-      if (confirm("Log out of the demo?")) {
-        window.location.href = "login.html";
+    logoutButton.addEventListener("click", async function () {
+
+      if (!confirm("Log out?")) return;
+
+      try {
+        await loadFirebase();
+        await firebase.auth().signOut();
+      } catch (error) {
+        console.error("Sign-out error:", error);
       }
+
+      window.location.href = "login.html";
     });
   }
 
