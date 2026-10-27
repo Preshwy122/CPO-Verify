@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#06132d">
-
+  <meta name="theme-color" content="#ffffff">
   <title>CPOVERIFY — Verify. Connect. Trust.</title>
-
   <link rel="stylesheet" href="styles.css">
 
   <style>
     /* =========================================
        CPOVERIFY LANDING PAGE
-       Centralized styling for this page
-    ========================================= */
+       White background + navy text + blue accents
+       ========================================= */
 
     :root {
       --navy: #06132d;
@@ -21,8 +19,9 @@
       --blue: #2676f5;
       --blue-bright: #4d9aff;
       --white: #ffffff;
-      --muted: #a9b9d2;
-      --line: rgba(255,255,255,.11);
+      --muted: #667085;
+      --line: #e6eaf0;
+      --light-bg: #f7f9fc;
     }
 
     * {
@@ -35,8 +34,8 @@
 
     body {
       margin: 0;
-      color: var(--white);
-      background: var(--navy);
+      color: var(--navy);
+      background: var(--white);
       font-family: Inter, Arial, sans-serif;
       overflow-x: hidden;
     }
@@ -51,7 +50,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Animated background */
+    /* White background with subtle blue glow */
 
     .landing-bg {
       position: fixed;
@@ -61,19 +60,19 @@
       background:
         radial-gradient(
           circle at 15% 20%,
-          #103a75 0,
+          #edf5ff 0,
           transparent 38%
         ),
         radial-gradient(
           circle at 85% 65%,
-          #0b3063 0,
+          #f0f6ff 0,
           transparent 38%
         ),
         linear-gradient(
           135deg,
-          #030b1d,
-          #071831,
-          #06132d
+          #ffffff,
+          #f8fbff,
+          #ffffff
         );
     }
 
@@ -81,13 +80,12 @@
       content: "";
       position: absolute;
       inset: -50%;
-      background:
-        linear-gradient(
-          115deg,
-          transparent 35%,
-          rgba(36,117,255,.10) 50%,
-          transparent 65%
-        );
+      background: linear-gradient(
+        115deg,
+        transparent 35%,
+        rgba(36,117,255,.07) 50%,
+        transparent 65%
+      );
       animation: backgroundFlow 16s linear infinite;
     }
 
@@ -101,7 +99,7 @@
       border-radius: 50%;
       background: #1262d6;
       filter: blur(180px);
-      opacity: .15;
+      opacity: .08;
       animation: glowPulse 8s ease-in-out infinite alternate;
     }
 
@@ -117,12 +115,12 @@
 
     @keyframes glowPulse {
       from {
-        opacity: .08;
+        opacity: .04;
         transform: scale(.8);
       }
 
       to {
-        opacity: .22;
+        opacity: .12;
         transform: scale(1.2);
       }
     }
@@ -175,7 +173,7 @@
     }
 
     .landing-brand span {
-      color: var(--blue-bright);
+      color: var(--blue);
     }
 
     .brand-placeholder {
@@ -183,10 +181,10 @@
       height: 43px;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(77,154,255,.5);
+      border: 1px solid #c7dcff;
       border-radius: 13px;
-      background: rgba(38,118,245,.15);
-      color: #77b3ff;
+      background: #edf5ff;
+      color: #2676f5;
       font-size: 24px;
     }
 
@@ -232,12 +230,13 @@
     }
 
     .landing-btn-outline {
-      background: rgba(255,255,255,.04);
-      border-color: rgba(255,255,255,.2);
+      background: #ffffff;
+      color: var(--navy);
+      border-color: #d9e1ed;
     }
 
     .landing-btn-outline:hover {
-      background: rgba(255,255,255,.1);
+      background: #f3f7ff;
     }
 
     /* Hero */
@@ -259,10 +258,10 @@
       align-items: center;
       gap: 9px;
       padding: 9px 13px;
-      border: 1px solid rgba(77,154,255,.25);
+      border: 1px solid #d7e7ff;
       border-radius: 30px;
-      background: rgba(38,118,245,.10);
-      color: #91bdff;
+      background: #f0f6ff;
+      color: #2676f5;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 1.3px;
@@ -286,7 +285,7 @@
     }
 
     .hero-copy h1 span {
-      color: #62a5ff;
+      color: #2676f5;
       background: linear-gradient(
         90deg,
         #72b4ff,
@@ -317,13 +316,13 @@
       flex-wrap: wrap;
       gap: 19px;
       margin-top: 28px;
-      color: #a9bdd9;
+      color: #667085;
       font-size: 11px;
     }
 
     .hero-trust span::before {
       content: "✓";
-      color: #65a9ff;
+      color: #2676f5;
       margin-right: 6px;
       font-weight: 900;
     }
@@ -346,21 +345,21 @@
       border-radius: 50%;
       background: #1262d6;
       filter: blur(100px);
-      opacity: .24;
+      opacity: .10;
     }
 
     .preview-card {
       position: relative;
       width: min(100%, 390px);
       padding: 20px;
-      border: 1px solid rgba(255,255,255,.15);
+      border: 1px solid #e1e8f2;
       border-radius: 23px;
       background: linear-gradient(
         145deg,
-        rgba(20,48,87,.96),
-        rgba(7,21,43,.98)
+        #ffffff,
+        #f7faff
       );
-      box-shadow: 0 30px 100px #0005;
+      box-shadow: 0 30px 100px #0b234610;
       animation: float 6s ease-in-out infinite;
     }
 
@@ -377,7 +376,7 @@
     }
 
     .preview-top small {
-      color: #75b1ff;
+      color: #2676f5;
       font-size: 10px;
     }
 
@@ -386,7 +385,7 @@
     }
 
     .preview-greeting small {
-      color: #76b4ff;
+      color: #2676f5;
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 1px;
@@ -411,6 +410,7 @@
         #1262d6,
         #0c3f91
       );
+      color: #ffffff;
     }
 
     .preview-balance small {
@@ -445,11 +445,11 @@
       padding: 14px;
       border: 1px solid var(--line);
       border-radius: 13px;
-      background: rgba(255,255,255,.035);
+      background: #ffffff;
     }
 
     .preview-service span {
-      color: #72b1ff;
+      color: #2676f5;
       font-size: 21px;
     }
 
@@ -471,10 +471,10 @@
       right: -20px;
       bottom: 30px;
       padding: 14px 17px;
-      border: 1px solid rgba(255,255,255,.13);
+      border: 1px solid #e1e8f2;
       border-radius: 13px;
-      background: #0c2344;
-      box-shadow: 0 15px 40px #0004;
+      background: #ffffff;
+      box-shadow: 0 15px 40px #00000012;
       animation: float 5s ease-in-out infinite reverse;
     }
 
@@ -486,7 +486,7 @@
     .preview-float small {
       display: block;
       margin-top: 5px;
-      color: #8da9cb;
+      color: #8da0bb;
       font-size: 10px;
     }
 
@@ -495,7 +495,7 @@
     .features-section {
       padding: 75px 0;
       border-top: 1px solid var(--line);
-      background: rgba(3,11,26,.36);
+      background: #f8faff;
     }
 
     .section-heading {
@@ -505,7 +505,7 @@
     }
 
     .section-heading small {
-      color: #6caaff;
+      color: #2676f5;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 1.5px;
@@ -531,9 +531,9 @@
 
     .feature-card {
       padding: 25px;
-      border: 1px solid var(--line);
+      border: 1px solid #e5eaf2;
       border-radius: 17px;
-      background: rgba(255,255,255,.035);
+      background: #ffffff;
       transition:
         transform .25s ease,
         border-color .25s ease,
@@ -542,8 +542,8 @@
 
     .feature-card:hover {
       transform: translateY(-5px);
-      border-color: rgba(77,154,255,.4);
-      background: rgba(38,118,245,.07);
+      border-color: #b7d3ff;
+      background: #fafdff;
     }
 
     .feature-icon {
@@ -552,10 +552,10 @@
       width: 45px;
       height: 45px;
       margin-bottom: 18px;
-      border: 1px solid rgba(77,154,255,.2);
+      border: 1px solid #d9e8ff;
       border-radius: 13px;
-      background: rgba(38,118,245,.13);
-      color: #76b3ff;
+      background: #f0f6ff;
+      color: #2676f5;
       font-size: 21px;
     }
 
@@ -580,12 +580,12 @@
       gap: 25px;
       margin: 65px 0;
       padding: 35px;
-      border: 1px solid rgba(77,154,255,.23);
+      border: 1px solid #d8e7ff;
       border-radius: 22px;
       background: linear-gradient(
         120deg,
-        rgba(18,98,214,.2),
-        rgba(255,255,255,.025)
+        #f0f6ff,
+        #ffffff
       );
     }
 
@@ -609,6 +609,7 @@
       border-top: 1px solid var(--line);
       color: #879bb8;
       font-size: 11px;
+      background: #ffffff;
     }
 
     .footer-inner {
@@ -624,7 +625,7 @@
     }
 
     .footer-links a:hover {
-      color: #fff;
+      color: #2676f5;
     }
 
     /* Mobile */
@@ -744,6 +745,14 @@
       }
     }
 
+    /* Scroll reveal animations */
+
+    .feature-card,
+    .section-heading,
+    .landing-cta {
+      animation: fadeUp .8s ease both;
+    }
+
     /* Respect reduced-motion settings */
 
     @media (prefers-reduced-motion: reduce) {
@@ -779,6 +788,7 @@
     </a>
 
     <nav class="header-actions" aria-label="Account navigation">
+
       <a class="landing-btn landing-btn-outline" href="login.html">
         Log in
       </a>
@@ -786,6 +796,7 @@
       <a class="landing-btn" href="register.html">
         Get started →
       </a>
+
     </nav>
 
   </header>
@@ -907,9 +918,7 @@
 
         <div class="section-heading">
           <small>BUILT FOR CLARITY</small>
-
           <h2>Everything in one place</h2>
-
           <p>
             Simple tools to help you manage your CPOVERIFY account.
           </p>
@@ -919,20 +928,16 @@
 
           <article class="feature-card">
             <div class="feature-icon">☎</div>
-
             <h3>Virtual numbers</h3>
-
             <p>
-              Browse supported countries and services, with availability
-              shown when a provider is connected.
+              Browse supported countries and services, with
+              availability shown when a provider is connected.
             </p>
           </article>
 
           <article class="feature-card">
             <div class="feature-icon">▤</div>
-
             <h3>Account activity</h3>
-
             <p>
               Keep track of your account activity and available
               service listings.
@@ -941,9 +946,7 @@
 
           <article class="feature-card">
             <div class="feature-icon">◎</div>
-
             <h3>Wallet and profile</h3>
-
             <p>
               View your balance and manage your account settings
               from your dashboard.
@@ -957,7 +960,6 @@
 
           <div>
             <h2>Ready to get started?</h2>
-
             <p>
               Create your account to explore the CPOVERIFY dashboard.
             </p>
@@ -981,8 +983,8 @@
     <div class="landing-container footer-inner">
 
       <span>
-        © <span id="current-year"></span> CPOVERIFY.
-        Verify. Connect. Trust.
+        © <span id="current-year"></span>
+        CPOVERIFY. Verify. Connect. Trust.
       </span>
 
       <div class="footer-links">
