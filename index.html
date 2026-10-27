@@ -3,383 +3,809 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#06132d">
+
   <title>CPOVERIFY — Verify. Connect. Trust.</title>
+
   <link rel="stylesheet" href="styles.css">
+
   <style>
-    .landing-header {
-      max-width: 1180px;
+    /* =========================================
+       CPOVERIFY LANDING PAGE
+       Centralized styling for this page
+    ========================================= */
+
+    :root {
+      --navy: #06132d;
+      --navy-light: #0a2046;
+      --blue: #2676f5;
+      --blue-bright: #4d9aff;
+      --white: #ffffff;
+      --muted: #a9b9d2;
+      --line: rgba(255,255,255,.11);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--white);
+      background: var(--navy);
+      font-family: Inter, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Animated background */
+
+    .landing-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background:
+        radial-gradient(
+          circle at 15% 20%,
+          #103a75 0,
+          transparent 38%
+        ),
+        radial-gradient(
+          circle at 85% 65%,
+          #0b3063 0,
+          transparent 38%
+        ),
+        linear-gradient(
+          135deg,
+          #030b1d,
+          #071831,
+          #06132d
+        );
+    }
+
+    .landing-bg::before {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background:
+        linear-gradient(
+          115deg,
+          transparent 35%,
+          rgba(36,117,255,.10) 50%,
+          transparent 65%
+        );
+      animation: backgroundFlow 16s linear infinite;
+    }
+
+    .landing-bg::after {
+      content: "";
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      top: 15%;
+      left: 55%;
+      border-radius: 50%;
+      background: #1262d6;
+      filter: blur(180px);
+      opacity: .15;
+      animation: glowPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes backgroundFlow {
+      from {
+        transform: translateX(-15%) rotate(0deg);
+      }
+
+      to {
+        transform: translateX(15%) rotate(360deg);
+      }
+    }
+
+    @keyframes glowPulse {
+      from {
+        opacity: .08;
+        transform: scale(.8);
+      }
+
+      to {
+        opacity: .22;
+        transform: scale(1.2);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Main layout */
+
+    .landing-container {
+      width: min(1180px, 100% - 40px);
       margin: auto;
     }
 
-    .landing-header .btn {
-      padding: 10px 15px;
+    .landing-header {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
     }
+
+    .landing-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: -.5px;
+    }
+
+    .landing-brand span {
+      color: var(--blue-bright);
+    }
+
+    .brand-placeholder {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(77,154,255,.5);
+      border-radius: 13px;
+      background: rgba(38,118,245,.15);
+      color: #77b3ff;
+      font-size: 24px;
+    }
+
+    .brand-text small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .landing-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 12px 19px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 750;
+      cursor: pointer;
+      transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .landing-btn:hover {
+      background: #3989ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px #1262d640;
+    }
+
+    .landing-btn-outline {
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.2);
+    }
+
+    .landing-btn-outline:hover {
+      background: rgba(255,255,255,.1);
+    }
+
+    /* Hero */
 
     .landing-hero {
-      max-width: 1180px;
-      margin: auto;
-      padding: 60px 24px 55px;
       display: grid;
       grid-template-columns: 1.05fr .95fr;
       align-items: center;
       gap: 45px;
+      padding: 90px 0 100px;
     }
 
-    .landing-copy h1 {
-      max-width: 620px;
-      font-size: clamp(38px, 5.5vw, 62px);
-      line-height: 1.08;
-      letter-spacing: -2px;
-      margin: 16px 0;
+    .hero-copy {
+      animation: fadeUp .8s ease both;
     }
 
-    .landing-copy h1 span {
-      color: var(--blue);
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 13px;
+      border: 1px solid rgba(77,154,255,.25);
+      border-radius: 30px;
+      background: rgba(38,118,245,.10);
+      color: #91bdff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
     }
 
-    .landing-copy > p {
-      max-width: 500px;
+    .hero-label i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #54a0ff;
+      box-shadow: 0 0 12px #54a0ff;
+    }
+
+    .hero-copy h1 {
+      max-width: 650px;
+      margin: 25px 0;
+      font-size: clamp(43px, 6vw, 76px);
+      line-height: 1.05;
+      letter-spacing: -3px;
+      font-weight: 900;
+    }
+
+    .hero-copy h1 span {
+      color: #62a5ff;
+      background: linear-gradient(
+        90deg,
+        #72b4ff,
+        #3989ff,
+        #9dcaff
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-copy > p {
+      max-width: 540px;
       color: var(--muted);
       font-size: 16px;
-      line-height: 1.8;
+      line-height: 1.9;
     }
 
-    .landing-actions {
+    .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 11px;
-      margin-top: 25px;
+      gap: 12px;
+      margin-top: 30px;
     }
 
-    .trust-line {
+    .hero-trust {
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 25px;
-      color: var(--muted);
-      font-size: 12px;
+      gap: 19px;
+      margin-top: 28px;
+      color: #a9bdd9;
+      font-size: 11px;
     }
 
-    .trust-line span::before {
+    .hero-trust span::before {
       content: "✓";
-      color: var(--blue);
+      color: #65a9ff;
+      margin-right: 6px;
       font-weight: 900;
-      margin-right: 5px;
     }
 
-    .preview-area {
-      min-width: 0;
+    /* Dashboard preview */
+
+    .hero-preview {
       position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 18px 0;
+      min-width: 0;
+      animation: fadeUp 1s ease .15s both;
     }
 
-    .phone-preview {
-      width: min(100%, 310px);
-      padding: 12px;
-      border: 1px solid #dce5f2;
-      border-radius: 32px;
-      background: #fff;
-      box-shadow: 0 25px 65px #123d7418;
-      transform: rotate(1deg);
+    .preview-glow {
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      border-radius: 50%;
+      background: #1262d6;
+      filter: blur(100px);
+      opacity: .24;
     }
 
-    .phone-screen {
-      min-height: 430px;
-      padding: 18px 14px;
-      background: #f7f9fc;
+    .preview-card {
+      position: relative;
+      width: min(100%, 390px);
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.15);
       border-radius: 23px;
+      background: linear-gradient(
+        145deg,
+        rgba(20,48,87,.96),
+        rgba(7,21,43,.98)
+      );
+      box-shadow: 0 30px 100px #0005;
+      animation: float 6s ease-in-out infinite;
     }
 
-    .phone-top {
+    .preview-top {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      font-weight: 800;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
     }
 
-    .phone-brand {
-      display: flex;
-      align-items: center;
-      gap: 7px;
+    .preview-top b {
+      font-size: 13px;
     }
 
-    .phone-check {
-      display: grid;
-      place-items: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 9px;
-      background: #eaf2ff;
-      color: var(--blue);
-      font-size: 18px;
+    .preview-top small {
+      color: #75b1ff;
+      font-size: 10px;
     }
 
-    .phone-welcome {
-      margin: 25px 0 13px;
+    .preview-greeting {
+      padding: 23px 0 15px;
     }
 
-    .phone-welcome small {
-      color: var(--blue);
-      font-size: 9px;
+    .preview-greeting small {
+      color: #76b4ff;
+      font-size: 10px;
       font-weight: 800;
       letter-spacing: 1px;
     }
 
-    .phone-welcome h2 {
-      font-size: 22px;
-      margin: 6px 0;
-      letter-spacing: -.7px;
+    .preview-greeting h2 {
+      margin: 8px 0;
+      font-size: 24px;
     }
 
-    .phone-welcome p {
+    .preview-greeting p {
       color: var(--muted);
       font-size: 11px;
-      margin: 0;
     }
 
-    .phone-balance {
-      padding: 18px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #1262d6, #0c3f91);
-      color: #fff;
+    .preview-balance {
+      padding: 19px;
+      border: 1px solid #3c80e8;
+      border-radius: 16px;
+      background: linear-gradient(
+        135deg,
+        #1262d6,
+        #0c3f91
+      );
     }
 
-    .phone-balance small {
+    .preview-balance small {
+      color: #d7e8ff;
       font-size: 10px;
-      opacity: .85;
     }
 
-    .phone-balance strong {
+    .preview-balance strong {
       display: block;
-      font-size: 25px;
-      margin: 8px 0 13px;
+      margin: 10px 0;
+      font-size: 27px;
     }
 
-    .phone-balance span {
-      display: inline-block;
-      background: #ffffff24;
-      padding: 7px 10px;
-      border-radius: 8px;
+    .preview-balance span {
+      color: #d9eaff;
       font-size: 10px;
     }
 
-    .phone-services-title {
-      margin: 21px 0 11px;
-      font-size: 13px;
+    .preview-section-title {
+      margin: 22px 0 12px;
+      font-size: 12px;
       font-weight: 800;
     }
 
-    .phone-services {
+    .preview-services {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 9px;
+      gap: 10px;
     }
 
-    .phone-service {
-      padding: 13px 10px;
-      border-radius: 12px;
+    .preview-service {
+      padding: 14px;
       border: 1px solid var(--line);
-      background: #fff;
+      border-radius: 13px;
+      background: rgba(255,255,255,.035);
     }
 
-    .phone-service span {
-      font-size: 19px;
+    .preview-service span {
+      color: #72b1ff;
+      font-size: 21px;
     }
 
-    .phone-service b {
+    .preview-service b {
       display: block;
-      margin-top: 8px;
+      margin-top: 9px;
       font-size: 11px;
     }
 
-    .phone-service small {
+    .preview-service small {
       display: block;
-      margin-top: 4px;
+      margin-top: 5px;
       color: var(--muted);
       font-size: 9px;
     }
 
-    .preview-note {
+    .preview-float {
       position: absolute;
-      left: 0;
-      bottom: 42px;
-      padding: 12px 15px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #fff;
-      box-shadow: 0 12px 30px #10264b12;
-      font-size: 12px;
+      right: -20px;
+      bottom: 30px;
+      padding: 14px 17px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 13px;
+      background: #0c2344;
+      box-shadow: 0 15px 40px #0004;
+      animation: float 5s ease-in-out infinite reverse;
     }
 
-    .preview-note b {
+    .preview-float b {
       display: block;
-      margin-bottom: 4px;
+      font-size: 11px;
     }
 
-    .preview-note small {
-      color: var(--muted);
+    .preview-float small {
+      display: block;
+      margin-top: 5px;
+      color: #8da9cb;
+      font-size: 10px;
     }
 
-    .landing-services {
-      background: #fff;
+    /* Features */
+
+    .features-section {
+      padding: 75px 0;
       border-top: 1px solid var(--line);
-      padding: 50px 20px;
+      background: rgba(3,11,26,.36);
     }
 
-    .landing-services-inner {
-      max-width: 1050px;
-      margin: auto;
-    }
-
-    .landing-section-heading {
+    .section-heading {
+      max-width: 650px;
+      margin: 0 auto 35px;
       text-align: center;
-      margin-bottom: 25px;
     }
 
-    .landing-section-heading h2 {
-      font-size: clamp(25px, 4vw, 34px);
-      letter-spacing: -1px;
-      margin: 10px 0;
+    .section-heading small {
+      color: #6caaff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
     }
 
-    .landing-section-heading p {
+    .section-heading h2 {
+      margin: 14px 0;
+      font-size: clamp(29px, 4vw, 43px);
+      letter-spacing: -1.5px;
+    }
+
+    .section-heading p {
       color: var(--muted);
-      line-height: 1.7;
+      font-size: 14px;
+      line-height: 1.8;
     }
 
-    .landing-service-grid {
+    .feature-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 15px;
+      gap: 17px;
     }
 
-    .landing-service {
+    .feature-card {
+      padding: 25px;
       border: 1px solid var(--line);
       border-radius: 17px;
-      padding: 21px;
-      background: #fff;
+      background: rgba(255,255,255,.035);
+      transition:
+        transform .25s ease,
+        border-color .25s ease,
+        background .25s ease;
     }
 
-    .landing-service .service-icon {
-      margin-bottom: 14px;
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(77,154,255,.4);
+      background: rgba(38,118,245,.07);
     }
 
-    .landing-service b {
-      display: block;
+    .feature-icon {
+      display: grid;
+      place-items: center;
+      width: 45px;
+      height: 45px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(77,154,255,.2);
+      border-radius: 13px;
+      background: rgba(38,118,245,.13);
+      color: #76b3ff;
+      font-size: 21px;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 10px;
       font-size: 15px;
     }
 
-    .landing-service p {
+    .feature-card p {
+      margin: 0;
       color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-      margin-bottom: 0;
+      font-size: 12px;
+      line-height: 1.8;
     }
 
+    /* CTA */
+
     .landing-cta {
-      max-width: 1050px;
-      margin: 35px auto;
-      padding: 30px 24px;
-      background: #eaf2ff;
-      border: 1px solid #d8e7ff;
-      border-radius: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 20px;
+      gap: 25px;
+      margin: 65px 0;
+      padding: 35px;
+      border: 1px solid rgba(77,154,255,.23);
+      border-radius: 22px;
+      background: linear-gradient(
+        120deg,
+        rgba(18,98,214,.2),
+        rgba(255,255,255,.025)
+      );
     }
 
     .landing-cta h2 {
-      margin: 0 0 8px;
-      font-size: 23px;
+      margin: 0 0 10px;
+      font-size: 25px;
+      letter-spacing: -.7px;
     }
 
     .landing-cta p {
       margin: 0;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 13px;
+      line-height: 1.7;
     }
 
-    @media (max-width: 760px) {
+    /* Footer */
+
+    .landing-footer {
+      padding: 25px 0;
+      border-top: 1px solid var(--line);
+      color: #879bb8;
+      font-size: 11px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    /* Mobile */
+
+    @media (max-width: 850px) {
+      .landing-hero {
+        grid-template-columns: 1fr;
+        gap: 45px;
+        padding: 65px 0 80px;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(43px, 10vw, 65px);
+      }
+
+      .hero-preview {
+        width: 100%;
+      }
+
+      .preview-float {
+        right: -5px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .landing-container {
+        width: calc(100% - 30px);
+      }
+
       .landing-header {
-        padding: 13px 15px;
+        min-height: 72px;
       }
 
-      .landing-header .brand b {
-        font-size: 19px;
+      .landing-brand {
+        gap: 8px;
+        font-size: 16px;
       }
 
-      .landing-header .brand-mark {
+      .brand-placeholder {
         width: 36px;
-        height: 38px;
-        font-size: 22px;
+        height: 36px;
       }
 
-      .landing-header .btn {
-        padding: 9px 11px;
-        font-size: 12px;
+      .brand-text small {
+        font-size: 8px;
+      }
+
+      .header-actions {
+        gap: 7px;
+      }
+
+      .header-actions .landing-btn {
+        min-height: 39px;
+        padding: 9px 12px;
+        font-size: 11px;
       }
 
       .landing-hero {
-        grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 45px 20px 40px;
+        padding: 55px 0 65px;
       }
 
-      .landing-copy h1 {
-        font-size: clamp(39px, 10vw, 55px);
+      .hero-copy h1 {
+        letter-spacing: -2px;
       }
 
-      .preview-area {
-        padding: 15px 0 35px;
+      .hero-copy > p {
+        font-size: 14px;
       }
 
-      .preview-note {
-        left: 0;
-        bottom: 12px;
+      .hero-actions {
+        flex-direction: column;
       }
 
-      .landing-service-grid {
+      .hero-actions .landing-btn {
+        width: 100%;
+      }
+
+      .hero-trust {
+        gap: 12px;
+        font-size: 10px;
+      }
+
+      .preview-card {
+        padding: 15px;
+      }
+
+      .preview-float {
+        bottom: -20px;
+      }
+
+      .features-section {
+        padding: 60px 0;
+      }
+
+      .feature-grid {
         grid-template-columns: 1fr;
       }
 
       .landing-cta {
-        margin: 25px 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 25px;
+        margin: 45px 0;
+      }
+
+      .landing-cta .landing-btn {
+        width: 100%;
+      }
+
+      .footer-inner {
         flex-direction: column;
         align-items: flex-start;
       }
     }
+
+    /* Respect reduced-motion settings */
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-  <header class="site-header landing-header">
-    <a class="brand" href="index.html" aria-label="CPOVERIFY home">
-      <span class="brand-mark">✓</span>
-      <span>
-        <b>CPO<span>VERIFY</span></b>
-        <small>Verify. Connect. Trust.</small>
+  <div class="landing-bg"></div>
+
+  <!-- Header -->
+  <header class="landing-container landing-header">
+
+    <a class="landing-brand" href="index.html" aria-label="CPOVERIFY home">
+
+      <!-- Replace this placeholder with your logo later -->
+      <span class="brand-placeholder">✓</span>
+
+      <span class="brand-text">
+        CPO<span>VERIFY</span>
+        <small>VERIFY. CONNECT. TRUST.</small>
       </span>
+
     </a>
 
-    <div style="display:flex;gap:8px;align-items:center">
-      <a class="btn btn-outline" href="login.html">Log in</a>
-      <a class="btn" href="register.html">Get started</a>
-    </div>
+    <nav class="header-actions" aria-label="Account navigation">
+      <a class="landing-btn landing-btn-outline" href="login.html">
+        Log in
+      </a>
+
+      <a class="landing-btn" href="register.html">
+        Get started →
+      </a>
+    </nav>
+
   </header>
 
   <main>
-    <section class="landing-hero">
-      <div class="landing-copy">
-        <span class="tag">SIMPLE. CLEAR. CONNECTED.</span>
 
-        <h1>Verification made <span>simple.</span></h1>
+    <!-- Hero -->
+    <section class="landing-container landing-hero">
+
+      <div class="hero-copy">
+
+        <div class="hero-label">
+          <i></i>
+          SIMPLE. CLEAR. CONNECTED.
+        </div>
+
+        <h1>
+          Verification made
+          <span>simple.</span>
+        </h1>
 
         <p>
           Welcome to CPOVERIFY. Explore virtual-number services,
@@ -387,121 +813,191 @@
           activity organized in one convenient place.
         </p>
 
-        <div class="landing-actions">
-          <a class="btn" href="register.html">Create your account →</a>
-          <a class="btn btn-outline" href="login.html">I already have an account</a>
+        <div class="hero-actions">
+
+          <a class="landing-btn" href="register.html">
+            Create your account →
+          </a>
+
+          <a class="landing-btn landing-btn-outline" href="login.html">
+            I already have an account
+          </a>
+
         </div>
 
-        <div class="trust-line">
+        <div class="hero-trust">
           <span>Easy-to-use dashboard</span>
           <span>Wallet overview</span>
           <span>Account controls</span>
         </div>
+
       </div>
 
-      <div class="preview-area" aria-label="Illustration of the CPOVERIFY dashboard">
-        <div class="phone-preview">
-          <div class="phone-screen">
-            <div class="phone-top">
-              <div class="phone-brand">
-                <span class="phone-check">✓</span>
-                <span>CPOVERIFY</span>
-              </div>
-              <span>•••</span>
-            </div>
+      <!-- Dashboard preview -->
+      <div class="hero-preview">
 
-            <div class="phone-welcome">
-              <small>WELCOME BACK</small>
-              <h2>Your dashboard</h2>
-              <p>Your services, organized in one place.</p>
-            </div>
+        <div class="preview-glow"></div>
 
-            <div class="phone-balance">
-              <small>AVAILABLE BALANCE</small>
-              <strong>₦25,000.00</strong>
-              <span>＋ Add funds</span>
-            </div>
+        <div class="preview-card">
 
-            <div class="phone-services-title">Explore services</div>
-
-            <div class="phone-services">
-              <div class="phone-service">
-                <span>☎</span>
-                <b>Buy numbers</b>
-                <small>Virtual numbers</small>
-              </div>
-              <div class="phone-service">
-                <span>▤</span>
-                <b>Account logs</b>
-                <small>Available listings</small>
-              </div>
-              <div class="phone-service">
-                <span>↗</span>
-                <b>Boosting</b>
-                <small>Growth services</small>
-              </div>
-              <div class="phone-service">
-                <span>◎</span>
-                <b>My profile</b>
-                <small>Account settings</small>
-              </div>
-            </div>
+          <div class="preview-top">
+            <b>CPOVERIFY Dashboard</b>
+            <small>ACCOUNT PREVIEW</small>
           </div>
+
+          <div class="preview-greeting">
+            <small>WELCOME TO CPOVERIFY</small>
+            <h2>Your dashboard</h2>
+            <p>Your services, organized in one place.</p>
+          </div>
+
+          <div class="preview-balance">
+            <small>WALLET OVERVIEW</small>
+            <strong>₦— — —</strong>
+            <span>Balance shown after sign-in</span>
+          </div>
+
+          <div class="preview-section-title">
+            Explore services
+          </div>
+
+          <div class="preview-services">
+
+            <div class="preview-service">
+              <span>☎</span>
+              <b>Buy numbers</b>
+              <small>Virtual numbers</small>
+            </div>
+
+            <div class="preview-service">
+              <span>▤</span>
+              <b>Account logs</b>
+              <small>Listings</small>
+            </div>
+
+            <div class="preview-service">
+              <span>↗</span>
+              <b>Boosting</b>
+              <small>Growth services</small>
+            </div>
+
+            <div class="preview-service">
+              <span>◎</span>
+              <b>Tools</b>
+              <small>Guides and resources</small>
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="preview-note">
-          <b>✓ Simple account management</b>
+        <div class="preview-float">
+          <b>✓ Account management</b>
           <small>Your dashboard at a glance</small>
         </div>
+
       </div>
+
     </section>
 
-    <section class="landing-services">
-      <div class="landing-services-inner">
-        <div class="landing-section-heading">
-          <span class="eyebrow">BUILT FOR CLARITY</span>
+    <!-- Features -->
+    <section class="features-section">
+
+      <div class="landing-container">
+
+        <div class="section-heading">
+          <small>BUILT FOR CLARITY</small>
+
           <h2>Everything in one place</h2>
-          <p>Simple tools to help you manage your CPOVERIFY account.</p>
+
+          <p>
+            Simple tools to help you manage your CPOVERIFY account.
+          </p>
         </div>
 
-        <div class="landing-service-grid">
-          <article class="landing-service">
-            <span class="service-icon blue">☎</span>
-            <b>Virtual numbers</b>
-            <p>Browse supported countries and services, with availability shown when a provider is connected.</p>
+        <div class="feature-grid">
+
+          <article class="feature-card">
+            <div class="feature-icon">☎</div>
+
+            <h3>Virtual numbers</h3>
+
+            <p>
+              Browse supported countries and services, with availability
+              shown when a provider is connected.
+            </p>
           </article>
 
-          <article class="landing-service">
-            <span class="service-icon purple">▤</span>
-            <b>Account activity</b>
-            <p>Keep track of your account activity and available service listings.</p>
+          <article class="feature-card">
+            <div class="feature-icon">▤</div>
+
+            <h3>Account activity</h3>
+
+            <p>
+              Keep track of your account activity and available
+              service listings.
+            </p>
           </article>
 
-          <article class="landing-service">
-            <span class="service-icon green">◎</span>
-            <b>Wallet and profile</b>
-            <p>View your balance and manage your account settings from your dashboard.</p>
+          <article class="feature-card">
+            <div class="feature-icon">◎</div>
+
+            <h3>Wallet and profile</h3>
+
+            <p>
+              View your balance and manage your account settings
+              from your dashboard.
+            </p>
           </article>
+
         </div>
 
+        <!-- CTA -->
         <div class="landing-cta">
+
           <div>
             <h2>Ready to get started?</h2>
-            <p>Create your account to explore the CPOVERIFY dashboard.</p>
+
+            <p>
+              Create your account to explore the CPOVERIFY dashboard.
+            </p>
           </div>
-          <a class="btn" href="register.html">Create an account →</a>
+
+          <a class="landing-btn" href="register.html">
+            Create an account →
+          </a>
+
         </div>
+
       </div>
+
     </section>
+
   </main>
 
-  <footer class="footer">
-    © <span id="current-year">2026</span> CPOVERIFY. Verify. Connect. Trust.
+  <!-- Footer -->
+  <footer class="landing-footer">
+
+    <div class="landing-container footer-inner">
+
+      <span>
+        © <span id="current-year"></span> CPOVERIFY.
+        Verify. Connect. Trust.
+      </span>
+
+      <div class="footer-links">
+        <a href="login.html">Log in</a>
+        <a href="register.html">Register</a>
+      </div>
+
+    </div>
+
   </footer>
 
   <script>
     document.getElementById("current-year").textContent =
       new Date().getFullYear();
   </script>
+
 </body>
 </html>
