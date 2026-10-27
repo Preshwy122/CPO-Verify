@@ -18,13 +18,16 @@
       </span>
     </a>
 
-    <a class="avatar" href="profile.html" aria-label="My profile">U</a>
+    <a class="avatar" href="profile.html" aria-label="My profile" data-user-avatar>U</a>
   </header>
 
-  <main class="app-main">
+  <main class="app-main" hidden>
+
     <p class="greeting">WELCOME BACK</p>
     <h1>Your dashboard</h1>
-    <p class="muted intro">Manage your wallet and explore your services.</p>
+    <p class="muted intro">
+      Manage your wallet and explore your services.
+    </p>
 
     <section class="balance-card">
       <div class="balance-top">
@@ -46,6 +49,7 @@
     </div>
 
     <div class="service-grid">
+
       <a class="service-card" href="buy-number.html">
         <span class="service-icon blue">☎</span>
         <b>Buy numbers</b>
@@ -69,6 +73,7 @@
         <b>Tools</b>
         <small>Admin updates, books and useful resources</small>
       </a>
+
     </div>
 
     <section class="notice">
@@ -79,6 +84,7 @@
       </p>
       <a href="tools.html">Explore tools →</a>
     </section>
+
   </main>
 
   <nav class="bottom-nav" aria-label="Main navigation">
@@ -98,6 +104,86 @@
       <span>◎</span>Profiles
     </a>
   </nav>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAS25JvO0dNVZmxw7rV9O-Pgcb_bdmj-A0",
+      authDomain: "cpoverify.firebaseapp.com",
+      projectId: "cpoverify",
+      storageBucket: "cpoverify.firebasestorage.app",
+      messagingSenderId: "981815301734",
+      appId: "1:981815301734:web:1f5890fa643c2c3f37bfa7",
+      measurementId: "G-MVC4EHLQ1Z"
+    };
+
+    // Initialize Firebase only once
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    const auth = firebase.auth();
+    const database = firebase.database();
+
+    const dashboard = document.querySelector(".app-main");
+    const balanceElement = document.querySelector("[data-balance]");
+    const avatarElement = document.querySelector("[data-user-avatar]");
+    const greetingElement = document.querySelector(".greeting");
+
+    // Require the user to be signed in
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.replace("login.html");
+        return;
+      }
+
+      // Show dashboard after authentication
+      dashboard.hidden = false;
+
+      // Display user's name
+      const displayName =
+        user.displayName ||
+        user.email?.split("@")[0] ||
+        "User";
+
+      greetingElement.textContent = "WELCOME BACK, " +
+        displayName.toUpperCase();
+
+      // Set avatar initial
+      avatarElement.textContent =
+        displayName.charAt(0).toUpperCase();
+
+      // Read wallet balance from Realtime Database
+      const walletRef = database.ref(
+        "users/" + user.uid + "/wallet/balance"
+      );
+
+      walletRef.on("value", (snapshot) => {
+        const balance = snapshot.val();
+
+        if (typeof balance === "number") {
+          balanceElement.textContent = balance.toLocaleString(
+            "en-NG",
+            {
+              style: "currency",
+              currency: "NGN",
+              minimumFractionDigits: 2
+            }
+          );
+        } else {
+          balanceElement.textContent = "₦0.00";
+        }
+      }, (error) => {
+        console.error("Wallet read failed:", error);
+        balanceElement.textContent = "Unavailable";
+      });
+    });
+  </script>
 
   <script src="app.js"></script>
 </body>
