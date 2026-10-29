@@ -7,6 +7,7 @@
   <title>Account Logs — CPOVERIFY</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="app-page">
 
   <header class="app-header">
@@ -17,7 +18,8 @@
         <small>Verify. Connect. Trust.</small>
       </span>
     </a>
-    <a class="avatar" href="profile.html">U</a>
+
+    <a class="avatar" id="account-avatar" href="profile.html">U</a>
   </header>
 
   <main class="app-main">
@@ -30,40 +32,41 @@
       listing for your needs.
     </p>
 
-    <!-- Server tabs -->
-    <div class="filter-row">
-      <button class="filter-chip active" data-filter="all">
+    <!-- Server filters -->
+    <div class="filter-row" aria-label="Filter account services">
+      <button type="button" class="filter-chip active"
+              data-filter="all" aria-pressed="true">
         All Servers
       </button>
 
-      <button class="filter-chip" data-filter="server-1">
+      <button type="button" class="filter-chip"
+              data-filter="server-1" aria-pressed="false">
         Server 1
       </button>
 
-      <button class="filter-chip" data-filter="server-2">
+      <button type="button" class="filter-chip"
+              data-filter="server-2" aria-pressed="false">
         Server 2
       </button>
     </div>
 
-    
-<!-- SERVER 1 -->
-<section data-server-section="server-1">
-  <p class="greeting">SERVER 1</p>
+    <!-- SERVER 1: loaded by app.js from the existing backend -->
+    <section data-server-section="server-1">
+      <p class="greeting">SERVER 1</p>
 
-  <div id="server-1-listings">
-    <p class="muted">Loading listings...</p>
-  </div>
-</section>
+      <div id="server-1-listings" aria-live="polite">
+        <p class="muted">Loading listings...</p>
+      </div>
+    </section>
 
-<!-- SERVER 2 -->
-<section data-server-section="server-2">
-  <p class="greeting">SERVER 2</p>
+    <!-- SERVER 2 -->
+    <section data-server-section="server-2">
+      <p class="greeting">SERVER 2</p>
 
-  <div id="server-2-listings">
-    <p class="muted">No listings available yet.</p>
-  </div>
-</section>
-
+      <div id="server-2-listings" aria-live="polite">
+        <p class="muted">No listings available yet.</p>
+      </div>
+    </section>
 
     <section class="notice">
       <b>Need help with an order?</b>
@@ -78,13 +81,40 @@
   <nav class="bottom-nav" aria-label="Main navigation">
     <a href="dashboard.html"><span>⌂</span>Home</a>
     <a href="buy-number.html"><span>☎</span>Buy numbers</a>
-    <a class="active" href="account-logs.html">
+    <a class="active" href="account-logs.html"
+       aria-current="page">
       <span>▤</span>Account logs
     </a>
     <a href="boost-account.html"><span>↗</span>Boosting</a>
     <a href="profile.html"><span>◎</span>Profiles</a>
   </nav>
 
+  <!-- Firebase SDKs must load before app.js -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <script src="app.js"></script>
+
+  <!-- Protect the page and display the signed-in user's initial -->
+  <script>
+    (function () {
+      const avatar = document.getElementById("account-avatar");
+
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+          window.location.replace("login.html");
+          return;
+        }
+
+        const name = user.displayName || user.email || "User";
+        avatar.textContent = name.charAt(0).toUpperCase();
+        avatar.setAttribute(
+          "aria-label",
+          "Open profile for " + name
+        );
+      });
+    })();
+  </script>
+
 </body>
 </html>
