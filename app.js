@@ -1,7 +1,7 @@
+
 /*
   CPOVERIFY shared JavaScript.
-  Firebase Google sign-in setup.
-  Wallet and admin operations still require a secure backend.
+  Firebase Google sign-in and backend authentication.
 */
 
 const firebaseConfig = {
@@ -14,13 +14,12 @@ const firebaseConfig = {
   measurementId: "G-MVC4EHLQ1Z"
 };
 
-// The designated admin Google account
-const ADMIN_EMAIL = "preshwy122@gmail.com";
+// Backend URL
+const BACKEND_URL = "https://cpoverify-backend.onrender.com";
 
 // Load Firebase compat SDK files
 function loadFirebase() {
   return new Promise(function (resolve, reject) {
-
     if (window.firebase && firebase.apps.length) {
       resolve();
       return;
@@ -45,9 +44,11 @@ function loadFirebase() {
 
       const script = document.createElement("script");
       script.src = scripts[index];
+
       script.onload = function () {
         loadNext(index + 1);
       };
+
       script.onerror = function () {
         reject(new Error("Unable to load Firebase SDK."));
       };
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Firebase Google sign-in
+  // Firebase Google sign-in and backend admin verification
   document.querySelectorAll("[data-google-demo]").forEach(function (button) {
 
     button.addEventListener("click", async function () {
@@ -108,19 +109,50 @@ document.addEventListener("DOMContentLoaded", function () {
         const result = await auth.signInWithPopup(provider);
         const user = result.user;
 
-        if (!user || !user.email) {
-          throw new Error("Unable to retrieve your Google account.");
+        if (!user) {
+          throw new Error("Unable to retrieve your account.");
         }
 
-        const email = user.email.toLowerCase();
+        // Get Firebase ID token
+        const idToken = await user.getIdToken();
 
-        // Choose the destination page.
-        // This email check is NOT secure admin authorization.
-        if (email === ADMIN_EMAIL.toLowerCase()) {
+        // Verify the signed-in user with our backend
+        const meResponse = await fetch(
+          BACKEND_URL + "/api/me",
+          {
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + idToken
+            }
+          }
+        );
+
+        if (!meResponse.ok) {
+          throw new Error("Backend could not verify your login.");
+        }
+
+        // Ask backend whether this user is the admin
+        const adminResponse = await fetch(
+          BACKEND_URL + "/api/admin/check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + idToken
+            }
+          }
+        );
+
+        if (adminResponse.ok) {
           window.location.href = "admin.html";
-        } else {
-          window.location.href = "dashboard.html";
+          return;
         }
+
+        if (adminResponse.status === 403) {
+          window.location.href = "dashboard.html";
+          return;
+        }
+
+        throw new Error("Unable to verify admin access.");
 
       } catch (error) {
         console.error("Google sign-in error:", error);
