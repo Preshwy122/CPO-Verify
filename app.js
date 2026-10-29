@@ -1,7 +1,6 @@
-
 /*
-  CPOVERIFY shared JavaScript.
-  Firebase Google sign-in and backend authentication.
+  CPOVERIFY shared JavaScript
+  Firebase Authentication + secure backend verification
 */
 
 const firebaseConfig = {
@@ -14,145 +13,176 @@ const firebaseConfig = {
   measurementId: "G-MVC4EHLQ1Z"
 };
 
-// Backend URL
 const BACKEND_URL = "https://cpoverify-backend.onrender.com";
 
-// Load Firebase compat SDK files
-function loadFirebase() {
-  return new Promise(function (resolve, reject) {
-    if (window.firebase && firebase.apps.length) {
-      resolve();
-      return;
-    }
+// Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
-    const scripts = [
-      "https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js",
-      "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js",
-      "https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"
-    ];
+const auth = firebase.auth();
 
-    function loadNext(index) {
-      if (index >= scripts.length) {
-        try {
-          firebase.initializeApp(firebaseConfig);
-          resolve();
-        } catch (error) {
-          reject(error);
-        }
-        return;
+
+// Check whether the signed-in user is an admin
+async function checkAdmin(user) {
+  const token = await user.getIdToken();
+
+  const response = await fetch(
+    BACKEND_URL + "/api/admin/check",
+    {
+      headers: {
+        Authorization: "Bearer " + token
       }
-
-      const script = document.createElement("script");
-      script.src = scripts[index];
-
-      script.onload = function () {
-        loadNext(index + 1);
-      };
-
-      script.onerror = function () {
-        reject(new Error("Unable to load Firebase SDK."));
-      };
-
-      document.head.appendChild(script);
     }
+  );
 
-    loadNext(0);
+  return response.ok;
+}
+
+
+// Redirect user to the correct page
+async function redirectUser(user) {
+  try {
+    const isAdmin = await checkAdmin(user);
+
+    window.location.href = isAdmin
+      ? "admin.html"
+      : "dashboard.html";
+
+  } catch (error) {
+    console.error("Redirect error:", error);
+
+    window.location.href = "dashboard.html";
+  }
+}
+
+
+// LOGIN WITH EMAIL AND PASSWORD
+const loginForm = document.querySelector("#login-form");
+
+if (loginForm) {
+  loginForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const email = document
+      .querySelector("#login-email")
+      .value.trim();
+
+    const password = document
+      .querySelector("#login-password")
+      .value;
+
+    const button = loginForm.querySelector(
+      'button[type="submit"]'
+    );
+
+    button.disabled = true;
+
+    try {
+      const result =
+        await auth.signInWithEmailAndPassword(
+          email,
+          password
+        );
+
+      await redirectUser(result.user);
+
+    } catch (error) {
+      console.error("Login error:", error);
+
+      alert(
+        error.message ||
+        "Login failed. Please check your details."
+      );
+
+    } finally {
+      button.disabled = false;
+    }
   });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
 
-  // Automatic footer year
-  document.querySelectorAll("[data-year]").forEach(function (el) {
-    el.textContent = new Date().getFullYear();
-  });
+// REGISTER WITH EMAIL AND PASSWORD
+const registerForm = document.querySelector("#register-form");
 
-  // Demo login, registration, and password recovery forms
-  document.querySelectorAll("[data-demo-form]").forEach(function (form) {
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
+if (registerForm) {
+  registerForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-      const password = form.querySelector('[name="password"]');
-      const confirmPassword = form.querySelector(
-        '[name="confirm_password"]'
-      );
+    const name = document
+      .querySelector("#register-name")
+      .value.trim();
 
-      if (
-        password &&
-        confirmPassword &&
-        password.value !== confirmPassword.value
-      ) {
-        alert("Your passwords do not match.");
-        return;
-      }
+    const email = document
+      .querySelector("#register-email")
+      .value.trim();
+
+    const password = document
+      .querySelector("#register-password")
+      .value;
+
+    const confirmPassword = document
+      .querySelector("#register-confirm")
+      .value;
+
+    const button = registerForm.querySelector(
+      'button[type="submit"]'
+    );
+
+    if (password !== confirmPassword) {
+      alert("Your passwords do not match.");
+      return;
+    }
+
+    button.disabled = true;
+
+    try {
+      const result =
+        await auth.createUserWithEmailAndPassword(
+          email,
+          password
+        );
+
+      await result.user.updateProfile({
+        displayName: name
+      });
+
+      alert("Account created successfully!");
+
+      await redirectUser(result.user);
+
+    } catch (error) {
+      console.error("Registration error:", error);
 
       alert(
-        form.dataset.success ||
-        "Demo only. Connect a secure backend to enable this action."
+        error.message ||
+        "Registration failed. Please try again."
       );
-    });
+
+    } finally {
+      button.disabled = false;
+    }
   });
+}
 
-  // Firebase Google sign-in and backend admin verification
-  document.querySelectorAll("[data-google-demo]").forEach(function (button) {
 
-    button.addEventListener("click", async function () {
+// GOOGLE SIGN-IN
+document
+  .querySelectorAll("[data-google-demo]")
+  .forEach(function(button) {
+
+    button.addEventListener("click", async function() {
 
       button.disabled = true;
 
       try {
-        await loadFirebase();
+        const provider =
+          new firebase.auth.GoogleAuthProvider();
 
-        const auth = firebase.auth();
-        const provider = new firebase.auth.GoogleAuthProvider();
+        const result =
+          await auth.signInWithPopup(provider);
 
-        const result = await auth.signInWithPopup(provider);
-        const user = result.user;
-
-        if (!user) {
-          throw new Error("Unable to retrieve your account.");
-        }
-
-        // Get Firebase ID token
-        const idToken = await user.getIdToken();
-
-        // Verify the signed-in user with our backend
-        const meResponse = await fetch(
-          BACKEND_URL + "/api/me",
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + idToken
-            }
-          }
-        );
-
-        if (!meResponse.ok) {
-          throw new Error("Backend could not verify your login.");
-        }
-
-        // Ask backend whether this user is the admin
-        const adminResponse = await fetch(
-          BACKEND_URL + "/api/admin/check",
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + idToken
-            }
-          }
-        );
-
-        if (adminResponse.ok) {
-          window.location.href = "admin.html";
-          return;
-        }
-
-        if (adminResponse.status === 403) {
-          window.location.href = "dashboard.html";
-          return;
-        }
-
-        throw new Error("Unable to verify admin access.");
+        await redirectUser(result.user);
 
       } catch (error) {
         console.error("Google sign-in error:", error);
@@ -165,139 +195,37 @@ document.addEventListener("DOMContentLoaded", function () {
       } finally {
         button.disabled = false;
       }
-
-    });
-
-  });
-
-  // WhatsApp wallet deposit link
-  document.querySelectorAll("[data-deposit]").forEach(function (link) {
-    link.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      const whatsappNumber = "2340000000000";
-
-      const message =
-        "Hello, I would like to deposit into my CPOVERIFY wallet.";
-
-      const url =
-        "https://wa.me/" +
-        whatsappNumber +
-        "?text=" +
-        encodeURIComponent(message);
-
-      window.open(url, "_blank", "noopener");
     });
   });
 
-  // Demo buttons for services that need a live provider
-  document.querySelectorAll("[data-service-demo]").forEach(function (button) {
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
 
-      alert(
-        "This is a demo. Connect a legitimate service provider to display live prices and availability."
-      );
-    });
-  });
+// LOGOUT
+document
+  .querySelectorAll("[data-logout]")
+  .forEach(function(button) {
 
-  // Search countries on the Buy Numbers page
-  const countrySearch = document.querySelector("#country-search");
-
-  if (countrySearch) {
-    countrySearch.addEventListener("input", function () {
-      const query = countrySearch.value.toLowerCase().trim();
-
-      document.querySelectorAll("[data-country]").forEach(function (card) {
-        card.hidden = !card.dataset.country.includes(query);
-      });
-    });
-  }
-
-  // Search users on the admin Other Users page
-  const userSearch = document.querySelector("#user-search");
-
-  if (userSearch) {
-    userSearch.addEventListener("input", function () {
-      const query = userSearch.value.toLowerCase().trim();
-
-      document.querySelectorAll("[data-user]").forEach(function (user) {
-        user.hidden = !user.dataset.user.includes(query);
-      });
-    });
-  }
-
-  // Filter Account Logs
-  document.querySelectorAll("[data-filter]").forEach(function (button) {
-    button.addEventListener("click", function () {
-
-      document.querySelectorAll("[data-filter]").forEach(function (item) {
-        item.classList.remove("active");
-      });
-
-      button.classList.add("active");
-
-      const filter = button.dataset.filter;
-
-      document.querySelectorAll("[data-category]").forEach(function (card) {
-        card.hidden =
-          filter !== "all" &&
-          card.dataset.category !== filter;
-      });
-    });
-  });
-
-  // Demo profile update
-  const saveProfile = document.querySelector("[data-save-profile]");
-
-  if (saveProfile) {
-    saveProfile.addEventListener("click", function () {
-      const emailField = document.querySelector("[data-email-field]");
-      const emailDisplay = document.querySelector("[data-profile-email]");
-
-      if (!emailField || !emailDisplay) return;
-
-      const email = emailField.value.trim();
-
-      if (!emailField.checkValidity() || !email) {
-        alert("Please enter a valid email address.");
-        return;
-      }
-
-      emailDisplay.textContent = email;
-
-      alert(
-        "Demo profile updated on this page only. Configure a backend to save account changes."
-      );
-    });
-  }
-
-  // Change password goes to the password recovery screen in this demo
-  const changePassword = document.querySelector("[data-change-password]");
-
-  if (changePassword) {
-    changePassword.addEventListener("click", function () {
-      window.location.href = "forgot-password.html";
-    });
-  }
-
-  // Demo logout
-  const logoutButton = document.querySelector("[data-logout]");
-
-  if (logoutButton) {
-    logoutButton.addEventListener("click", async function () {
+    button.addEventListener("click", async function() {
 
       if (!confirm("Log out?")) return;
 
       try {
-        await loadFirebase();
-        await firebase.auth().signOut();
+        await auth.signOut();
+
+        window.location.href = "login.html";
+
       } catch (error) {
-        console.error("Sign-out error:", error);
+        console.error("Logout error:", error);
+
+        alert("Unable to log out. Please try again.");
       }
-
-      window.location.href = "login.html";
     });
-  }
+  });
 
-});
+
+// AUTOMATIC FOOTER YEAR
+document
+  .querySelectorAll("[data-year]")
+  .forEach(function(element) {
+    element.textContent =
+      new Date().getFullYear();
+  });
