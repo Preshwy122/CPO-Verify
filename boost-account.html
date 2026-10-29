@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +5,177 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account Boosting — CPOVERIFY</title>
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .boost-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .boost-heading {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .boost-back {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid #e5e7eb;
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      color: inherit;
+      font-size: 24px;
+    }
+
+    .boost-heading h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    .boost-heading p {
+      margin: 4px 0 0;
+    }
+
+    .boost-orders {
+      border: 1px solid #e5e7eb;
+      border-radius: 30px;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: inherit;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .boost-search {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 17px 20px;
+      border-radius: 35px;
+      border: 1px solid #e5e7eb;
+      background: #f8fafc;
+      margin: 8px 0 28px;
+      font-size: 15px;
+    }
+
+    .boost-banner {
+      background: #0866ed;
+      color: white;
+      border-radius: 28px;
+      padding: 30px 24px;
+      margin-bottom: 32px;
+    }
+
+    .boost-banner small {
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .boost-banner h2 {
+      font-size: 30px;
+      margin: 22px 0 8px;
+    }
+
+    .boost-banner p {
+      margin: 0;
+      opacity: .85;
+    }
+
+    .boost-section-title {
+      font-size: 20px;
+      margin: 28px 0 18px;
+    }
+
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .platform-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 76px;
+      padding: 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 22px;
+      background: white;
+      color: #111827;
+      font: inherit;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,.03);
+    }
+
+    .platform-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #f3f4f6;
+      font-size: 21px;
+    }
+
+    .platform-card.active {
+      border: 2px solid #0866ed;
+      background: #eff6ff;
+    }
+
+    .popular-service {
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 14px;
+      background: white;
+    }
+
+    .popular-service h3 {
+      margin: 0 0 8px;
+    }
+
+    .popular-service p {
+      margin: 0 0 12px;
+    }
+
+    .service-action {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 24px;
+      background: #0866ed;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .boost-view-all {
+      color: #0866ed;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    @media (max-width: 360px) {
+      .platform-card {
+        padding: 10px;
+        gap: 8px;
+      }
+
+      .platform-icon {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  </style>
 </head>
+
 <body class="app-page">
 
   <header class="app-header">
@@ -17,57 +186,130 @@
         <small>Verify. Connect. Trust.</small>
       </span>
     </a>
+
     <a class="avatar" href="profile.html">U</a>
   </header>
 
   <main class="app-main">
-    <p class="greeting">GROW YOUR PRESENCE</p>
-    <h1>Account boosting</h1>
-    <p class="muted intro">
-      Explore promotion services for authentic engagement and
-      compliant account growth.
-    </p>
 
-    <article class="boost-card">
-      <span class="service-icon blue">↗</span>
-      <div>
-        <h2>Social media promotion</h2>
-        <p>Campaign setup and content visibility options.</p>
-        <span class="tag">Provider setup needed</span>
-      </div>
-      <button class="btn btn-small" data-service-demo>
-        View options
-      </button>
-    </article>
+    <div class="boost-top">
+      <div class="boost-heading">
+        <a class="boost-back" href="dashboard.html">‹</a>
 
-    <article class="boost-card">
-      <span class="service-icon purple">✦</span>
-      <div>
-        <h2>Profile optimization</h2>
-        <p>Improve profile presentation and discoverability.</p>
-        <span class="tag">Provider setup needed</span>
+        <div>
+          <h1>Boostly</h1>
+          <p class="muted">Social growth services</p>
+        </div>
       </div>
-      <button class="btn btn-small" data-service-demo>
-        View options
-      </button>
-    </article>
 
-    <article class="boost-card">
-      <span class="service-icon green">▥</span>
-      <div>
-        <h2>Campaign support</h2>
-        <p>Plan campaigns with transparent scope and reporting.</p>
-        <span class="tag">Provider setup needed</span>
-      </div>
-      <button class="btn btn-small" data-service-demo>
-        View options
+      <a class="boost-orders" href="boost-orders.html">
+        Orders
+      </a>
+    </div>
+
+    <input
+      class="boost-search"
+      type="search"
+      id="boost-search"
+      placeholder="⌕  Search followers, likes, views..."
+      aria-label="Search boosting services"
+    >
+
+    <section class="boost-banner">
+      <small>FAST · TRACKED · AFFORDABLE</small>
+      <h2>Grow your audience</h2>
+      <p>Choose a platform and find the right service.</p>
+    </section>
+
+    <h2 class="boost-section-title">Choose a platform</h2>
+
+    <div class="platform-grid">
+
+      <button class="platform-card" data-platform="Instagram">
+        <span class="platform-icon">📸</span>
+        Instagram
       </button>
-    </article>
+
+      <button class="platform-card" data-platform="TikTok">
+        <span class="platform-icon">♪</span>
+        TikTok
+      </button>
+
+      <button class="platform-card" data-platform="Facebook">
+        <span class="platform-icon">f</span>
+        Facebook
+      </button>
+
+      <button class="platform-card" data-platform="YouTube">
+        <span class="platform-icon">▶</span>
+        YouTube
+      </button>
+
+      <button class="platform-card" data-platform="X">
+        <span class="platform-icon">𝕏</span>
+        X (Twitter)
+      </button>
+
+      <button class="platform-card" data-platform="Telegram">
+        <span class="platform-icon">➤</span>
+        Telegram
+      </button>
+
+      <button class="platform-card" data-platform="Pinterest">
+        <span class="platform-icon">℘</span>
+        Pinterest
+      </button>
+
+      <button class="platform-card" data-platform="Other">
+        <span class="platform-icon">＋</span>
+        Other
+      </button>
+
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:36px;">
+      <h2 class="boost-section-title" style="margin:0;">
+        Popular services
+      </h2>
+
+      <a class="boost-view-all" href="#popular-services">
+        View all ›
+      </a>
+    </div>
+
+    <section id="popular-services" style="margin-top:18px;">
+
+      <article class="popular-service" data-service>
+        <h3>Followers</h3>
+        <p class="muted">Promotion services for eligible social profiles.</p>
+        <a href="#" class="service-action" data-service-demo>
+          View options
+        </a>
+      </article>
+
+      <article class="popular-service" data-service>
+        <h3>Likes</h3>
+        <p class="muted">Explore available engagement promotion options.</p>
+        <a href="#" class="service-action" data-service-demo>
+          View options
+        </a>
+      </article>
+
+      <article class="popular-service" data-service>
+        <h3>Views</h3>
+        <p class="muted">Discover content visibility services.</p>
+        <a href="#" class="service-action" data-service-demo>
+          View options
+        </a>
+      </article>
+
+    </section>
 
     <p class="small-note">
-      Use promotion methods that comply with each platform's rules.
-      Live pricing and order tracking require a service backend.
+      Live service availability, pricing and order tracking require
+      a connected service provider.
     </p>
+
   </main>
 
   <nav class="bottom-nav" aria-label="Main navigation">
@@ -81,5 +323,36 @@
   </nav>
 
   <script src="app.js"></script>
+
+  <script>
+    // Platform selection
+    document.querySelectorAll("[data-platform]").forEach(function(card) {
+      card.addEventListener("click", function() {
+        document.querySelectorAll("[data-platform]").forEach(function(item) {
+          item.classList.remove("active");
+        });
+
+        card.classList.add("active");
+
+        const platform = card.dataset.platform;
+
+        document.querySelectorAll("[data-service]").forEach(function(service) {
+          service.dataset.platform = platform;
+        });
+      });
+    });
+
+    // Search popular services
+    const boostSearch = document.querySelector("#boost-search");
+
+    boostSearch.addEventListener("input", function() {
+      const query = boostSearch.value.toLowerCase().trim();
+
+      document.querySelectorAll("[data-service]").forEach(function(service) {
+        service.hidden = !service.textContent.toLowerCase().includes(query);
+      });
+    });
+  </script>
+
 </body>
 </html>
