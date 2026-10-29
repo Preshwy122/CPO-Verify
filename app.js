@@ -229,3 +229,126 @@ document
     element.textContent =
       new Date().getFullYear();
   });
+// ACCOUNT LOGS: SERVER FILTERS
+const serverFilterButtons = document.querySelectorAll(
+  "[data-filter]"
+);
+
+const serverSections = document.querySelectorAll(
+  "[data-server-section]"
+);
+
+serverFilterButtons.forEach(function(button) {
+  button.addEventListener("click", function() {
+
+    const selectedServer = button.dataset.filter;
+
+    // Update active tab
+    serverFilterButtons.forEach(function(item) {
+      item.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    // Show or hide server sections
+    serverSections.forEach(function(section) {
+
+      const server = section.dataset.serverSection;
+
+      section.hidden =
+        selectedServer !== "all" &&
+        selectedServer !== server;
+
+    });
+
+  });
+});
+
+
+// LOAD SERVER 1 LISTINGS
+async function loadServer1Listings() {
+
+  const container = document.querySelector(
+    "#server-1-listings"
+  );
+
+  if (!container) return;
+
+  container.innerHTML =
+    '<p class="muted">Loading listings...</p>';
+
+  try {
+
+    const response = await fetch(
+      BACKEND_URL + "/api/provider/products"
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Server 1 returned HTTP " + response.status
+      );
+    }
+
+    const result = await response.json();
+
+    const products = Array.isArray(result)
+      ? result
+      : result.products ||
+        result.data ||
+        [];
+
+    if (!Array.isArray(products) || products.length === 0) {
+
+      container.innerHTML =
+        '<p class="muted">No listings available on Server 1.</p>';
+
+      return;
+    }
+
+    container.innerHTML = "";
+
+    products.forEach(function(product) {
+
+      const card = document.createElement("article");
+
+      card.className = "service-card";
+
+      const title = document.createElement("h3");
+
+      title.textContent =
+        product.name ||
+        product.title ||
+        product.service ||
+        "Available service";
+
+      const description = document.createElement("p");
+
+      description.className = "muted";
+
+      description.textContent =
+        product.description ||
+        product.category ||
+        "";
+
+      card.appendChild(title);
+      card.appendChild(description);
+
+      container.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    console.error("Server 1 loading error:", error);
+
+    container.innerHTML =
+      '<p class="muted">Unable to load Server 1 listings. Please try again later.</p>';
+
+  }
+}
+
+
+// LOAD LISTINGS WHEN ACCOUNT LOGS PAGE OPENS
+if (document.querySelector("#server-1-listings")) {
+  loadServer1Listings();
+        }
