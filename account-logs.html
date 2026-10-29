@@ -21,53 +21,80 @@
   </header>
 
   <main class="app-main">
-    <p class="greeting">ACCOUNT SERVICES</p>
+
+    <p class="greeting">CPOVERIFY SERVICES</p>
     <h1>Account logs</h1>
+
     <p class="muted intro">
-      Browse account-related service listings and their details.
+      Browse available account services and find the right
+      listing for your needs.
     </p>
 
+    <!-- Server tabs -->
     <div class="filter-row">
-      <button class="filter-chip active" data-filter="all">All</button>
-      <button class="filter-chip" data-filter="social">Social</button>
-      <button class="filter-chip" data-filter="email">Email</button>
-      <button class="filter-chip" data-filter="other">Other</button>
+      <button class="filter-chip active" data-filter="all">
+        All Servers
+      </button>
+
+      <button class="filter-chip" data-filter="server-1">
+        Server 1
+      </button>
+
+      <button class="filter-chip" data-filter="server-2">
+        Server 2
+      </button>
     </div>
 
-    <article class="listing-card" data-category="social">
-      <span class="listing-icon">◎</span>
-      <div class="listing-info">
-        <b>Social account service</b>
-        <small>Provider details and availability required</small>
-      </div>
-      <span class="tag">Demo</span>
-    </article>
+    <!-- SERVER 1 -->
+    <section data-server-section="server-1">
 
-    <article class="listing-card" data-category="email">
-      <span class="listing-icon">✉</span>
-      <div class="listing-info">
-        <b>Email account service</b>
-        <small>Review service terms before ordering</small>
-      </div>
-      <span class="tag">Demo</span>
-    </article>
+      <p class="greeting">SERVER 1</p>
 
-    <article class="listing-card" data-category="other">
-      <span class="listing-icon">▤</span>
-      <div class="listing-info">
-        <b>Other account service</b>
-        <small>Provider details required</small>
-      </div>
-      <span class="tag">Demo</span>
-    </article>
+      <article
+        class="listing-card"
+        data-category="server-1"
+      >
+        <span class="listing-icon">◎</span>
+
+        <div class="listing-info">
+          <b>Available services</b>
+          <small>Browse available listings</small>
+        </div>
+
+        <span class="tag">Server 1</span>
+      </article>
+
+    </section>
+
+    <!-- SERVER 2 -->
+    <section data-server-section="server-2">
+
+      <p class="greeting">SERVER 2</p>
+
+      <article
+        class="listing-card"
+        data-category="server-2"
+      >
+        <span class="listing-icon">▤</span>
+
+        <div class="listing-info">
+          <b>Available services</b>
+          <small>Browse available listings</small>
+        </div>
+
+        <span class="tag">Server 2</span>
+      </article>
+
+    </section>
 
     <section class="notice">
-      <b>No live listings connected</b>
+      <b>Need help with an order?</b>
       <p>
-        Connect your inventory and payment backend to display
-        real prices, availability, and order status.
+        Contact support with your order ID so we can
+        identify and review your order.
       </p>
     </section>
+
   </main>
 
   <nav class="bottom-nav" aria-label="Main navigation">
