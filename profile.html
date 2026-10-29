@@ -1,1 +1,180 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Profiles — CPOVERIFY</title> <link rel="stylesheet" href="styles.css"> </head> <body class="app-page"> <header class="app-header"> <a class="brand" href="dashboard.html"> <span class="brand-mark">✓</span> <span> <b>CPO<span>VERIFY</span></b> <small>Verify. Connect. Trust.</small> </span> </a> <span class="tag">My account</span> </header> <main class="app-main"> <p class="greeting">YOUR ACCOUNT</p> <h1>Profiles</h1> <!-- User profile --> <section class="profile-card"> <div class="profile-avatar" id="profile-avatar"> U </div> <div> <b id="profile-name">Loading profile...</b> <small> Account ID: <span id="account-id">Loading...</span> </small> </div> </section> <!-- Account details --> <section class="settings-card"> <h2>Account details</h2> <label> Display name <input type="text" id="profile-display-name" placeholder="Your name" maxlength="100" > </label> <label> Email account <input type="email" id="profile-email" placeholder="Loading email..." readonly > </label> <label> Account ID <input type="text" id="profile-uid" readonly > </label> <button class="btn full" type="button" id="save-profile" > Save profile </button> </section> <!-- Security --> <section class="settings-card"> <h2>Security</h2> <a class="settings-link" href="forgot-password.html"> <span>Forgot or reset password</span> <span>›</span> </a> <button class="btn btn-outline full" type="button" id="change-password" > Change password </button> </section> <button class="btn btn-danger full" type="button" data-logout > Log out </button> <p class="small-note" id="profile-status"> Loading your account information... </p> </main> <nav class="bottom-nav" aria-label="Main navigation"> <a href="dashboard.html"><span>⌂</span>Home</a> <a href="buy-number.html"><span>☎</span>Buy numbers</a> <a href="account-logs.html"><span>▤</span>Account logs</a> <a href="boost-account.html"><span>↗</span>Boosting</a> <a class="active" href="profile.html"><span>◎</span>Profiles</a> </nav> <!-- Firebase SDK --> <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script> <!-- Shared CPOVERIFY JavaScript --> <script src="app.js"></script> <script> const profileStatus = document.getElementById("profile-status"); const profileName = document.getElementById("profile-name"); const profileAvatar = document.getElementById("profile-avatar"); const displayNameInput = document.getElementById("profile-display-name"); const emailInput = document.getElementById("profile-email"); const uidInput = document.getElementById("profile-uid"); const accountId = document.getElementById("account-id"); const saveButton = document.getElementById("save-profile"); const passwordButton = document.getElementById("change-password"); // Check Firebase authentication firebase.auth().onAuthStateChanged(async function(user) { if (!user) { window.location.href = "login.html"; return; } // Show real user information const name = user.displayName || user.email || "CPOVERIFY User"; profileName.textContent = name; profileAvatar.textContent = name.charAt(0).toUpperCase(); displayNameInput.value = user.displayName || ""; emailInput.value = user.email || ""; uidInput.value = user.uid; accountId.textContent = user.uid; profileStatus.textContent = "Your profile is connected to Firebase Authentication."; }); // Save display name saveButton.addEventListener("click", async function() { const user = firebase.auth().currentUser; if (!user) { window.location.href = "login.html"; return; } const newName = displayNameInput.value.trim(); if (!newName) { alert("Please enter your display name."); return; } saveButton.disabled = true; try { await user.updateProfile({ displayName: newName }); profileName.textContent = newName; profileAvatar.textContent = newName.charAt(0).toUpperCase(); profileStatus.textContent = "Your profile has been updated."; alert("Profile updated successfully!"); } catch (error) { console.error("Profile update error:", error); alert( error.message || "Unable to update your profile." ); } finally { saveButton.disabled = false; } }); // Change password passwordButton.addEventListener("click", function() { const user = firebase.auth().currentUser; if (!user || !user.email) { alert("Please sign in again."); return; } window.location.href = "forgot-password.html"; }); </script> </body> </html>    
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profiles — CPOVERIFY</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-container">
+    <header class="page-header">
+      <h1>My Profile</h1>
+      <p class="muted">Manage your CPOVERIFY account details.</p>
+    </header>
+
+    <section class="profile-card">
+      <div class="profile-avatar" id="profile-avatar">U</div>
+      <h2 id="profile-name">Loading profile...</h2>
+      <p class="muted" id="account-id">Loading account ID...</p>
+    </section>
+
+    <section class="account-details">
+      <h2>Account Details</h2>
+
+      <form id="profile-form">
+        <label for="profile-display-name">Display name</label>
+        <input
+          type="text"
+          id="profile-display-name"
+          maxlength="100"
+          autocomplete="name"
+          required
+        >
+
+        <label for="profile-email">Email address</label>
+        <input
+          type="email"
+          id="profile-email"
+          autocomplete="email"
+          readonly
+        >
+
+        <label for="profile-uid">Account ID</label>
+        <input
+          type="text"
+          id="profile-uid"
+          readonly
+        >
+
+        <button type="submit" id="save-profile">
+          Save Profile
+        </button>
+      </form>
+
+      <button type="button" id="change-password">
+        Change Password
+      </button>
+
+      <p id="profile-status" class="muted" role="status" aria-live="polite"></p>
+    </section>
+
+    <button type="button" data-logout>Log Out</button>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="dashboard.html">Home</a>
+    <a href="account-logs.html">Account Logs</a>
+    <a href="profile.html" aria-current="page">Profile</a>
+  </nav>
+
+  <!-- Firebase SDKs must load before app.js -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    (function () {
+      const profileForm = document.getElementById("profile-form");
+      const displayNameInput = document.getElementById("profile-display-name");
+      const emailInput = document.getElementById("profile-email");
+      const uidInput = document.getElementById("profile-uid");
+      const profileName = document.getElementById("profile-name");
+      const profileAvatar = document.getElementById("profile-avatar");
+      const accountId = document.getElementById("account-id");
+      const saveButton = document.getElementById("save-profile");
+      const changePasswordButton = document.getElementById("change-password");
+
+      let currentUser = null;
+
+      function renderProfile(user, profile) {
+        const name = profile.displayName || user.displayName || "User";
+        const email = user.email || profile.email || "";
+
+        profileName.textContent = name;
+        profileAvatar.textContent = name.charAt(0).toUpperCase();
+        accountId.textContent = "Account ID: " + user.uid;
+        displayNameInput.value = name;
+        emailInput.value = email;
+        uidInput.value = user.uid;
+      }
+
+      auth.onAuthStateChanged(async function (user) {
+        if (!user) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        currentUser = user;
+        saveButton.disabled = true;
+        showProfileStatus("Loading your profile...");
+
+        try {
+          const profile = await loadUserProfile(user);
+          renderProfile(user, profile);
+          showProfileStatus("Profile loaded.");
+        } catch (error) {
+          console.error("Profile loading error:", error);
+          renderProfile(user, {
+            displayName: user.displayName || "",
+            email: user.email || ""
+          });
+
+          showProfileStatus(
+            "Could not load your database profile. Check the database URL and security rules.",
+            true
+          );
+        } finally {
+          saveButton.disabled = false;
+        }
+      });
+
+      profileForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        if (!currentUser) {
+          showProfileStatus("Please sign in again.", true);
+          return;
+        }
+
+        const displayName = displayNameInput.value.trim();
+
+        if (!displayName) {
+          showProfileStatus("Please enter a display name.", true);
+          return;
+        }
+
+        saveButton.disabled = true;
+        showProfileStatus("Saving profile...");
+
+        try {
+          await currentUser.updateProfile({
+            displayName: displayName
+          });
+
+          const profile = await saveUserProfile(currentUser, {
+            displayName: displayName
+          });
+
+          renderProfile(currentUser, profile);
+          showProfileStatus("Your profile was saved successfully.");
+        } catch (error) {
+          console.error("Profile saving error:", error);
+          showProfileStatus(
+            "Unable to save your profile. Check your connection and database rules.",
+            true
+          );
+        } finally {
+          saveButton.disabled = false;
+        }
+      });
+
+      changePasswordButton.addEventListener("click", function () {
+        window.location.href = "forgot-password.html";
+      });
+    })();
+  </script>
+</body>
+</html>
