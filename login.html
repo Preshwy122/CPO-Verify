@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,22 +24,26 @@
 
     <form id="login-form">
 
-      <label>
+      <label for="login-email">
         Email address
         <input
           type="email"
           id="login-email"
+          name="email"
           placeholder="you@example.com"
+          autocomplete="email"
           required
         >
       </label>
 
-      <label>
+      <label for="login-password">
         Password
         <input
           type="password"
           id="login-password"
+          name="password"
           placeholder="Enter your password"
+          autocomplete="current-password"
           required
         >
       </label>
@@ -72,6 +77,10 @@
 
   </main>
 
+  <!-- Load Firebase before the shared app.js -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <script src="app.js"></script>
 
 </body>
