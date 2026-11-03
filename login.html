@@ -4,28 +4,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1262d6">
+
   <title>Login — CPOVERIFY</title>
+
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="auth-page">
 
+  <!-- BRAND -->
   <a class="brand auth-brand" href="index.html">
     <span class="brand-mark">✓</span>
+
     <span>
       <b>CPO<span>VERIFY</span></b>
       <small>Verify. Connect. Trust.</small>
     </span>
   </a>
 
+  <!-- LOGIN -->
   <main class="auth-card">
+
     <h1>Welcome back</h1>
-    <p class="muted">Log in to your CPOVERIFY account.</p>
+
+    <p class="muted">
+      Log in to your CPOVERIFY account.
+    </p>
 
     <form id="login-form">
 
       <label for="login-email">
         Email address
+
         <input
           type="email"
           id="login-email"
@@ -38,6 +49,7 @@
 
       <label for="login-password">
         Password
+
         <input
           type="password"
           id="login-password"
@@ -49,20 +61,25 @@
       </label>
 
       <div class="form-row">
-        <a href="forgot-password.html">Forgot password?</a>
+        <a href="forgot-password.html">
+          Forgot password?
+        </a>
       </div>
 
-      <button class="btn full" type="submit">
+      <button
+        class="btn full"
+        id="login-button"
+        type="submit"
+      >
         Log in
       </button>
 
-      <button
-        class="btn btn-google full"
-        type="button"
-        data-google-demo
-      >
-        Continue with Google
-      </button>
+      <p
+        id="login-status"
+        class="muted"
+        role="status"
+        aria-live="polite"
+      ></p>
 
     </form>
 
@@ -77,11 +94,98 @@
 
   </main>
 
-  <!-- Load Firebase before the shared app.js -->
+  <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <!-- SHARED CPOVERIFY JAVASCRIPT -->
   <script src="app.js"></script>
+
+  <!-- LOGIN PAGE HANDLER -->
+  <script>
+    (function () {
+
+      const form = document.getElementById("login-form");
+      const button = document.getElementById("login-button");
+      const status = document.getElementById("login-status");
+
+      form.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        const email = document
+          .getElementById("login-email")
+          .value
+          .trim();
+
+        const password = document
+          .getElementById("login-password")
+          .value;
+
+        button.disabled = true;
+
+        status.textContent = "Signing in...";
+        status.style.color = "";
+
+        try {
+
+          const result =
+            await firebase.auth().signInWithEmailAndPassword(
+              email,
+              password
+            );
+
+          status.textContent = "Login successful.";
+
+          await redirectUser(result.user);
+
+        } catch (error) {
+
+          console.error("Login error:", error);
+
+          if (
+            error.code === "auth/invalid-credential" ||
+            error.code === "auth/wrong-password" ||
+            error.code === "auth/user-not-found"
+          ) {
+
+            status.textContent =
+              "Incorrect email or password.";
+
+          } else if (
+            error.code === "auth/invalid-email"
+          ) {
+
+            status.textContent =
+              "Please enter a valid email address.";
+
+          } else if (
+            error.code === "auth/too-many-requests"
+          ) {
+
+            status.textContent =
+              "Too many attempts. Please try again later.";
+
+          } else {
+
+            status.textContent =
+              "Login failed. Please check your connection and try again.";
+
+          }
+
+          status.style.color = "#c62828";
+
+        } finally {
+
+          button.disabled = false;
+
+        }
+
+      });
+
+    })();
+  </script>
 
 </body>
 </html>
