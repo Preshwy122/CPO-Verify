@@ -1,176 +1,301 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
   <title>Account Boosting — CPOVERIFY</title>
   <link rel="stylesheet" href="styles.css">
 
   <style>
+    .app-main {
+      max-width: 680px;
+      margin: auto;
+      padding: 17px 14px 105px;
+    }
+
     .boost-top {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 24px;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 19px;
     }
 
     .boost-heading {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
+      min-width: 0;
     }
 
     .boost-back {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 1px solid #e5e7eb;
+      width: 34px;
+      height: 34px;
       display: grid;
       place-items: center;
+      border: 1px solid #e6eaf0;
+      border-radius: 9px;
+      color: #344054;
       text-decoration: none;
-      color: inherit;
-      font-size: 24px;
+      font-size: 20px;
+      flex-shrink: 0;
     }
 
     .boost-heading h1 {
+      font-size: 19px;
       margin: 0;
-      font-size: 25px;
+      line-height: 1.3;
     }
 
     .boost-heading p {
-      margin: 4px 0 0;
+      font-size: 10px;
+      margin: 2px 0 0;
+      color: #667085;
     }
 
     .boost-orders {
-      border: 1px solid #e5e7eb;
-      border-radius: 30px;
-      padding: 12px 20px;
+      border: 1px solid #e6eaf0;
+      border-radius: 8px;
+      padding: 8px 11px;
       text-decoration: none;
-      color: inherit;
-      font-weight: 600;
+      color: #1262d6;
+      font-size: 11px;
+      font-weight: 650;
       white-space: nowrap;
+    }
+
+    .boost-search-wrap {
+      position: relative;
+      margin-bottom: 14px;
     }
 
     .boost-search {
       width: 100%;
       box-sizing: border-box;
-      padding: 17px 20px;
-      border-radius: 35px;
-      border: 1px solid #e5e7eb;
-      background: #f8fafc;
-      margin: 8px 0 28px;
-      font-size: 15px;
+      height: 41px;
+      padding: 0 13px 0 36px;
+      border: 1px solid #e6eaf0;
+      border-radius: 9px;
+      background: #fff;
+      font-size: 11px;
+      outline: none;
+    }
+
+    .boost-search:focus {
+      border-color: #1262d6;
+    }
+
+    .search-symbol {
+      position: absolute;
+      left: 13px;
+      top: 11px;
+      color: #98a2b3;
+      font-size: 14px;
     }
 
     .boost-banner {
-      background: #0866ed;
-      color: white;
-      border-radius: 28px;
-      padding: 30px 24px;
-      margin-bottom: 32px;
+      padding: 17px;
+      border-radius: 12px;
+      background: linear-gradient(115deg, #1262d6, #0c3f91);
+      color: #fff;
+      margin-bottom: 22px;
     }
 
     .boost-banner small {
-      letter-spacing: 1px;
-      font-weight: 600;
-    }
-
-    .boost-banner h2 {
-      font-size: 30px;
-      margin: 22px 0 8px;
-    }
-
-    .boost-banner p {
-      margin: 0;
+      font-size: 9px;
+      letter-spacing: .8px;
+      font-weight: 700;
       opacity: .85;
     }
 
+    .boost-banner h2 {
+      font-size: 19px;
+      line-height: 1.3;
+      margin: 9px 0 5px;
+    }
+
+    .boost-banner p {
+      font-size: 10px;
+      line-height: 1.5;
+      margin: 0;
+      opacity: .88;
+    }
+
     .boost-section-title {
-      font-size: 20px;
-      margin: 28px 0 18px;
+      font-size: 14px;
+      margin: 0 0 11px;
+      color: #101828;
     }
 
     .platform-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
     }
 
     .platform-card {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-height: 76px;
-      padding: 14px;
-      border: 1px solid #e5e7eb;
-      border-radius: 22px;
-      background: white;
-      color: #111827;
-      font: inherit;
+      min-width: 0;
+      min-height: 65px;
+      padding: 10px 5px;
+      border: 1px solid #e6eaf0;
+      border-radius: 9px;
+      background: #fff;
+      color: #344054;
+      font-size: 10px;
       font-weight: 600;
-      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,.03);
-    }
-
-    .platform-icon {
-      display: grid;
-      place-items: center;
-      width: 44px;
-      height: 44px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      background: #f3f4f6;
-      font-size: 21px;
+      transition: .15s ease;
     }
 
     .platform-card.active {
-      border: 2px solid #0866ed;
+      border-color: #1262d6;
       background: #eff6ff;
+      color: #1262d6;
     }
 
-    .popular-service {
-      border: 1px solid #e5e7eb;
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 14px;
-      background: white;
+    .platform-icon {
+      font-size: 15px;
+      font-weight: 750;
+      line-height: 1;
+      color: #475467;
     }
 
-    .popular-service h3 {
-      margin: 0 0 8px;
+    .platform-card.active .platform-icon {
+      color: #1262d6;
     }
 
-    .popular-service p {
-      margin: 0 0 12px;
+    .boost-services-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 24px 0 11px;
     }
 
-    .service-action {
-      display: inline-block;
-      padding: 10px 18px;
-      border-radius: 24px;
-      background: #0866ed;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
+    .boost-services-heading h2 {
+      font-size: 14px;
+      margin: 0;
     }
 
     .boost-view-all {
-      color: #0866ed;
+      font-size: 10px;
+      font-weight: 650;
+      color: #1262d6;
       text-decoration: none;
-      font-size: 14px;
+    }
+
+    .service-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .service-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid #e6eaf0;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .service-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .service-info h3 {
+      font-size: 11px;
+      margin: 0 0 4px;
+      color: #101828;
+      overflow-wrap: anywhere;
+    }
+
+    .service-info p {
+      font-size: 9px;
+      line-height: 1.45;
+      margin: 0;
+      color: #667085;
+    }
+
+    .service-meta {
+      font-size: 9px;
+      color: #667085;
+      margin-top: 5px;
+    }
+
+    .service-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 8px 11px;
+      border-radius: 7px;
+      background: #1262d6;
+      color: #fff;
+      text-decoration: none;
+      font-size: 9px;
+      font-weight: 650;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .service-action:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .boost-state {
+      padding: 19px 12px;
+      text-align: center;
+      border: 1px dashed #d9e0ea;
+      border-radius: 10px;
+      color: #667085;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .boost-note {
+      margin-top: 16px;
+      padding: 11px 12px;
+      background: #f7f9fc;
+      border: 1px solid #e6eaf0;
+      border-radius: 9px;
+      color: #667085;
+      font-size: 9px;
+      line-height: 1.5;
+    }
+
+    .boost-note b {
+      color: #344054;
     }
 
     @media (max-width: 360px) {
-      .platform-card {
-        padding: 10px;
-        gap: 8px;
+      .platform-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 5px;
       }
 
-      .platform-icon {
-        width: 36px;
-        height: 36px;
+      .platform-card {
+        font-size: 9px;
+        min-height: 59px;
+      }
+
+      .service-card {
+        padding: 10px;
+      }
+
+      .service-action {
+        padding: 7px 8px;
       }
     }
   </style>
@@ -187,128 +312,112 @@
       </span>
     </a>
 
-    <a class="avatar" href="profile.html">U</a>
+    <a class="avatar" href="profile.html"
+       aria-label="My profile" data-user-avatar>U</a>
   </header>
 
-  <main class="app-main">
+  <main class="app-main" hidden>
 
     <div class="boost-top">
       <div class="boost-heading">
-        <a class="boost-back" href="dashboard.html">‹</a>
+        <a class="boost-back" href="dashboard.html"
+           aria-label="Back to dashboard">‹</a>
 
         <div>
-          <h1>Boostly</h1>
-          <p class="muted">Social growth services</p>
+          <h1>Account boosting</h1>
+          <p>Social media marketing services</p>
         </div>
       </div>
 
       <a class="boost-orders" href="boost-orders.html">
-        Orders
+        My orders
       </a>
     </div>
 
-    <input
-      class="boost-search"
-      type="search"
-      id="boost-search"
-      placeholder="⌕  Search followers, likes, views..."
-      aria-label="Search boosting services"
-    >
+    <div class="boost-search-wrap">
+      <span class="search-symbol">⌕</span>
+      <input
+        class="boost-search"
+        type="search"
+        id="boost-search"
+        placeholder="Search services..."
+        aria-label="Search boosting services"
+      >
+    </div>
 
     <section class="boost-banner">
-      <small>FAST · TRACKED · AFFORDABLE</small>
-      <h2>Grow your audience</h2>
-      <p>Choose a platform and find the right service.</p>
+      <small>CPOVERIFY · BOOSTING</small>
+      <h2>Grow your digital presence.</h2>
+      <p>
+        Browse available services, compare prices
+        and manage your orders.
+      </p>
     </section>
 
-    <h2 class="boost-section-title">Choose a platform</h2>
+    <section>
+      <h2 class="boost-section-title">Select platform</h2>
 
-    <div class="platform-grid">
+      <div class="platform-grid">
 
-      <button class="platform-card" data-platform="Instagram">
-        <span class="platform-icon">📸</span>
-        Instagram
-      </button>
+        <button class="platform-card" data-platform="Instagram">
+          <span class="platform-icon">IG</span>
+          Instagram
+        </button>
 
-      <button class="platform-card" data-platform="TikTok">
-        <span class="platform-icon">♪</span>
-        TikTok
-      </button>
+        <button class="platform-card" data-platform="TikTok">
+          <span class="platform-icon">TK</span>
+          TikTok
+        </button>
 
-      <button class="platform-card" data-platform="Facebook">
-        <span class="platform-icon">f</span>
-        Facebook
-      </button>
+        <button class="platform-card" data-platform="Facebook">
+          <span class="platform-icon">FB</span>
+          Facebook
+        </button>
 
-      <button class="platform-card" data-platform="YouTube">
-        <span class="platform-icon">▶</span>
-        YouTube
-      </button>
+        <button class="platform-card" data-platform="YouTube">
+          <span class="platform-icon">YT</span>
+          YouTube
+        </button>
 
-      <button class="platform-card" data-platform="X">
-        <span class="platform-icon">𝕏</span>
-        X (Twitter)
-      </button>
+        <button class="platform-card" data-platform="X">
+          <span class="platform-icon">X</span>
+          X
+        </button>
 
-      <button class="platform-card" data-platform="Telegram">
-        <span class="platform-icon">➤</span>
-        Telegram
-      </button>
+        <button class="platform-card" data-platform="Telegram">
+          <span class="platform-icon">TG</span>
+          Telegram
+        </button>
 
-      <button class="platform-card" data-platform="Pinterest">
-        <span class="platform-icon">℘</span>
-        Pinterest
-      </button>
+        <button class="platform-card" data-platform="Pinterest">
+          <span class="platform-icon">PI</span>
+          Pinterest
+        </button>
 
-      <button class="platform-card" data-platform="Other">
-        <span class="platform-icon">＋</span>
-        Other
-      </button>
+        <button class="platform-card" data-platform="Other">
+          <span class="platform-icon">+</span>
+          Other
+        </button>
 
-    </div>
-
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:36px;">
-      <h2 class="boost-section-title" style="margin:0;">
-        Popular services
-      </h2>
-
-      <a class="boost-view-all" href="#popular-services">
-        View all ›
-      </a>
-    </div>
-
-    <section id="popular-services" style="margin-top:18px;">
-
-      <article class="popular-service" data-service>
-        <h3>Followers</h3>
-        <p class="muted">Promotion services for eligible social profiles.</p>
-        <a href="#" class="service-action" data-service-demo>
-          View options
-        </a>
-      </article>
-
-      <article class="popular-service" data-service>
-        <h3>Likes</h3>
-        <p class="muted">Explore available engagement promotion options.</p>
-        <a href="#" class="service-action" data-service-demo>
-          View options
-        </a>
-      </article>
-
-      <article class="popular-service" data-service>
-        <h3>Views</h3>
-        <p class="muted">Discover content visibility services.</p>
-        <a href="#" class="service-action" data-service-demo>
-          View options
-        </a>
-      </article>
-
+      </div>
     </section>
 
-    <p class="small-note">
-      Live service availability, pricing and order tracking require
-      a connected service provider.
-    </p>
+    <div class="boost-services-heading">
+      <h2>Available services</h2>
+      <a class="boost-view-all" href="#service-list">View all</a>
+    </div>
+
+    <section class="service-list" id="service-list">
+      <div class="boost-state" id="boost-state">
+        Loading available services...
+      </div>
+    </section>
+
+    <div class="boost-note">
+      <b>Service information</b><br>
+      Prices and availability are based on the connected provider.
+      Check the service details before placing an order.
+    </div>
 
   </main>
 
@@ -322,37 +431,235 @@
     <a href="profile.html"><span>◎</span>Profiles</a>
   </nav>
 
-  <script src="app.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
   <script>
-    // Platform selection
-    document.querySelectorAll("[data-platform]").forEach(function(card) {
-      card.addEventListener("click", function() {
-        document.querySelectorAll("[data-platform]").forEach(function(item) {
-          item.classList.remove("active");
-        });
+  (() => {
+    const BACKEND_URL =
+      "https://cpoverify-backend.onrender.com";
 
-        card.classList.add("active");
+    const main = document.querySelector(".app-main");
+    const avatar = document.querySelector("[data-user-avatar]");
+    const serviceList = document.getElementById("service-list");
+    const searchInput = document.getElementById("boost-search");
 
-        const platform = card.dataset.platform;
+    let allServices = [];
+    let selectedPlatform = "all";
+    let currentUser = null;
 
-        document.querySelectorAll("[data-service]").forEach(function(service) {
-          service.dataset.platform = platform;
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+
+    function formatPrice(rate) {
+      const value = Number(rate);
+
+      if (!Number.isFinite(value)) return "Price unavailable";
+
+      return value.toLocaleString("en-NG", {
+        style: "currency",
+        currency: "NGN",
+        minimumFractionDigits: 2
+      }) + " / 1,000";
+    }
+
+    function getPlatform(service) {
+      const name = String(service.name || "").toLowerCase();
+
+      const platforms = [
+        ["instagram", "Instagram"],
+        ["tiktok", "TikTok"],
+        ["facebook", "Facebook"],
+        ["youtube", "YouTube"],
+        ["twitter", "X"],
+        [" x ", "X"],
+        ["telegram", "Telegram"],
+        ["pinterest", "Pinterest"]
+      ];
+
+      for (const [keyword, platform] of platforms) {
+        if (name.includes(keyword.trim())) return platform;
+      }
+
+      return "Other";
+    }
+
+    function renderServices() {
+      const query = searchInput.value.toLowerCase().trim();
+
+      const filtered = allServices.filter(service => {
+        const name = String(service.name || "").toLowerCase();
+        const platform = getPlatform(service);
+
+        const matchesSearch = name.includes(query);
+
+        const matchesPlatform =
+          selectedPlatform === "all" ||
+          platform === selectedPlatform;
+
+        return matchesSearch && matchesPlatform;
+      });
+
+      if (!filtered.length) {
+        serviceList.innerHTML = `
+          <div class="boost-state">
+            No services found for this selection.
+          </div>
+        `;
+        return;
+      }
+
+      serviceList.innerHTML = filtered.map(service => {
+        const name = service.name || "Boosting service";
+        const rate = service.retail_rate_ngn ??
+          service.retail_rate ??
+          service.rate_ngn;
+
+        const min = service.min ?? "—";
+        const max = service.max ?? "—";
+
+        return `
+          <article class="service-card">
+            <div class="service-info">
+              <h3>${escapeHTML(name)}</h3>
+              <p>${escapeHTML(getPlatform(service))} promotion service</p>
+              <div class="service-meta">
+                ${escapeHTML(String(min))} – ${escapeHTML(String(max))}
+                &nbsp; · &nbsp;
+                ${escapeHTML(formatPrice(rate))}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="service-action"
+              data-service-id="${escapeHTML(service.service)}"
+              disabled
+              title="Ordering will be enabled after backend integration"
+            >
+              Details
+            </button>
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function loadServices(user) {
+      serviceList.innerHTML =
+        '<div class="boost-state">Loading available services...</div>';
+
+      try {
+        const token = await user.getIdToken();
+
+        const response = await fetch(
+          BACKEND_URL + "/api/boost/services",
+          {
+            headers: {
+              "Authorization": "Bearer " + token,
+              "Accept": "application/json"
+            }
+          }
+        );
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(
+            result.message ||
+            result.error ||
+            "Unable to load services."
+          );
+        }
+
+        const services = Array.isArray(result)
+          ? result
+          : result.services || [];
+
+        allServices = services;
+
+        if (!allServices.length) {
+          serviceList.innerHTML = `
+            <div class="boost-state">
+              No boosting services are currently available.
+            </div>
+          `;
+          return;
+        }
+
+        renderServices();
+
+      } catch (error) {
+        console.error("Boost services error:", error);
+
+        serviceList.innerHTML = `
+          <div class="boost-state">
+            Unable to load boosting services right now.
+            Please try again later.
+          </div>
+        `;
+      }
+    }
+
+    document.querySelectorAll("[data-platform]")
+      .forEach(button => {
+        button.addEventListener("click", () => {
+          selectedPlatform = button.dataset.platform;
+
+          document.querySelectorAll("[data-platform]")
+            .forEach(item => {
+              item.classList.toggle(
+                "active",
+                item === button
+              );
+            });
+
+          renderServices();
         });
       });
+
+    // Search all available services.
+    searchInput.addEventListener("input", renderServices);
+
+    // Reset platform filter when search is cleared.
+    // All services can be seen by choosing Other only for
+    // uncategorised provider services; the initial view is all.
+    if (!firebase.apps.length) {
+      serviceList.innerHTML =
+        '<div class="boost-state">Authentication is unavailable.</div>';
+      return;
+    }
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.replace("login.html");
+        return;
+      }
+
+      currentUser = user;
+
+      const name =
+        user.displayName ||
+        user.email ||
+        "User";
+
+      avatar.textContent = name.charAt(0).toUpperCase();
+      main.hidden = false;
+
+      loadServices(user);
     });
-
-    // Search popular services
-    const boostSearch = document.querySelector("#boost-search");
-
-    boostSearch.addEventListener("input", function() {
-      const query = boostSearch.value.toLowerCase().trim();
-
-      document.querySelectorAll("[data-service]").forEach(function(service) {
-        service.hidden = !service.textContent.toLowerCase().includes(query);
-      });
-    });
+  })();
   </script>
+
+  <script src="app.js"></script>
 
 </body>
 </html>
