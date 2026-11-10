@@ -5,7 +5,7 @@
 */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAS25JvO0dNVZmxw7rV9O-Opgcb_bdmj-A0",
+  apiKey: "AIzaSyAS25JvO0dNVZmxw7rV9O-Pgcb_bdmj-A0",
   authDomain: "cpoverify.firebaseapp.com",
   databaseURL: "https://cpoverify-default-rtdb.firebaseio.com",
   projectId: "cpoverify",
