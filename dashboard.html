@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,438 @@
   <meta name="theme-color" content="#ffffff">
   <title>Dashboard — CPOVERIFY</title>
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Compact dashboard styling */
+    .app-header {
+      padding: 11px 15px;
+      min-height: 62px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: #1262d6;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .brand b {
+      font-size: 15px;
+    }
+
+    .brand small {
+      font-size: 10px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .notification-button,
+    .avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid #e6eaf0;
+      background: #fff;
+      color: #1262d6;
+      text-decoration: none;
+      font-size: 16px;
+      position: relative;
+    }
+
+    .notification-button {
+      cursor: pointer;
+    }
+
+    .notification-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #e53935;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      top: 3px;
+      right: 3px;
+      display: none;
+    }
+
+    .notification-dot.show {
+      display: block;
+    }
+
+    .app-main {
+      max-width: 650px;
+      margin: auto;
+      padding: 18px 15px 100px;
+    }
+
+    .greeting {
+      font-size: 10px;
+      letter-spacing: 1px;
+      font-weight: 700;
+      color: #1262d6;
+      margin: 0 0 5px;
+    }
+
+    .app-main h1 {
+      font-size: 22px;
+      line-height: 1.2;
+      margin: 0 0 5px;
+    }
+
+    .intro {
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 0 0 17px;
+    }
+
+    .balance-card {
+      padding: 17px;
+      border-radius: 15px;
+      margin-bottom: 22px;
+      background: linear-gradient(125deg, #1262d6, #0c3f91);
+      color: #fff;
+      box-shadow: 0 5px 14px rgba(18, 98, 214, .13);
+    }
+
+    .balance-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      opacity: .9;
+    }
+
+    .balance-amount {
+      font-size: clamp(25px, 7vw, 32px);
+      font-weight: 750;
+      margin: 10px 0 2px;
+      letter-spacing: -.7px;
+    }
+
+    .balance-card > p {
+      font-size: 10px;
+      margin: 0 0 13px;
+      opacity: .85;
+    }
+
+    .deposit-status {
+      display: none;
+      font-size: 10px;
+      margin: 0 0 12px;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .deposit-status.show {
+      display: flex;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ffcc55;
+    }
+
+    .btn-light {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 13px;
+      min-height: 34px;
+      font-size: 11px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 650;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 11px;
+    }
+
+    .section-heading h2 {
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .section-heading .muted {
+      font-size: 10px;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .service-card {
+      min-width: 0;
+      padding: 13px 11px;
+      min-height: 104px;
+      border: 1px solid #e6eaf0;
+      border-radius: 12px;
+      background: #fff;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      box-shadow: 0 2px 7px rgba(16, 24, 40, .025);
+      transition: .2s ease;
+    }
+
+    .service-card:active {
+      transform: scale(.98);
+    }
+
+    .service-icon {
+      width: 29px;
+      height: 29px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .service-icon.blue {
+      background: #eaf2ff;
+      color: #1262d6;
+    }
+
+    .service-icon.purple {
+      background: #f2ebff;
+      color: #8050d5;
+    }
+
+    .service-icon.green {
+      background: #e9f8ef;
+      color: #179653;
+    }
+
+    .service-icon.yellow {
+      background: #fff5dc;
+      color: #b47b00;
+    }
+
+    .service-card b {
+      font-size: 12px;
+      color: #101828;
+    }
+
+    .service-card small {
+      font-size: 10px;
+      line-height: 1.4;
+      color: #667085;
+    }
+
+    .notice {
+      margin-top: 17px;
+      padding: 13px;
+      border: 1px solid #e6eaf0;
+      border-radius: 12px;
+      background: #f7f9fc;
+    }
+
+    .notice b {
+      font-size: 12px;
+    }
+
+    .notice p {
+      font-size: 10px;
+      line-height: 1.5;
+      color: #667085;
+      margin: 5px 0 7px;
+    }
+
+    .notice a {
+      font-size: 11px;
+      font-weight: 650;
+      color: #1262d6;
+      text-decoration: none;
+    }
+
+    /* Announcement panel */
+    .announcement-panel {
+      position: fixed;
+      z-index: 1000;
+      top: 68px;
+      right: 12px;
+      width: min(340px, calc(100vw - 24px));
+      max-height: 70vh;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid #e6eaf0;
+      border-radius: 13px;
+      padding: 14px;
+      box-shadow: 0 10px 35px rgba(16, 24, 40, .16);
+      display: none;
+    }
+
+    .announcement-panel.open {
+      display: block;
+    }
+
+    .announcement-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .announcement-heading b {
+      font-size: 13px;
+    }
+
+    .announcement-heading button,
+    .announcement-close {
+      border: 0;
+      background: transparent;
+      color: #667085;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .announcement-item {
+      padding: 11px 0;
+      border-top: 1px solid #e6eaf0;
+    }
+
+    .announcement-item b {
+      font-size: 12px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .announcement-item p {
+      font-size: 11px;
+      line-height: 1.5;
+      color: #667085;
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .announcement-item small {
+      font-size: 9px;
+      color: #98a2b3;
+      display: block;
+      margin-top: 6px;
+    }
+
+    .announcement-empty {
+      font-size: 11px;
+      color: #667085;
+      padding: 12px 0;
+    }
+
+    /* New announcement popup */
+    .announcement-popup {
+      position: fixed;
+      z-index: 1100;
+      left: 50%;
+      bottom: 85px;
+      transform: translateX(-50%);
+      width: min(390px, calc(100% - 26px));
+      padding: 14px;
+      background: #fff;
+      border: 1px solid #dce6f5;
+      border-left: 4px solid #1262d6;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(16, 24, 40, .16);
+      display: none;
+    }
+
+    .announcement-popup.show {
+      display: block;
+    }
+
+    .announcement-popup b {
+      font-size: 12px;
+    }
+
+    .announcement-popup p {
+      font-size: 11px;
+      color: #667085;
+      line-height: 1.5;
+      margin: 6px 0 10px;
+      white-space: pre-wrap;
+    }
+
+    .announcement-popup button {
+      background: #1262d6;
+      color: #fff;
+      border: 0;
+      border-radius: 7px;
+      padding: 7px 12px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      padding: 8px 4px max(8px, env(safe-area-inset-bottom));
+    }
+
+    .bottom-nav a {
+      font-size: 9px;
+      gap: 3px;
+    }
+
+    .bottom-nav a span {
+      font-size: 17px;
+    }
+
+    @media (min-width: 600px) {
+      .app-main {
+        padding-top: 25px;
+      }
+
+      .service-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .service-card {
+        min-height: 116px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .app-main {
+        padding-left: 11px;
+        padding-right: 11px;
+      }
+
+      .service-grid {
+        gap: 8px;
+      }
+
+      .service-card {
+        padding: 11px 9px;
+        min-height: 100px;
+      }
+
+      .service-card b {
+        font-size: 11px;
+      }
+
+      .bottom-nav a {
+        font-size: 8px;
+      }
+    }
+  </style>
 </head>
+
 <body class="app-page">
 
   <header class="app-header">
@@ -18,8 +450,34 @@
       </span>
     </a>
 
-    <a class="avatar" href="profile.html" aria-label="My profile" data-user-avatar>U</a>
+    <div class="header-actions">
+      <button
+        class="notification-button"
+        id="notificationButton"
+        type="button"
+        aria-label="Announcements"
+        aria-expanded="false"
+      >
+        ♧
+        <span class="notification-dot" id="notificationDot"></span>
+      </button>
+
+      <a class="avatar" href="profile.html"
+         aria-label="My profile" data-user-avatar>U</a>
+    </div>
   </header>
+
+  <!-- Admin announcements list -->
+  <section class="announcement-panel" id="announcementPanel">
+    <div class="announcement-heading">
+      <b>Announcements</b>
+      <button type="button" id="closeAnnouncements"
+              aria-label="Close announcements">×</button>
+    </div>
+    <div id="announcementList">
+      <p class="announcement-empty">Loading announcements...</p>
+    </div>
+  </section>
 
   <main class="app-main" hidden>
 
@@ -38,7 +496,14 @@
       <div class="balance-amount" data-balance>₦0.00</div>
       <p>Wallet balance</p>
 
-      <a class="btn btn-light" href="#" data-deposit>
+      <div class="deposit-status" id="depositStatus">
+        <span class="status-dot"></span>
+        <span id="depositStatusText">Deposit pending</span>
+      </div>
+
+      <a class="btn btn-light"
+         href="https://wa.me/2348076476774?text=Hello%20CPOVERIFY%2C%20I%20want%20to%20make%20a%20wallet%20deposit."
+         target="_blank" rel="noopener">
         + Deposit via WhatsApp
       </a>
     </section>
@@ -71,7 +536,7 @@
       <a class="service-card" href="tools.html">
         <span class="service-icon yellow">⚒</span>
         <b>Tools</b>
-        <small>Admin updates, books and useful resources</small>
+        <small>Guides and useful resources</small>
       </a>
 
     </div>
@@ -79,13 +544,19 @@
     <section class="notice">
       <b>Updates and useful resources</b>
       <p>
-        Visit Tools to read admin-posted updates, book information,
-        guides, and other resources shared with users.
+        Find admin-posted updates, guides, books and other useful resources.
       </p>
       <a href="tools.html">Explore tools →</a>
     </section>
 
   </main>
+
+  <!-- New announcement popup -->
+  <div class="announcement-popup" id="announcementPopup">
+    <b id="popupTitle">New announcement</b>
+    <p id="popupMessage"></p>
+    <button type="button" id="dismissPopup">Got it</button>
+  </div>
 
   <nav class="bottom-nav" aria-label="Main navigation">
     <a class="active" href="dashboard.html">
@@ -111,7 +582,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
   <script>
-    // Firebase configuration
+  (() => {
     const firebaseConfig = {
       apiKey: "AIzaSyAS25JvO0dNVZmxw7rV9O-Pgcb_bdmj-A0",
       authDomain: "cpoverify.firebaseapp.com",
@@ -122,7 +593,6 @@
       measurementId: "G-MVC4EHLQ1Z"
     };
 
-    // Initialize Firebase only once
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
@@ -135,54 +605,255 @@
     const avatarElement = document.querySelector("[data-user-avatar]");
     const greetingElement = document.querySelector(".greeting");
 
-    // Require the user to be signed in
-    auth.onAuthStateChanged(async (user) => {
+    const notificationButton =
+      document.getElementById("notificationButton");
+    const notificationPanel =
+      document.getElementById("announcementPanel");
+    const notificationDot =
+      document.getElementById("notificationDot");
+    const announcementList =
+      document.getElementById("announcementList");
+
+    const popup = document.getElementById("announcementPopup");
+    const popupTitle = document.getElementById("popupTitle");
+    const popupMessage = document.getElementById("popupMessage");
+
+    let currentUser = null;
+    let announcements = [];
+    let pendingPopupId = null;
+
+    const viewedKey = () =>
+      "cpverify_viewed_announcements_" + currentUser.uid;
+
+    function getViewedAnnouncements() {
+      try {
+        return JSON.parse(localStorage.getItem(viewedKey()) || "[]");
+      } catch {
+        return [];
+      }
+    }
+
+    function markAnnouncementViewed(id) {
+      const viewed = getViewedAnnouncements();
+
+      if (!viewed.includes(id)) {
+        viewed.push(id);
+        localStorage.setItem(viewedKey(), JSON.stringify(viewed));
+      }
+
+      updateNotificationDot();
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+
+      const date = typeof value === "number"
+        ? new Date(value)
+        : new Date(value);
+
+      if (Number.isNaN(date.getTime())) return "";
+
+      return date.toLocaleString("en-NG", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      });
+    }
+
+    function updateNotificationDot() {
+      const viewed = getViewedAnnouncements();
+
+      const hasUnread = announcements.some(item =>
+        !viewed.includes(item.id)
+      );
+
+      notificationDot.classList.toggle("show", hasUnread);
+    }
+
+    function renderAnnouncements() {
+      if (!announcements.length) {
+        announcementList.innerHTML =
+          '<p class="announcement-empty">No announcements yet.</p>';
+        updateNotificationDot();
+        return;
+      }
+
+      announcementList.innerHTML = announcements.map(item => `
+        <article class="announcement-item">
+          <b>${escapeHTML(item.title || "CPOVERIFY Update")}</b>
+          <p>${escapeHTML(item.message || item.body || "")}</p>
+          <small>${escapeHTML(formatDate(
+            item.createdAt || item.created_at
+          ))}</small>
+        </article>
+      `).join("");
+
+      updateNotificationDot();
+    }
+
+    function showNextAnnouncementPopup() {
+      if (pendingPopupId || !announcements.length) return;
+
+      const viewed = getViewedAnnouncements();
+
+      const next = announcements.find(item =>
+        !viewed.includes(item.id)
+      );
+
+      if (!next) return;
+
+      pendingPopupId = next.id;
+
+      popupTitle.textContent =
+        next.title || "CPOVERIFY Update";
+
+      popupMessage.textContent =
+        next.message || next.body || "";
+
+      popup.classList.add("show");
+    }
+
+    function dismissPopup() {
+      if (pendingPopupId) {
+        markAnnouncementViewed(pendingPopupId);
+      }
+
+      pendingPopupId = null;
+      popup.classList.remove("show");
+
+      // Allow another unread announcement to appear.
+      setTimeout(showNextAnnouncementPopup, 500);
+    }
+
+    document.getElementById("dismissPopup")
+      .addEventListener("click", dismissPopup);
+
+    notificationButton.addEventListener("click", () => {
+      const isOpen = notificationPanel.classList.toggle("open");
+
+      notificationButton.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
+    });
+
+    document.getElementById("closeAnnouncements")
+      .addEventListener("click", () => {
+        notificationPanel.classList.remove("open");
+        notificationButton.setAttribute("aria-expanded", "false");
+      });
+
+    function loadAnnouncements() {
+      // This reads admin-published announcements only.
+      // The final backend update must use this same data structure.
+      database.ref("announcements").on("value", snapshot => {
+        const data = snapshot.val() || {};
+
+        announcements = Object.entries(data)
+          .map(([id, item]) => ({
+            id,
+            ...item
+          }))
+          .filter(item => item.active !== false)
+          .sort((a, b) =>
+            Number(b.createdAt || b.created_at || 0) -
+            Number(a.createdAt || a.created_at || 0)
+          );
+
+        renderAnnouncements();
+        showNextAnnouncementPopup();
+      }, error => {
+        console.error("Announcement read failed:", error);
+
+        announcementList.innerHTML =
+          '<p class="announcement-empty">Announcements unavailable.</p>';
+      });
+    }
+
+    function loadWallet(user) {
+      const balanceRef = database.ref(
+        "users/" + user.uid + "/wallet/balance"
+      );
+
+      balanceRef.on("value", snapshot => {
+        const balance = Number(snapshot.val() || 0);
+
+        balanceElement.textContent = Number.isFinite(balance)
+          ? balance.toLocaleString("en-NG", {
+              style: "currency",
+              currency: "NGN",
+              minimumFractionDigits: 2
+            })
+          : "₦0.00";
+      }, error => {
+        console.error("Wallet read failed:", error);
+        balanceElement.textContent = "Unavailable";
+      });
+
+      // Optional pending-deposit status.
+      const pendingRef = database.ref(
+        "users/" + user.uid + "/wallet/pendingDeposit"
+      );
+
+      pendingRef.on("value", snapshot => {
+        const deposit = snapshot.val();
+        const statusBox = document.getElementById("depositStatus");
+        const statusText =
+          document.getElementById("depositStatusText");
+
+        const status = typeof deposit === "object" && deposit
+          ? deposit.status
+          : deposit;
+
+        const pending = [
+          "pending",
+          "processing",
+          "awaiting_confirmation"
+        ].includes(String(status || "").toLowerCase());
+
+        statusBox.classList.toggle("show", pending);
+
+        if (pending) {
+          statusText.textContent = "Deposit pending";
+        }
+      }, error => {
+        console.warn("Deposit status unavailable:", error);
+      });
+    }
+
+    auth.onAuthStateChanged(user => {
       if (!user) {
         window.location.replace("login.html");
         return;
       }
 
-      // Show dashboard after authentication
+      currentUser = user;
       dashboard.hidden = false;
 
-      // Display user's name
       const displayName =
         user.displayName ||
         user.email?.split("@")[0] ||
         "User";
 
-      greetingElement.textContent = "WELCOME BACK, " +
-        displayName.toUpperCase();
+      greetingElement.textContent =
+        "WELCOME BACK, " + displayName.toUpperCase();
 
-      // Set avatar initial
       avatarElement.textContent =
         displayName.charAt(0).toUpperCase();
 
-      // Read wallet balance from Realtime Database
-      const walletRef = database.ref(
-        "users/" + user.uid + "/wallet/balance"
-      );
-
-      walletRef.on("value", (snapshot) => {
-        const balance = snapshot.val();
-
-        if (typeof balance === "number") {
-          balanceElement.textContent = balance.toLocaleString(
-            "en-NG",
-            {
-              style: "currency",
-              currency: "NGN",
-              minimumFractionDigits: 2
-            }
-          );
-        } else {
-          balanceElement.textContent = "₦0.00";
-        }
-      }, (error) => {
-        console.error("Wallet read failed:", error);
-        balanceElement.textContent = "Unavailable";
-      });
+      loadWallet(user);
+      loadAnnouncements();
     });
+  })();
   </script>
 
   <script src="app.js"></script>
