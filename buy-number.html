@@ -1,1 +1,1400 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta name="theme-color" content="#ffffff"> <title>Buy Numbers — CPOVERIFY</title> <link rel="stylesheet" href="styles.css"> </head> <body class="app-page"> <header class="app-header"> <a class="brand" href="dashboard.html"> <span class="brand-mark">✓</span> <span> <b>CPO<span>VERIFY</span></b> <small>Verify. Connect. Trust.</small> </span> </a> <a class="avatar" href="profile.html" aria-label="My profile">U</a> </header> <main class="app-main"> <p class="greeting">VIRTUAL NUMBERS</p> <h1>Buy numbers</h1> <p class="muted intro"> Choose a country to see the services and numbers available for permitted account verification. </p> <label class="search-label" for="country-search"> Search countries <input type="search" id="country-search" placeholder="Search country or calling code..." autocomplete="off"> </label> <div class="country-list" id="country-list"> <article class="country-card" data-country="united states usa us +1"> <span class="flag">🇺🇸</span> <div> <b>United States</b> <small>USA · +1</small> </div> <a href="view-number.html?country=us" class="btn btn-small">View numbers</a> </article> <article class="country-card" data-country="united kingdom uk britain +44"> <span class="flag">🇬🇧</span> <div> <b>United Kingdom</b> <small>UK · +44</small> </div> <a href="view-number.html?country=uk" class="btn btn-small">View numbers</a> </article> <article class="country-card" data-country="canada ca +1"> <span class="flag">🇨🇦</span> <div> <b>Canada</b> <small>Canada · +1</small> </div> <a href="view-number.html?country=ca" class="btn btn-small">View numbers</a> </article> <article class="country-card" data-country="nigeria ng +234"> <span class="flag">🇳🇬</span> <div> <b>Nigeria</b> <small>Nigeria · +234</small> </div> <a href="view-number.html?country=ng" class="btn btn-small">View numbers</a> </article> <article class="country-card" data-country="germany de +49"> <span class="flag">🇩🇪</span> <div> <b>Germany</b> <small>Germany · +49</small> </div> <a href="view-number.html?country=de" class="btn btn-small">View numbers</a> </article> </div> <p id="no-countries" class="small-note" hidden> No countries match your search. Try another country or calling code. </p> <p class="small-note"> Live number availability and prices will appear after your provider API is connected. </p> </main> <nav class="bottom-nav" aria-label="Main navigation"> <a href="dashboard.html"><span>⌂</span>Home</a> <a class="active" href="buy-number.html"><span>☎</span>Buy numbers</a> <a href="account-logs.html"><span>▤</span>Account logs</a> <a href="boost-account.html"><span>↗</span>Boosting</a> <a href="profile.html"><span>◎</span>Profiles</a> </nav> <script src="app.js"></script> <script> (() => { const search = document.getElementById("country-search"); const cards = [...document.querySelectorAll(".country-card")]; const empty = document.getElementById("no-countries"); search.addEventListener("input", () => { const query = search.value.trim().toLowerCase(); let visibleCount = 0; cards.forEach(card => { const matches = card.dataset.country.includes(query); card.hidden = !matches; if (matches) visibleCount++; }); empty.hidden = visibleCount !== 0; }); })(); </script> </body> </html> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Buy Numbers — CPOVERIFY</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* =====================================
+       CPOVERIFY BUY NUMBERS
+       Page-specific styling
+    ===================================== */
+
+    .numbers-page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px 18px 115px;
+    }
+
+    .numbers-heading {
+      margin-bottom: 25px;
+    }
+
+    .numbers-heading .eyebrow {
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      margin-bottom: 9px;
+    }
+
+    .numbers-heading h1 {
+      color: var(--ink);
+      font-size: 28px;
+      letter-spacing: -1px;
+      margin: 0 0 8px;
+    }
+
+    .numbers-heading p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 0;
+      max-width: 480px;
+    }
+
+    .number-section {
+      margin-top: 27px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 13px;
+    }
+
+    .section-heading h2 {
+      font-size: 15px;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .section-heading small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .country-search {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .country-search input {
+      width: 100%;
+      height: 47px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 11px;
+      padding: 0 14px;
+      outline: none;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+
+    .country-search input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(18, 98, 214, .08);
+    }
+
+    .country-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .country-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      padding: 13px 11px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #fff;
+      cursor: pointer;
+      text-align: left;
+      transition: .18s ease;
+    }
+
+    .country-option:hover {
+      border-color: #b8cff5;
+    }
+
+    .country-option.active {
+      border-color: var(--blue);
+      background: #f3f7ff;
+      box-shadow: 0 0 0 1px var(--blue);
+    }
+
+    .country-flag {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .country-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .country-info strong {
+      display: block;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .country-info small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    .country-check {
+      color: var(--blue);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .service-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .service-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .service-details {
+      min-width: 0;
+    }
+
+    .service-details strong {
+      display: block;
+      font-size: 13px;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+
+    .service-details small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .service-action {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .service-price {
+      display: block;
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .buy-number-button {
+      border: 0;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      padding: 9px 15px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .buy-number-button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .empty-state {
+      border: 1px dashed #d7deea;
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+    }
+
+    .empty-state strong {
+      display: block;
+      font-size: 13px;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .page-message {
+      display: none;
+      padding: 11px 13px;
+      border-radius: 9px;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 14px;
+    }
+
+    .page-message.show {
+      display: block;
+    }
+
+    .page-message.error {
+      color: #b42318;
+      background: #fff1f0;
+      border: 1px solid #ffd4d0;
+    }
+
+    .page-message.success {
+      color: #187344;
+      background: #edfaf2;
+      border: 1px solid #c9eed7;
+    }
+
+    .page-message.info {
+      color: #1755a5;
+      background: #eff6ff;
+      border: 1px solid #d5e6ff;
+    }
+
+    .order-count {
+      background: #eef4ff;
+      color: var(--blue);
+      border-radius: 20px;
+      padding: 4px 9px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .orders-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .number-order {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 15px;
+    }
+
+    .order-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 13px;
+    }
+
+    .order-title {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .order-subtitle {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 5px;
+    }
+
+    .order-status {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 20px;
+      font-size: 9px;
+      font-weight: 800;
+      background: #fff4e5;
+      color: #9a5b00;
+      white-space: nowrap;
+    }
+
+    .order-status.good {
+      background: #eaf8ef;
+      color: #187344;
+    }
+
+    .order-status.bad {
+      background: #fff0ef;
+      color: #b42318;
+    }
+
+    .order-number {
+      background: #f7f9fc;
+      border: 1px solid #edf0f5;
+      padding: 12px;
+      border-radius: 9px;
+      margin-bottom: 10px;
+    }
+
+    .order-number small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-bottom: 6px;
+    }
+
+    .order-number strong {
+      color: var(--ink);
+      font-size: 15px;
+      letter-spacing: .3px;
+      word-break: break-word;
+    }
+
+    .order-otp {
+      background: #f0f6ff;
+      border: 1px solid #dceaff;
+      padding: 12px;
+      border-radius: 9px;
+      margin-bottom: 10px;
+    }
+
+    .order-otp small {
+      display: block;
+      color: #1755a5;
+      font-size: 10px;
+      margin-bottom: 6px;
+    }
+
+    .order-otp strong {
+      color: #124a91;
+      font-size: 20px;
+      letter-spacing: 2px;
+      word-break: break-word;
+    }
+
+    .order-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 15px;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 10px;
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .order-actions button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 8px 11px;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .order-actions button.primary {
+      color: #fff;
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
+    .order-actions button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .waiting-indicator {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: #e6a23c;
+      border-radius: 50%;
+      margin-right: 5px;
+      animation: waitingPulse 1.3s infinite;
+    }
+
+    @keyframes waitingPulse {
+      50% { opacity: .35; }
+    }
+
+    .small-help {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.6;
+      margin-top: 13px;
+    }
+
+    .loading-line {
+      color: var(--muted);
+      font-size: 12px;
+      padding: 13px 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 380px) {
+      .country-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-option {
+        padding: 12px;
+      }
+
+      .service-price {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body class="app-page">
+
+  <header class="app-header">
+    <a class="brand" href="dashboard.html">
+      <span class="brand-mark">✓</span>
+      <span>
+        <b>CPO<span>VERIFY</span></b>
+        <small>Verify. Connect. Trust.</small>
+      </span>
+    </a>
+
+    <a class="avatar" href="profile.html" aria-label="My profile">U</a>
+  </header>
+
+  <main class="numbers-page">
+
+    <section class="numbers-heading">
+      <p class="eyebrow">VIRTUAL NUMBERS</p>
+      <h1>Buy numbers</h1>
+      <p>
+        Select a country and service to view available offers.
+        Your number will be assigned after a successful purchase.
+      </p>
+    </section>
+
+    <div id="page-message" class="page-message"></div>
+
+    <!-- COUNTRY SELECTION -->
+    <section class="number-section">
+      <div class="section-heading">
+        <h2>Select country</h2>
+        <small id="country-total">Loading countries...</small>
+      </div>
+
+      <div class="country-search">
+        <input
+          type="search"
+          id="country-search"
+          placeholder="Search country or calling code..."
+          autocomplete="off"
+        >
+      </div>
+
+      <div id="country-list" class="country-grid">
+        <p class="loading-line">Loading available countries...</p>
+      </div>
+    </section>
+
+    <!-- SERVICE SELECTION -->
+    <section class="number-section" id="services-section">
+      <div class="section-heading">
+        <h2 id="services-title">Available services</h2>
+        <small id="service-total"></small>
+      </div>
+
+      <div id="service-list" class="service-list">
+        <div class="empty-state">
+          <strong>Select a country</strong>
+          <p>Available services will appear here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVE PURCHASES -->
+    <section class="number-section" id="orders-section">
+      <div class="section-heading">
+        <h2>My number orders</h2>
+        <span class="order-count" id="order-count">0 active</span>
+      </div>
+
+      <div id="orders-list" class="orders-list">
+        <div class="empty-state">
+          <strong>No number orders yet</strong>
+          <p>Your purchased numbers and incoming verification messages will appear here.</p>
+        </div>
+      </div>
+
+      <p class="small-help">
+        Active orders remain available when you refresh this page.
+        Keep your order open while waiting for a verification message.
+      </p>
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="dashboard.html"><span>⌂</span>Home</a>
+    <a class="active" href="buy-number.html"><span>☎</span>Buy numbers</a>
+    <a href="account-logs.html"><span>▤</span>Account logs</a>
+    <a href="boost-account.html"><span>↗</span>Boosting</a>
+    <a href="profile.html"><span>◎</span>Profiles</a>
+  </nav>
+
+  <!-- Firebase SDKs required by app.js -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <!-- Your existing shared JavaScript -->
+  <script src="app.js"></script>
+
+  <script>
+  (() => {
+    "use strict";
+
+    const BACKEND_URL =
+      "https://cpoverify-backend.onrender.com";
+
+    const MAX_ACTIVE_ORDERS = 5;
+
+    const COUNTRY_DETAILS = {
+      us: { name: "United States", flag: "🇺🇸", callingCode: "+1" },
+      usa: { name: "United States", flag: "🇺🇸", callingCode: "+1" },
+      uk: { name: "United Kingdom", flag: "🇬🇧", callingCode: "+44" },
+      gb: { name: "United Kingdom", flag: "🇬🇧", callingCode: "+44" },
+      ca: { name: "Canada", flag: "🇨🇦", callingCode: "+1" },
+      ng: { name: "Nigeria", flag: "🇳🇬", callingCode: "+234" },
+      de: { name: "Germany", flag: "🇩🇪", callingCode: "+49" }
+    };
+
+    const ACTIVE_STATUSES = [
+      "reserved",
+      "payment_debited",
+      "submitting",
+      "submitted",
+      "processing",
+      "provider_status_unknown",
+      "awaiting_confirmation"
+    ];
+
+    const state = {
+      offers: [],
+      selectedCountry: null,
+      orders: [],
+      loading: false,
+      polling: false
+    };
+
+    const countryList = document.getElementById("country-list");
+    const countrySearch = document.getElementById("country-search");
+    const serviceList = document.getElementById("service-list");
+    const servicesTitle = document.getElementById("services-title");
+    const serviceTotal = document.getElementById("service-total");
+    const countryTotal = document.getElementById("country-total");
+    const ordersList = document.getElementById("orders-list");
+    const orderCount = document.getElementById("order-count");
+    const messageBox = document.getElementById("page-message");
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+
+    function formatMoney(value) {
+      return "₦" + Number(value || 0).toLocaleString("en-NG", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function formatDate(value) {
+      if (!value) return "Time unavailable";
+
+      const date = new Date(Number(value));
+
+      if (Number.isNaN(date.getTime())) {
+        return "Time unavailable";
+      }
+
+      return date.toLocaleString();
+    }
+
+    function showMessage(message, type = "info") {
+      messageBox.textContent = message;
+      messageBox.className = "page-message show " + type;
+
+      messageBox.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+
+    function clearMessage() {
+      messageBox.textContent = "";
+      messageBox.className = "page-message";
+    }
+
+    function getCountryDetails(offer) {
+      const code = String(offer.country_code || "").toLowerCase();
+      const known = COUNTRY_DETAILS[code];
+
+      if (known) return known;
+
+      return {
+        name: offer.country || code.toUpperCase(),
+        flag: "🌐",
+        callingCode: ""
+      };
+    }
+
+    async function getCurrentUser() {
+      if (!window.firebase || !firebase.auth) {
+        throw new Error("Firebase Authentication could not load.");
+      }
+
+      const user = firebase.auth().currentUser;
+
+      if (!user) {
+        window.location.href = "login.html";
+        throw new Error("Please sign in to continue.");
+      }
+
+      return user;
+    }
+
+    async function apiRequest(path, options = {}) {
+      const user = await getCurrentUser();
+      const token = await user.getIdToken();
+
+      const response = await fetch(BACKEND_URL + path, {
+        method: options.method || "GET",
+        headers: {
+          "Authorization": "Bearer " + token,
+          "Content-Type": "application/json"
+        },
+        body: options.body
+          ? JSON.stringify(options.body)
+          : undefined
+      });
+
+      let data = {};
+
+      try {
+        data = await response.json();
+      } catch (error) {
+        data = {};
+      }
+
+      if (!response.ok && response.status !== 202) {
+        throw new Error(
+          data.error || "The request could not be completed."
+        );
+      }
+
+      return {
+        response,
+        data
+      };
+    }
+
+    function getCountryGroups() {
+      const groups = new Map();
+
+      state.offers.forEach(offer => {
+        const code = String(offer.country_code || "").toLowerCase();
+
+        if (!groups.has(code)) {
+          groups.set(code, {
+            code,
+            ...getCountryDetails(offer),
+            offers: []
+          });
+        }
+
+        groups.get(code).offers.push(offer);
+      });
+
+      return Array.from(groups.values()).sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+    }
+
+    function renderCountries() {
+      const query = countrySearch.value.trim().toLowerCase();
+
+      const countries = getCountryGroups().filter(country => {
+        const searchText = [
+          country.name,
+          country.code,
+          country.callingCode
+        ].join(" ").toLowerCase();
+
+        return searchText.includes(query);
+      });
+
+      countryTotal.textContent =
+        countries.length + (countries.length === 1 ? " country" : " countries");
+
+      if (!countries.length) {
+        countryList.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1">
+            <strong>No countries found</strong>
+            <p>No active offers match your search.</p>
+          </div>
+        `;
+        return;
+      }
+
+      countryList.innerHTML = countries.map(country => {
+        const selected =
+          state.selectedCountry === country.code;
+
+        return `
+          <button
+            type="button"
+            class="country-option ${selected ? "active" : ""}"
+            data-country-code="${escapeHTML(country.code)}"
+          >
+            <span class="country-flag">${country.flag}</span>
+
+            <span class="country-info">
+              <strong>${escapeHTML(country.name)}</strong>
+              <small>
+                ${escapeHTML(country.callingCode || country.code.toUpperCase())}
+                · ${country.offers.length} service${country.offers.length === 1 ? "" : "s"}
+              </small>
+            </span>
+
+            <span class="country-check">${selected ? "✓" : "›"}</span>
+          </button>
+        `;
+      }).join("");
+
+      countryList.querySelectorAll("[data-country-code]")
+        .forEach(button => {
+          button.addEventListener("click", () => {
+            selectCountry(button.dataset.countryCode);
+          });
+        });
+    }
+
+    function selectCountry(code) {
+      state.selectedCountry = code;
+
+      renderCountries();
+      renderServices();
+
+      document.getElementById("services-section")
+        .scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+    }
+
+    function renderServices() {
+      if (!state.selectedCountry) {
+        servicesTitle.textContent = "Available services";
+        serviceTotal.textContent = "";
+
+        serviceList.innerHTML = `
+          <div class="empty-state">
+            <strong>Select a country</strong>
+            <p>Choose a country above to see its available services.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const country = getCountryGroups().find(
+        item => item.code === state.selectedCountry
+      );
+
+      if (!country) return;
+
+      servicesTitle.textContent = country.name + " services";
+
+      const offers = country.offers;
+
+      serviceTotal.textContent =
+        offers.length + (offers.length === 1 ? " offer" : " offers");
+
+      if (!offers.length) {
+        serviceList.innerHTML = `
+          <div class="empty-state">
+            <strong>No services available</strong>
+            <p>There are currently no active offers for this country.</p>
+          </div>
+        `;
+        return;
+      }
+
+      serviceList.innerHTML = offers.map(offer => `
+        <article class="service-option">
+          <div class="service-details">
+            <strong>${escapeHTML(offer.service || "Verification service")}</strong>
+            <small>${escapeHTML(country.name)} · Virtual number</small>
+          </div>
+
+          <div class="service-action">
+            <span class="service-price">${formatMoney(offer.price)}</span>
+            <button
+              type="button"
+              class="buy-number-button"
+              data-buy-offer="${escapeHTML(offer.id)}"
+            >
+              Buy number
+            </button>
+          </div>
+        </article>
+      `).join("");
+
+      serviceList.querySelectorAll("[data-buy-offer]")
+        .forEach(button => {
+          button.addEventListener("click", () => {
+            buyNumber(button.dataset.buyOffer, button);
+          });
+        });
+    }
+
+    function activeOrderCount() {
+      return state.orders.filter(order =>
+        ACTIVE_STATUSES.includes(
+          String(order.status || "").toLowerCase()
+        )
+      ).length;
+    }
+
+    function getOrderStatus(order) {
+      const status = String(order.status || "pending").toLowerCase();
+
+      if (
+        status.includes("cancelled") ||
+        status.includes("failed") ||
+        status.includes("refunded")
+      ) {
+        return {
+          label: status.replaceAll("_", " "),
+          className: "bad"
+        };
+      }
+
+      if (
+        status === "completed" ||
+        status === "success" ||
+        status === "received"
+      ) {
+        return {
+          label: status,
+          className: "good"
+        };
+      }
+
+      return {
+        label: status.replaceAll("_", " "),
+        className: ""
+      };
+    }
+
+    function extractPhone(order) {
+      const response = order.latestStatus || order.providerResponse || {};
+
+      return (
+        order.phone_number ||
+        order.number ||
+        response.phone_number ||
+        response.number ||
+        response.data?.phone_number ||
+        response.data?.number ||
+        ""
+      );
+    }
+
+    function extractOtp(order) {
+      const response = order.latestStatus || {};
+
+      const messages =
+        response.messages ||
+        response.sms ||
+        response.data?.messages ||
+        response.data?.sms ||
+        [];
+
+      let code =
+        response.otp ||
+        response.code ||
+        response.data?.otp ||
+        response.data?.code ||
+        "";
+
+      if (!code && Array.isArray(messages) && messages.length) {
+        const latest = messages[messages.length - 1];
+
+        code =
+          latest.otp ||
+          latest.code ||
+          latest.text ||
+          latest.message ||
+          "";
+      }
+
+      return code;
+    }
+
+    function renderOrders() {
+      const active = activeOrderCount();
+
+      orderCount.textContent = active + " active";
+
+      if (!state.orders.length) {
+        ordersList.innerHTML = `
+          <div class="empty-state">
+            <strong>No number orders yet</strong>
+            <p>Your purchased numbers and incoming verification messages will appear here.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const sortedOrders = [...state.orders].sort(
+        (a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0)
+      );
+
+      ordersList.innerHTML = sortedOrders.map(order => {
+        const status = getOrderStatus(order);
+        const phone = extractPhone(order);
+        const otp = extractOtp(order);
+
+        const canCancel =
+          order.reference &&
+          !["cancelled_refunded", "provider_failed_refunded"]
+            .includes(String(order.status || "").toLowerCase());
+
+        return `
+          <article class="number-order">
+            <div class="order-top">
+              <div>
+                <div class="order-title">
+                  ${escapeHTML(order.service || "Virtual number")}
+                </div>
+
+                <div class="order-subtitle">
+                  ${escapeHTML(order.country || "Country")} ·
+                  ${formatDate(order.createdAt)}
+                </div>
+              </div>
+
+              <span class="order-status ${status.className}">
+                ${escapeHTML(status.label)}
+              </span>
+            </div>
+
+            ${
+              phone
+                ? `
+                  <div class="order-number">
+                    <small>Your virtual number</small>
+                    <strong>${escapeHTML(phone)}</strong>
+                  </div>
+                `
+                : `
+                  <div class="order-number">
+                    <small>Number assignment</small>
+                    <strong><span class="waiting-indicator"></span>Waiting for number...</strong>
+                  </div>
+                `
+            }
+
+            ${
+              otp
+                ? `
+                  <div class="order-otp">
+                    <small>Incoming verification message</small>
+                    <strong>${escapeHTML(otp)}</strong>
+                  </div>
+                `
+                : `
+                  <div class="order-number">
+                    <small>Verification code</small>
+                    <strong style="font-size:12px;color:#667085">
+                      Waiting for incoming SMS...
+                    </strong>
+                  </div>
+                `
+            }
+
+            <div class="order-meta">
+              <span>Price: ${formatMoney(order.price)}</span>
+              <span>Order: ${escapeHTML(order.reference || order.requestKey || "Pending")}</span>
+            </div>
+
+            <div class="order-actions">
+              ${
+                order.reference
+                  ? `
+                    <button
+                      type="button"
+                      class="primary"
+                      data-check-order="${escapeHTML(order.reference)}"
+                    >
+                      Check SMS
+                    </button>
+                  `
+                  : `
+                    <button type="button" disabled>
+                      Waiting for provider
+                    </button>
+                  `
+              }
+
+              ${
+                canCancel
+                  ? `
+                    <button
+                      type="button"
+                      data-cancel-order="${escapeHTML(order.reference)}"
+                    >
+                      Cancel
+                    </button>
+                  `
+                  : ""
+              }
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      ordersList.querySelectorAll("[data-check-order]")
+        .forEach(button => {
+          button.addEventListener("click", () => {
+            checkOrderStatus(button.dataset.checkOrder, button);
+          });
+        });
+
+      ordersList.querySelectorAll("[data-cancel-order]")
+        .forEach(button => {
+          button.addEventListener("click", () => {
+            cancelOrder(button.dataset.cancelOrder, button);
+          });
+        });
+    }
+
+    async function loadCatalogue() {
+      countryList.innerHTML =
+        '<p class="loading-line">Loading available countries...</p>';
+
+      try {
+        const result = await apiRequest(
+          "/api/wickspend/numbers/catalog"
+        );
+
+        state.offers = Array.isArray(result.data.offers)
+          ? result.data.offers
+          : [];
+
+        if (!state.offers.length) {
+          countryList.innerHTML = `
+            <div class="empty-state" style="grid-column:1/-1">
+              <strong>No number offers available yet</strong>
+              <p>New country and service offers will appear here when they are activated.</p>
+            </div>
+          `;
+
+          countryTotal.textContent = "0 countries";
+          return;
+        }
+
+        const countries = getCountryGroups();
+
+        state.selectedCountry = countries[0]?.code || null;
+
+        renderCountries();
+        renderServices();
+
+      } catch (error) {
+        console.error("Catalogue loading error:", error);
+
+        countryList.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1">
+            <strong>Unable to load number offers</strong>
+            <p>${escapeHTML(error.message)}</p>
+          </div>
+        `;
+      }
+    }
+
+    async function loadOrders() {
+      try {
+        const result = await apiRequest(
+          "/api/wickspend/numbers/orders"
+        );
+
+        const orders = Array.isArray(result.data.orders)
+          ? result.data.orders
+          : [];
+
+        state.orders = orders;
+
+        renderOrders();
+
+      } catch (error) {
+        console.error("Order loading error:", error);
+
+        ordersList.innerHTML = `
+          <div class="empty-state">
+            <strong>Unable to load your orders</strong>
+            <p>${escapeHTML(error.message)}</p>
+          </div>
+        `;
+      }
+    }
+
+    function createRequestKey() {
+      if (
+        window.crypto &&
+        typeof window.crypto.randomUUID === "function"
+      ) {
+        return window.crypto.randomUUID().replace(/-/g, "");
+      }
+
+      return "cpv_" +
+        Date.now().toString(36) +
+        "_" +
+        Math.random().toString(36).slice(2, 14);
+    }
+
+    async function buyNumber(offerId, button) {
+      if (state.loading) return;
+
+      if (activeOrderCount() >= MAX_ACTIVE_ORDERS) {
+        showMessage(
+          "You can have up to 5 active number orders at a time. Complete or cancel an existing order first.",
+          "error"
+        );
+        return;
+      }
+
+      const offer = state.offers.find(
+        item => String(item.id) === String(offerId)
+      );
+
+      if (!offer) {
+        showMessage("This offer is no longer available.", "error");
+        return;
+      }
+
+      const confirmed = window.confirm(
+        "Buy " + offer.service +
+        " for " + formatMoney(offer.price) +
+        "?\n\nThe amount will be deducted from your wallet."
+      );
+
+      if (!confirmed) return;
+
+      state.loading = true;
+      button.disabled = true;
+      button.textContent = "Processing...";
+
+      clearMessage();
+
+      const requestKey = createRequestKey();
+
+      try {
+        const result = await apiRequest(
+          "/api/wickspend/numbers/buy",
+          {
+            method: "POST",
+            body: {
+              offerId: offer.id,
+              request_key: requestKey
+            }
+          }
+        );
+
+        showMessage(
+          result.data.message ||
+          "Your number purchase request has been submitted.",
+          "success"
+        );
+
+        await loadOrders();
+
+        document.getElementById("orders-section")
+          .scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+      } catch (error) {
+        console.error("Number purchase error:", error);
+
+        showMessage(error.message, "error");
+
+        await loadOrders();
+
+      } finally {
+        state.loading = false;
+        button.disabled = false;
+        button.textContent = "Buy number";
+      }
+    }
+
+    async function checkOrderStatus(reference, button) {
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Checking...";
+      }
+
+      try {
+        const result = await apiRequest(
+          "/api/wickspend/numbers/status?reference=" +
+          encodeURIComponent(reference)
+        );
+
+        const updated = result.data.status || {};
+
+        const order = state.orders.find(
+          item => item.reference === reference
+        );
+
+        if (order) {
+          order.latestStatus = updated;
+        }
+
+        renderOrders();
+
+        showMessage(
+          "Order status updated.",
+          "success"
+        );
+
+      } catch (error) {
+        showMessage(error.message, "error");
+
+      } finally {
+        if (button && button.isConnected) {
+          button.disabled = false;
+          button.textContent = "Check SMS";
+        }
+      }
+    }
+
+    async function cancelOrder(reference, button) {
+      const confirmed = window.confirm(
+        "Are you sure you want to request cancellation of this number?"
+      );
+
+      if (!confirmed) return;
+
+      button.disabled = true;
+      button.textContent = "Cancelling...";
+
+      try {
+        const result = await apiRequest(
+          "/api/wickspend/numbers/cancel",
+          {
+            method: "POST",
+            body: { reference }
+          }
+        );
+
+        showMessage(
+          result.data.message ||
+          "Cancellation request submitted.",
+          result.data.refunded ? "success" : "info"
+        );
+
+        await loadOrders();
+
+      } catch (error) {
+        showMessage(error.message, "error");
+
+      } finally {
+        if (button.isConnected) {
+          button.disabled = false;
+          button.textContent = "Cancel";
+        }
+      }
+    }
+
+    async function refreshActiveOrders() {
+      if (state.polling || document.hidden) return;
+
+      state.polling = true;
+
+      try {
+        await loadOrders();
+
+        const activeOrders = state.orders.filter(order =>
+          ACTIVE_STATUSES.includes(
+            String(order.status || "").toLowerCase()
+          )
+        );
+
+        // Check orders that already have a provider reference.
+        for (const order of activeOrders) {
+          if (!order.reference) continue;
+
+          try {
+            const result = await apiRequest(
+              "/api/wickspend/numbers/status?reference=" +
+              encodeURIComponent(order.reference)
+            );
+
+            order.latestStatus = result.data.status || {};
+          } catch (error) {
+            console.warn(
+              "Automatic status check failed:",
+              error.message
+            );
+          }
+        }
+
+        renderOrders();
+
+      } finally {
+        state.polling = false;
+      }
+    }
+
+    countrySearch.addEventListener("input", renderCountries);
+
+    // Wait until Firebase has restored the signed-in session.
+    firebase.auth().onAuthStateChanged(async user => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      await loadCatalogue();
+      await loadOrders();
+    });
+
+    // Refresh active order status periodically.
+    setInterval(refreshActiveOrders, 15000);
+
+  })();
+  </script>
+
+</body>
+</html>
