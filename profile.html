@@ -4,98 +4,490 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profiles — CPOVERIFY</title>
+  <meta name="theme-color" content="#1262d6">
+  <title>My Profile | CPOVERIFY</title>
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    :root {
+      --blue: #1262d6;
+      --blue-dark: #0c3f91;
+      --ink: #101828;
+      --muted: #667085;
+      --line: #e8edf4;
+      --bg: #f7f9fc;
+      --white: #ffffff;
+      --red: #d92d20;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    .profile-page {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 16px 105px;
+    }
+
+    .top-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .top-heading h1 {
+      margin: 0;
+      font-size: 23px;
+      font-weight: 750;
+      letter-spacing: -0.7px;
+    }
+
+    .top-heading p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .profile-card {
+      background: linear-gradient(120deg, #1262d6, #0c3f91);
+      color: white;
+      border-radius: 17px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 17px;
+      box-shadow: 0 7px 18px rgba(18, 98, 214, 0.12);
+    }
+
+    .avatar {
+      width: 55px;
+      height: 55px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.18);
+      border: 2px solid rgba(255,255,255,.55);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: 750;
+    }
+
+    .profile-info {
+      min-width: 0;
+    }
+
+    .profile-info h2 {
+      font-size: 17px;
+      margin: 0 0 5px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-info p {
+      font-size: 11px;
+      margin: 0;
+      color: rgba(255,255,255,.8);
+      overflow-wrap: anywhere;
+    }
+
+    .account-id-label {
+      display: inline-block;
+      margin-top: 9px;
+      padding: 5px 9px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.15);
+      font-size: 10px;
+      color: white;
+    }
+
+    .section-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 17px;
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      margin: 0 0 4px;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 11px;
+      margin: 0 0 17px;
+      line-height: 1.5;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 650;
+      color: #344054;
+      margin-bottom: 7px;
+    }
+
+    .field input {
+      display: block;
+      width: 100%;
+      height: 43px;
+      padding: 0 12px;
+      border: 1px solid #e1e6ee;
+      border-radius: 9px;
+      background: #fbfcfe;
+      color: var(--ink);
+      font: inherit;
+      font-size: 12px;
+      outline: none;
+      transition: border .2s, box-shadow .2s;
+    }
+
+    .field input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(18,98,214,.08);
+      background: white;
+    }
+
+    .field input[readonly] {
+      color: #667085;
+      background: #f5f7fa;
+      cursor: default;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .logout-btn {
+      width: 100%;
+      min-height: 42px;
+      border: 0;
+      border-radius: 9px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .primary-btn {
+      color: white;
+      background: var(--blue);
+    }
+
+    .primary-btn:hover {
+      background: var(--blue-dark);
+    }
+
+    .primary-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .security-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .security-row strong {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .security-row small {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .secondary-btn {
+      width: auto;
+      min-width: 115px;
+      padding: 0 13px;
+      color: var(--blue);
+      background: #edf4ff;
+      border: 1px solid #d9e8ff;
+    }
+
+    .secondary-btn:hover {
+      background: #e2edff;
+    }
+
+    .status-message {
+      margin: 12px 0 0;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .status-message.error {
+      color: var(--red);
+    }
+
+    .status-message.success {
+      color: #16803c;
+    }
+
+    .logout-card {
+      padding: 14px 17px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .logout-btn {
+      color: var(--red);
+      background: #fff1f0;
+      border: 1px solid #ffdfdc;
+    }
+
+    .logout-btn:hover {
+      background: #ffe7e5;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: white;
+      border-top: 1px solid var(--line);
+      padding: 9px 5px calc(9px + env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 15px rgba(16,24,40,.04);
+    }
+
+    .bottom-nav a {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      color: #7b8494;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 7px 2px;
+    }
+
+    .bottom-nav a.active {
+      color: var(--blue);
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 4px;
+      line-height: 1;
+    }
+
+    @media (min-width: 600px) {
+      .profile-page {
+        padding-top: 35px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <main class="page-container">
-    <header class="page-header">
-      <h1>My Profile</h1>
-      <p class="muted">Manage your CPOVERIFY account details.</p>
+
+  <main class="profile-page">
+
+    <header class="top-heading">
+      <div>
+        <h1>My Profile</h1>
+        <p>Manage your account and security.</p>
+      </div>
     </header>
 
+    <!-- Profile overview -->
     <section class="profile-card">
-      <div class="profile-avatar" id="profile-avatar">U</div>
-      <h2 id="profile-name">Loading profile...</h2>
-      <p class="muted" id="account-id">Loading account ID...</p>
+      <div class="avatar" id="profile-avatar">U</div>
+
+      <div class="profile-info">
+        <h2 id="profile-name">Loading profile...</h2>
+        <p id="profile-email-display">Loading email...</p>
+        <span class="account-id-label" id="account-id">
+          Account ID: Loading...
+        </span>
+      </div>
     </section>
 
-    <section class="account-details">
-      <h2>Account Details</h2>
+    <!-- Account information -->
+    <section class="section-card">
+      <h2 class="section-title">Account information</h2>
+      <p class="section-subtitle">
+        Keep your account details up to date.
+      </p>
 
       <form id="profile-form">
-        <label for="profile-display-name">Display name</label>
-        <input
-          type="text"
-          id="profile-display-name"
-          maxlength="100"
-          autocomplete="name"
-          required
-        >
 
-        <label for="profile-email">Email address</label>
-        <input
-          type="email"
-          id="profile-email"
-          autocomplete="email"
-          readonly
-        >
+        <div class="field">
+          <label for="profile-display-name">Display name</label>
+          <input
+            type="text"
+            id="profile-display-name"
+            maxlength="100"
+            autocomplete="name"
+            placeholder="Enter your name"
+            required
+          >
+        </div>
 
-        <label for="profile-uid">Account ID</label>
-        <input
-          type="text"
-          id="profile-uid"
-          readonly
-        >
+        <div class="field">
+          <label for="profile-email">Email address</label>
+          <input
+            type="email"
+            id="profile-email"
+            autocomplete="email"
+            readonly
+          >
+        </div>
 
-        <button type="submit" id="save-profile">
-          Save Profile
+        <div class="field">
+          <label for="profile-uid">Account ID</label>
+          <input
+            type="text"
+            id="profile-uid"
+            readonly
+          >
+        </div>
+
+        <button type="submit" class="primary-btn" id="save-profile">
+          Save changes
         </button>
+
       </form>
 
-      <button type="button" id="change-password">
-        Change Password
-      </button>
-
-      <p id="profile-status" class="muted" role="status" aria-live="polite"></p>
+      <p id="profile-status" class="status-message"
+         role="status" aria-live="polite"></p>
     </section>
 
-    <button type="button" data-logout>Log Out</button>
+    <!-- Security -->
+    <section class="section-card">
+      <h2 class="section-title">Security</h2>
+      <p class="section-subtitle">
+        Keep your account protected.
+      </p>
+
+      <div class="security-row">
+        <div>
+          <strong>Password</strong>
+          <small>Update or reset your account password.</small>
+        </div>
+
+        <button
+          type="button"
+          class="secondary-btn"
+          id="change-password"
+        >
+          Change password
+        </button>
+      </div>
+    </section>
+
+    <!-- Logout -->
+    <section class="logout-card">
+      <button type="button" class="logout-btn" data-logout>
+        Log out of CPOVERIFY
+      </button>
+    </section>
+
   </main>
 
+  <!-- Five-item dashboard navigation -->
   <nav class="bottom-nav" aria-label="Main navigation">
-    <a href="dashboard.html">Home</a>
-    <a href="account-logs.html">Account Logs</a>
-    <a href="profile.html" aria-current="page">Profile</a>
+    <a href="dashboard.html">
+      <span class="nav-icon">⌂</span>
+      Home
+    </a>
+
+    <a href="buy-number.html">
+      <span class="nav-icon">＋</span>
+      Buy numbers
+    </a>
+
+    <a href="account-logs.html">
+      <span class="nav-icon">▤</span>
+      Account logs
+    </a>
+
+    <a href="boost-account.html">
+      <span class="nav-icon">↗</span>
+      Boosting
+    </a>
+
+    <a href="profile.html" class="active" aria-current="page">
+      <span class="nav-icon">◎</span>
+      Profile
+    </a>
   </nav>
 
-  <!-- Firebase SDKs must load before app.js -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
   <script src="app.js"></script>
 
   <script>
     (function () {
       const profileForm = document.getElementById("profile-form");
-      const displayNameInput = document.getElementById("profile-display-name");
+      const displayNameInput =
+        document.getElementById("profile-display-name");
       const emailInput = document.getElementById("profile-email");
       const uidInput = document.getElementById("profile-uid");
       const profileName = document.getElementById("profile-name");
+      const profileEmailDisplay =
+        document.getElementById("profile-email-display");
       const profileAvatar = document.getElementById("profile-avatar");
       const accountId = document.getElementById("account-id");
       const saveButton = document.getElementById("save-profile");
-      const changePasswordButton = document.getElementById("change-password");
+      const changePasswordButton =
+        document.getElementById("change-password");
 
       let currentUser = null;
 
+      function showProfileStatus(message, type) {
+        const status = document.getElementById("profile-status");
+        status.textContent = message;
+        status.className = "status-message" + (type ? " " + type : "");
+      }
+
       function renderProfile(user, profile) {
-        const name = profile.displayName || user.displayName || "User";
+        profile = profile || {};
+
+        const name =
+          profile.displayName || user.displayName || "User";
+
         const email = user.email || profile.email || "";
 
         profileName.textContent = name;
-        profileAvatar.textContent = name.charAt(0).toUpperCase();
+        profileEmailDisplay.textContent = email;
+        profileAvatar.textContent =
+          name.charAt(0).toUpperCase() || "U";
+
         accountId.textContent = "Account ID: " + user.uid;
+
         displayNameInput.value = name;
         emailInput.value = email;
         uidInput.value = user.uid;
@@ -114,17 +506,18 @@
         try {
           const profile = await loadUserProfile(user);
           renderProfile(user, profile);
-          showProfileStatus("Profile loaded.");
+          showProfileStatus("Your profile is up to date.", "success");
         } catch (error) {
           console.error("Profile loading error:", error);
+
           renderProfile(user, {
             displayName: user.displayName || "",
             email: user.email || ""
           });
 
           showProfileStatus(
-            "Could not load your database profile. Check the database URL and security rules.",
-            true
+            "Could not load your database profile. Check your connection and database rules.",
+            "error"
           );
         } finally {
           saveButton.disabled = false;
@@ -135,19 +528,22 @@
         event.preventDefault();
 
         if (!currentUser) {
-          showProfileStatus("Please sign in again.", true);
+          showProfileStatus("Please sign in again.", "error");
           return;
         }
 
         const displayName = displayNameInput.value.trim();
 
         if (!displayName) {
-          showProfileStatus("Please enter a display name.", true);
+          showProfileStatus(
+            "Please enter a display name.",
+            "error"
+          );
           return;
         }
 
         saveButton.disabled = true;
-        showProfileStatus("Saving profile...");
+        showProfileStatus("Saving changes...");
 
         try {
           await currentUser.updateProfile({
@@ -159,12 +555,17 @@
           });
 
           renderProfile(currentUser, profile);
-          showProfileStatus("Your profile was saved successfully.");
+
+          showProfileStatus(
+            "Your profile was saved successfully.",
+            "success"
+          );
         } catch (error) {
           console.error("Profile saving error:", error);
+
           showProfileStatus(
             "Unable to save your profile. Check your connection and database rules.",
-            true
+            "error"
           );
         } finally {
           saveButton.disabled = false;
@@ -174,7 +575,9 @@
       changePasswordButton.addEventListener("click", function () {
         window.location.href = "forgot-password.html";
       });
+
     })();
   </script>
+
 </body>
 </html>
