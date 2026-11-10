@@ -4,8 +4,225 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
   <title>Account Logs — CPOVERIFY</title>
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .app-main {
+      max-width: 680px;
+      margin: auto;
+      padding: 20px 14px 105px;
+    }
+
+    .greeting {
+      color: #1262d6;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin: 0 0 5px;
+    }
+
+    .app-main h1 {
+      font-size: 22px;
+      margin: 0 0 6px;
+    }
+
+    .intro {
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 0 0 18px;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+      margin-bottom: 19px;
+      scrollbar-width: none;
+    }
+
+    .filter-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip {
+      flex: 0 0 auto;
+      border: 1px solid #e6eaf0;
+      background: #fff;
+      color: #667085;
+      padding: 8px 13px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .filter-chip.active {
+      background: #1262d6;
+      color: #fff;
+      border-color: #1262d6;
+    }
+
+    .server-section {
+      margin-bottom: 21px;
+    }
+
+    .server-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .server-heading h2 {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .server-count {
+      font-size: 10px;
+      color: #667085;
+      background: #f1f4f9;
+      padding: 4px 8px;
+      border-radius: 20px;
+    }
+
+    .listing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .log-card {
+      min-width: 0;
+      padding: 12px 11px;
+      border: 1px solid #e6eaf0;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 2px 7px rgba(16, 24, 40, .025);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .log-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+
+    .log-card h3 {
+      font-size: 12px;
+      line-height: 1.4;
+      margin: 0;
+      color: #101828;
+      overflow-wrap: anywhere;
+    }
+
+    .log-server-tag {
+      flex: 0 0 auto;
+      font-size: 8px;
+      color: #1262d6;
+      background: #eaf2ff;
+      padding: 4px 6px;
+      border-radius: 10px;
+    }
+
+    .log-description {
+      color: #667085;
+      font-size: 10px;
+      line-height: 1.5;
+      margin: 0 0 11px;
+      overflow-wrap: anywhere;
+      flex: 1;
+    }
+
+    .log-card-bottom {
+      border-top: 1px solid #f0f2f5;
+      padding-top: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+    }
+
+    .log-price {
+      font-size: 12px;
+      font-weight: 750;
+      color: #1262d6;
+      overflow-wrap: anywhere;
+    }
+
+    .log-enquire {
+      border: 0;
+      border-radius: 7px;
+      background: #1262d6;
+      color: #fff;
+      padding: 7px 9px;
+      font-size: 9px;
+      font-weight: 650;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .empty-state,
+    .loading-state,
+    .error-state {
+      padding: 18px 12px;
+      border: 1px dashed #d9e0ea;
+      border-radius: 11px;
+      text-align: center;
+      color: #667085;
+      font-size: 11px;
+      line-height: 1.5;
+      background: #fff;
+      grid-column: 1 / -1;
+    }
+
+    .notice {
+      padding: 13px;
+      border-radius: 11px;
+      margin-top: 18px;
+    }
+
+    .notice b {
+      font-size: 12px;
+    }
+
+    .notice p {
+      font-size: 10px;
+      line-height: 1.5;
+      margin: 5px 0 0;
+    }
+
+    @media (max-width: 340px) {
+      .listing-grid {
+        gap: 7px;
+      }
+
+      .log-card {
+        padding: 10px 8px;
+      }
+
+      .log-card h3 {
+        font-size: 11px;
+      }
+
+      .log-enquire {
+        padding: 7px;
+        font-size: 8px;
+      }
+    }
+
+    @media (min-width: 600px) {
+      .listing-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
 </head>
 
 <body class="app-page">
@@ -19,24 +236,23 @@
       </span>
     </a>
 
-    <a class="avatar" id="account-avatar" href="profile.html">U</a>
+    <a class="avatar" id="account-avatar"
+       href="profile.html" aria-label="My profile">U</a>
   </header>
 
-  <main class="app-main">
+  <main class="app-main" hidden>
 
     <p class="greeting">CPOVERIFY SERVICES</p>
     <h1>Account logs</h1>
 
     <p class="muted intro">
-      Browse available account services and find the right
-      listing for your needs.
+      Browse available account listings and find what you need.
     </p>
 
-    <!-- Server filters -->
     <div class="filter-row" aria-label="Filter account services">
       <button type="button" class="filter-chip active"
               data-filter="all" aria-pressed="true">
-        All Servers
+        All servers
       </button>
 
       <button type="button" class="filter-chip"
@@ -50,29 +266,35 @@
       </button>
     </div>
 
-    <!-- SERVER 1: loaded by app.js from the existing backend -->
-    <section data-server-section="server-1">
-      <p class="greeting">SERVER 1</p>
+    <!-- SERVER 1: Sameeha provider products -->
+    <section class="server-section" data-server-section="server-1">
+      <div class="server-heading">
+        <h2>Server 1</h2>
+        <span class="server-count" id="server-1-count">0 listings</span>
+      </div>
 
-      <div id="server-1-listings" aria-live="polite">
-        <p class="muted">Loading listings...</p>
+      <div class="listing-grid" id="server-1-listings">
+        <div class="loading-state">Loading Server 1 listings...</div>
       </div>
     </section>
 
-    <!-- SERVER 2 -->
-    <section data-server-section="server-2">
-      <p class="greeting">SERVER 2</p>
+    <!-- SERVER 2: Admin-managed manual products -->
+    <section class="server-section" data-server-section="server-2">
+      <div class="server-heading">
+        <h2>Server 2</h2>
+        <span class="server-count" id="server-2-count">0 listings</span>
+      </div>
 
-      <div id="server-2-listings" aria-live="polite">
-        <p class="muted">No listings available yet.</p>
+      <div class="listing-grid" id="server-2-listings">
+        <div class="loading-state">Loading Server 2 listings...</div>
       </div>
     </section>
 
     <section class="notice">
       <b>Need help with an order?</b>
       <p>
-        Contact support with your order ID so we can
-        identify and review your order.
+        Contact CPOVERIFY support with your listing details
+        so we can assist you.
       </p>
     </section>
 
@@ -89,32 +311,296 @@
     <a href="profile.html"><span>◎</span>Profiles</a>
   </nav>
 
-  <!-- Firebase SDKs must load before app.js -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="app.js"></script>
 
-  <!-- Protect the page and display the signed-in user's initial -->
   <script>
-    (function () {
+    (() => {
+      const BACKEND_URL =
+        "https://cpoverify-backend.onrender.com";
+
+      const SUPPORT_NUMBER = "2348076476774";
+
+      const main = document.querySelector(".app-main");
       const avatar = document.getElementById("account-avatar");
 
-      firebase.auth().onAuthStateChanged(function (user) {
+      const server1Container =
+        document.getElementById("server-1-listings");
+
+      const server2Container =
+        document.getElementById("server-2-listings");
+
+      let currentFilter = "all";
+
+      function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        })[char]);
+      }
+
+      function formatPrice(value) {
+        const price = Number(value);
+
+        if (!Number.isFinite(price)) {
+          return "Contact support";
+        }
+
+        return price.toLocaleString("en-NG", {
+          style: "currency",
+          currency: "NGN",
+          minimumFractionDigits: 2
+        });
+      }
+
+      function getProductName(item) {
+        return item.name ||
+          item.title ||
+          item.product_name ||
+          item.service_name ||
+          "Account listing";
+      }
+
+      function getProductDescription(item) {
+        return item.description ||
+          item.details ||
+          item.instructions ||
+          "Contact support for more information.";
+      }
+
+      function getProductPrice(item) {
+        return item.retail_price ??
+          item.price ??
+          item.amount ??
+          null;
+      }
+
+      function isActive(item) {
+        return item.active !== false &&
+          item.status !== "inactive" &&
+          item.status !== "disabled";
+      }
+
+      function renderListings(items, container, serverName) {
+        const activeItems = (Array.isArray(items) ? items : [])
+          .filter(isActive);
+
+        const countElement = document.getElementById(
+          serverName === "Server 1"
+            ? "server-1-count"
+            : "server-2-count"
+        );
+
+        countElement.textContent =
+          activeItems.length + " listings";
+
+        if (!activeItems.length) {
+          container.innerHTML = `
+            <div class="empty-state">
+              No listings available on ${serverName} yet.
+              Please check back later.
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = activeItems.map(item => {
+          const name = getProductName(item);
+          const description = getProductDescription(item);
+          const price = getProductPrice(item);
+
+          const message =
+            "Hello CPOVERIFY, I am interested in this Account Logs listing: " +
+            name +
+            ". Please provide more information.";
+
+          const whatsapp =
+            "https://wa.me/" + SUPPORT_NUMBER +
+            "?text=" + encodeURIComponent(message);
+
+          return `
+            <article class="log-card">
+              <div class="log-card-top">
+                <h3>${escapeHTML(name)}</h3>
+                <span class="log-server-tag">${serverName}</span>
+              </div>
+
+              <p class="log-description">
+                ${escapeHTML(description)}
+              </p>
+
+              <div class="log-card-bottom">
+                <span class="log-price">
+                  ${escapeHTML(formatPrice(price))}
+                </span>
+
+                <a class="log-enquire"
+                   href="${whatsapp}"
+                   target="_blank"
+                   rel="noopener">
+                  Enquire
+                </a>
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      function showError(container, message) {
+        container.innerHTML = `
+          <div class="error-state">
+            ${escapeHTML(message)}
+          </div>
+        `;
+      }
+
+      async function loadListings(user) {
+        server1Container.innerHTML =
+          '<div class="loading-state">Loading listings...</div>';
+
+        server2Container.innerHTML =
+          '<div class="loading-state">Loading listings...</div>';
+
+        try {
+          const token = await user.getIdToken();
+
+          const response = await fetch(
+            BACKEND_URL + "/api/account-logs/catalog",
+            {
+              method: "GET",
+              headers: {
+                "Authorization": "Bearer " + token,
+                "Accept": "application/json"
+              }
+            }
+          );
+
+          const result = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            throw new Error(
+              result.message ||
+              result.error ||
+              "Unable to load account listings."
+            );
+          }
+
+          // Expected response:
+          // {
+          //   server1: [Sameeha products],
+          //   server2: [Admin-created manual listings]
+          // }
+
+          const server1 =
+            result.server1 ||
+            result.sameeha ||
+            result.provider ||
+            [];
+
+          const server2 =
+            result.server2 ||
+            result.manual ||
+            [];
+
+          renderListings(
+            server1,
+            server1Container,
+            "Server 1"
+          );
+
+          renderListings(
+            server2,
+            server2Container,
+            "Server 2"
+          );
+
+        } catch (error) {
+          console.error("Account logs error:", error);
+
+          showError(
+            server1Container,
+            "Server 1 could not load. Please try again later."
+          );
+
+          showError(
+            server2Container,
+            "Server 2 could not load. Please try again later."
+          );
+        }
+      }
+
+      // Server filters
+      document.querySelectorAll("[data-filter]")
+        .forEach(button => {
+          button.addEventListener("click", () => {
+            currentFilter = button.dataset.filter;
+
+            document.querySelectorAll("[data-filter]")
+              .forEach(chip => {
+                const active =
+                  chip.dataset.filter === currentFilter;
+
+                chip.classList.toggle("active", active);
+                chip.setAttribute(
+                  "aria-pressed",
+                  String(active)
+                );
+              });
+
+            document.querySelectorAll("[data-server-section]")
+              .forEach(section => {
+                section.hidden =
+                  currentFilter !== "all" &&
+                  section.dataset.serverSection !== currentFilter;
+              });
+          });
+        });
+
+      // Require authentication
+      if (!firebase.apps.length) {
+        console.error("Firebase has not been initialized.");
+        showError(
+          server1Container,
+          "Authentication is unavailable. Please reload this page."
+        );
+        showError(
+          server2Container,
+          "Authentication is unavailable. Please reload this page."
+        );
+        return;
+      }
+
+      firebase.auth().onAuthStateChanged(async user => {
         if (!user) {
           window.location.replace("login.html");
           return;
         }
 
-        const name = user.displayName || user.email || "User";
-        avatar.textContent = name.charAt(0).toUpperCase();
+        const name =
+          user.displayName ||
+          user.email ||
+          "User";
+
+        avatar.textContent =
+          name.charAt(0).toUpperCase();
+
         avatar.setAttribute(
           "aria-label",
           "Open profile for " + name
         );
+
+        main.hidden = false;
+
+        await loadListings(user);
       });
     })();
   </script>
 
+  <script src="app.js"></script>
 </body>
 </html>
