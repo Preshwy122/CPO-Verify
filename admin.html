@@ -2,1771 +2,989 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1262d6">
-  <title>Admin Dashboard | CPOVERIFY</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1262d6">
+<title>Admin Dashboard | CPOVERIFY</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --blue: #1262d6;
-      --blue-dark: #0c3f91;
-      --ink: #101828;
-      --muted: #667085;
-      --line: #e6eaf0;
-      --bg: #f7f9fc;
-      --white: #fff;
-      --green: #079455;
-      --red: #d92d20;
-      --amber: #b54708;
-      --sidebar: 245px;
-      --radius: 12px;
-      font-family: Inter, system-ui, sans-serif;
-    }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: var(--bg);
-      font-size: 13px;
-    }
-    button, input, select, textarea { font: inherit; }
-    button { cursor: pointer; }
-    a { color: inherit; text-decoration: none; }
-    .hidden { display: none !important; }
-
-    .layout { min-height: 100vh; }
-    .sidebar {
-      position: fixed;
-      inset: 0 auto 0 0;
-      width: var(--sidebar);
-      background: #fff;
-      border-right: 1px solid var(--line);
-      display: flex;
-      flex-direction: column;
-      z-index: 30;
-      transition: transform .25s ease;
-    }
-    .brand {
-      height: 72px;
-      padding: 0 21px;
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      border-bottom: 1px solid var(--line);
-    }
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: var(--blue);
-      border-radius: 10px;
-      font-size: 19px;
-      font-weight: 800;
-    }
-    .brand-name { font-size: 16px; font-weight: 800; letter-spacing: -.5px; }
-    .brand-name span { color: var(--blue); }
-    .brand small { display: block; color: var(--muted); font-size: 10px; margin-top: 2px; }
-
-    .nav-label {
-      padding: 23px 20px 9px;
-      color: #98a2b3;
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-    .nav-list { padding: 0 11px; display: grid; gap: 4px; }
-    .nav-item {
-      border: 0;
-      background: transparent;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 11px 12px;
-      border-radius: 9px;
-      text-align: left;
-      color: #475467;
-      font-weight: 600;
-      font-size: 12px;
-      transition: .18s;
-    }
-    .nav-item:hover { background: #f5f8ff; color: var(--blue); }
-    .nav-item.active { background: #edf4ff; color: var(--blue); }
-    .nav-icon {
-      width: 19px;
-      text-align: center;
-      font-size: 15px;
-    }
-    .sidebar-bottom {
-      margin-top: auto;
-      padding: 14px;
-      border-top: 1px solid var(--line);
-    }
-    .admin-mini {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 12px;
-    }
-    .avatar {
-      width: 34px;
-      height: 34px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      background: #eaf2ff;
-      color: var(--blue);
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-    }
-    .admin-mini strong { display: block; font-size: 11px; }
-    .admin-mini small { color: var(--muted); font-size: 10px; }
-    .logout-btn {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--line);
-      background: #fff;
-      color: #475467;
-      border-radius: 8px;
-      font-weight: 600;
-    }
-    .logout-btn:hover { background: #fff5f5; color: var(--red); }
-
-    .main { margin-left: var(--sidebar); min-height: 100vh; }
-    .topbar {
-      height: 72px;
-      padding: 0 28px;
-      background: #fff;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-    .top-left { display: flex; align-items: center; gap: 13px; }
-    .topbar h1 { font-size: 17px; margin: 0; letter-spacing: -.4px; }
-    .topbar p { margin: 4px 0 0; color: var(--muted); font-size: 11px; }
-    .top-actions { display: flex; align-items: center; gap: 10px; }
-    .menu-btn {
-      display: none;
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 8px;
-      padding: 8px 10px;
-    }
-    .online-pill {
-      color: var(--green);
-      background: #ecfdf3;
-      padding: 7px 10px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .content { max-width: 1500px; margin: auto; padding: 25px 28px 50px; }
-    .page-section { display: none; }
-    .page-section.active { display: block; }
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 19px;
-    }
-    .section-heading h2 { margin: 0; font-size: 18px; letter-spacing: -.4px; }
-    .section-heading p { margin: 5px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
-
-    .btn {
-      border: 1px solid transparent;
-      border-radius: 8px;
-      padding: 9px 13px;
-      font-size: 11px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: .18s;
-    }
-    .btn-primary { background: var(--blue); color: #fff; }
-    .btn-primary:hover { background: var(--blue-dark); }
-    .btn-light { background: #fff; border-color: var(--line); color: #344054; }
-    .btn-light:hover { background: #f8fafc; }
-    .btn-danger { background: #fff1f0; color: var(--red); border-color: #fee4e2; }
-    .btn-success { background: #ecfdf3; color: var(--green); border-color: #abefc6; }
-    .btn-small { padding: 6px 9px; font-size: 10px; }
-    .btn:disabled { opacity: .5; cursor: not-allowed; }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 13px;
-      margin-bottom: 18px;
-    }
-    .stat-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 16px;
-      min-width: 0;
-    }
-    .stat-top { display: flex; justify-content: space-between; gap: 8px; }
-    .stat-label { color: var(--muted); font-size: 10px; font-weight: 600; }
-    .stat-icon {
-      width: 29px;
-      height: 29px;
-      display: grid;
-      place-items: center;
-      border-radius: 8px;
-      background: #edf4ff;
-      color: var(--blue);
-      font-size: 14px;
-    }
-    .stat-value { font-size: 22px; font-weight: 800; margin-top: 13px; letter-spacing: -.7px; }
-    .stat-note { color: var(--muted); font-size: 10px; margin-top: 5px; }
-
-    .panel {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      margin-bottom: 16px;
-      min-width: 0;
-    }
-    .panel-head {
-      padding: 15px 17px;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .panel-head h3 { margin: 0; font-size: 12px; }
-    .panel-head p { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
-    .panel-body { padding: 16px; }
-    .muted { color: var(--muted); }
-    .empty {
-      padding: 27px 12px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 13px;
-    }
-    .toolbar .search { flex: 1; min-width: 180px; }
-    .field { display: grid; gap: 6px; min-width: 0; }
-    .field label { color: #475467; font-size: 10px; font-weight: 700; }
-    .field input, .field select, .field textarea,
-    .search input, .toolbar select {
-      width: 100%;
-      min-width: 0;
-      padding: 10px 11px;
-      border: 1px solid #d0d5dd;
-      border-radius: 8px;
-      outline: none;
-      background: #fff;
-      color: var(--ink);
-      font-size: 11px;
-    }
-    .field textarea { resize: vertical; min-height: 75px; line-height: 1.5; }
-    .field input:focus, .field select:focus, .field textarea:focus,
-    .search input:focus, .toolbar select:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px #1262d615;
-    }
-    .field small { color: var(--muted); font-size: 9px; line-height: 1.5; }
-    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .form-grid .full { grid-column: 1 / -1; }
-    .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 15px; }
-
-    .table-wrap { overflow-x: auto; width: 100%; }
-    table { width: 100%; border-collapse: collapse; min-width: 650px; }
-    th {
-      background: #f9fafb;
-      color: #667085;
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: .45px;
-      text-align: left;
-      padding: 11px 13px;
-      white-space: nowrap;
-      font-weight: 800;
-    }
-    td {
-      padding: 12px 13px;
-      border-top: 1px solid #f0f2f5;
-      font-size: 10px;
-      vertical-align: middle;
-    }
-    td strong { font-size: 10px; }
-    td small { display: block; color: var(--muted); margin-top: 3px; font-size: 9px; }
-    .table-actions { display: flex; gap: 5px; flex-wrap: wrap; }
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      border-radius: 20px;
-      padding: 5px 8px;
-      font-size: 9px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-    .status:before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-    .status.active, .status.completed, .status.paid { color: var(--green); background: #ecfdf3; }
-    .status.pending, .status.processing { color: var(--amber); background: #fffaeb; }
-    .status.inactive, .status.failed, .status.cancelled { color: var(--red); background: #fef3f2; }
-
-    .switch-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 10px;
-      font-weight: 600;
-      color: #475467;
-    }
-    .switch-row input { accent-color: var(--blue); }
-    .notice {
-      border: 1px solid #d1e4ff;
-      background: #f2f7ff;
-      color: #174ea6;
-      padding: 11px 13px;
-      border-radius: 9px;
-      font-size: 10px;
-      line-height: 1.6;
-      margin-bottom: 13px;
-    }
-    .notice.warning { border-color: #fedf89; background: #fffaeb; color: #93370d; }
-    .notice.success { border-color: #abefc6; background: #ecfdf3; color: #067647; }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      padding: 18px;
-      display: grid;
-      place-items: center;
-      background: #10182880;
-    }
-    .modal {
-      width: min(570px, 100%);
-      max-height: 90vh;
-      overflow-y: auto;
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 20px 60px #10182830;
-    }
-    .modal-head {
-      padding: 17px 19px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--line);
-    }
-    .modal-head h3 { margin: 0; font-size: 14px; }
-    .modal-close { border: 0; background: transparent; font-size: 21px; color: var(--muted); }
-    .modal-body { padding: 18px; }
-    .toast {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      z-index: 200;
-      max-width: min(360px, calc(100vw - 40px));
-      background: #101828;
-      color: #fff;
-      padding: 12px 16px;
-      border-radius: 9px;
-      font-size: 11px;
-      box-shadow: 0 8px 30px #10182830;
-    }
-    .loading { color: var(--muted); padding: 18px; text-align: center; font-size: 11px; }
-    .subtabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-    .subtab {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: #475467;
-      border-radius: 7px;
-      padding: 8px 11px;
-      font-size: 10px;
-      font-weight: 700;
-    }
-    .subtab.active { color: var(--blue); background: #edf4ff; border-color: #c7dcff; }
-    .inline-note { font-size: 9px; color: var(--muted); line-height: 1.5; }
-    .money { font-weight: 800; font-variant-numeric: tabular-nums; }
-    .mobile-overlay { display: none; }
-
-    @media (max-width: 1050px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 760px) {
-      :root { --sidebar: 245px; }
-      .sidebar { transform: translateX(-100%); }
-      .sidebar.open { transform: translateX(0); }
-      .mobile-overlay.show {
-        display: block;
-        position: fixed;
-        inset: 0;
-        z-index: 25;
-        background: #10182870;
-      }
-      .main { margin-left: 0; }
-      .topbar { height: 64px; padding: 0 15px; }
-      .menu-btn { display: block; }
-      .topbar h1 { font-size: 15px; }
-      .topbar p { font-size: 9px; }
-      .content { padding: 20px 14px 40px; }
-      .section-heading h2 { font-size: 16px; }
-      .two-col { grid-template-columns: 1fr; }
-      .three-col { grid-template-columns: 1fr 1fr; }
-      .online-pill { display: none; }
-    }
-    @media (max-width: 420px) {
-      .stats-grid { gap: 8px; }
-      .stat-card { padding: 12px; }
-      .stat-value { font-size: 19px; }
-      .form-grid { grid-template-columns: 1fr; }
-      .form-grid .full { grid-column: auto; }
-      .section-heading { flex-direction: column; }
-    }
-  </style>
+<style>
+:root{
+  --blue:#1262d6;--blue-dark:#0c3f91;--ink:#101828;
+  --muted:#667085;--line:#e6eaf0;--bg:#f7f9fc;
+  --white:#fff;--green:#16834a;--red:#d92d20;
+  --shadow:0 5px 20px rgba(16,24,40,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:Inter,Arial,sans-serif;font-size:14px}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{height:62px;background:#fff;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800}
+.brand-mark{width:32px;height:32px;border-radius:9px;background:var(--blue);
+  color:#fff;display:grid;place-items:center;font-size:19px}
+.brand small{display:block;color:var(--muted);font-size:10px;font-weight:500}
+.top-actions{display:flex;align-items:center;gap:10px}
+.layout{display:flex;min-height:calc(100vh - 62px)}
+.sidebar{width:235px;background:#fff;border-right:1px solid var(--line);
+  padding:18px 12px;flex-shrink:0}
+.nav-label{font-size:10px;font-weight:800;color:#98a2b3;
+  letter-spacing:1px;padding:14px 10px 7px}
+.nav-btn{width:100%;display:flex;align-items:center;gap:11px;
+  border:0;background:transparent;color:#475467;padding:11px 12px;
+  border-radius:8px;text-align:left;margin:2px 0;font-size:13px}
+.nav-btn:hover,.nav-btn.active{background:#edf4ff;color:var(--blue);font-weight:700}
+.nav-icon{width:18px;text-align:center;font-size:15px}
+.main{padding:25px;width:calc(100% - 235px);max-width:1500px;margin:0 auto}
+.page{display:none}.page.active{display:block}
+.page-head{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:15px;margin-bottom:20px}
+.page-head h1{font-size:22px;margin:0 0 5px}
+.page-head p{color:var(--muted);margin:0;font-size:12px;line-height:1.5}
+.panel{background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:17px;margin-bottom:17px;box-shadow:var(--shadow)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;
+  gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.panel-head h2{font-size:15px;margin:0}
+.panel-head p{font-size:11px;color:var(--muted);margin:4px 0 0}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px}
+.stat span{font-size:11px;color:var(--muted)}
+.stat strong{display:block;font-size:23px;margin-top:9px}
+.btn{border:0;border-radius:7px;padding:9px 13px;font-size:12px;
+  font-weight:700;background:var(--blue);color:#fff}
+.btn:hover{background:var(--blue-dark)}
+.btn.secondary{background:#edf4ff;color:var(--blue)}
+.btn.light{background:#f2f4f7;color:#344054}
+.btn.danger{background:#fff0ef;color:var(--red)}
+.btn.success{background:#eaf8ef;color:var(--green)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font-size:11px;color:#475467;font-weight:700}
+.field input,.field select,.field textarea,.search{
+  width:100%;border:1px solid #d0d5dd;border-radius:7px;
+  padding:9px 10px;background:#fff;outline:none;color:var(--ink);font-size:12px}
+.field textarea{min-height:75px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus,.search:focus{
+  border-color:var(--blue);box-shadow:0 0 0 3px #1262d61a}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.form-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.table-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:9px}
+table{width:100%;border-collapse:collapse;min-width:680px;background:#fff}
+th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line);
+  font-size:11px;white-space:nowrap;vertical-align:middle}
+th{background:#f8fafc;color:#475467;font-weight:800}
+td{color:#344054}
+tr:last-child td{border-bottom:0}
+td input[type="number"],td input[type="text"]{
+  width:105px;padding:7px;border:1px solid #d0d5dd;border-radius:6px;font-size:11px}
+td input[type="checkbox"]{width:16px;height:16px;accent-color:var(--blue)}
+.tag{display:inline-block;padding:4px 7px;border-radius:20px;
+  background:#edf4ff;color:var(--blue);font-size:10px;font-weight:700}
+.tag.green{background:#eaf8ef;color:var(--green)}
+.tag.red{background:#fff0ef;color:var(--red)}
+.muted{color:var(--muted)}
+.note{font-size:11px;color:var(--muted);line-height:1.6;margin:8px 0}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.toolbar .search{max-width:260px}
+.section-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.tab-btn{border:1px solid var(--line);background:#fff;color:#475467;
+  border-radius:7px;padding:8px 12px;font-size:11px;font-weight:700}
+.tab-btn.active{background:#edf4ff;color:var(--blue);border-color:#c8dcff}
+.subsection{display:none}.subsection.active{display:block}
+.status{font-size:11px;margin-top:9px;color:var(--muted);min-height:15px}
+.status.error{color:var(--red)}.status.ok{color:var(--green)}
+.empty{padding:25px;text-align:center;color:var(--muted);font-size:12px}
+.mobile-menu{display:none}
+.hidden{display:none!important}
+@media(max-width:900px){
+  .sidebar{width:195px}.main{width:calc(100% - 195px);padding:18px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:650px){
+  .topbar{padding:0 13px}
+  .layout{display:block}
+  .sidebar{display:none;position:fixed;z-index:30;top:62px;bottom:0;
+    left:0;width:250px;overflow:auto;box-shadow:10px 0 30px #10182820}
+  .sidebar.open{display:block}
+  .mobile-menu{display:inline-flex}
+  .main{width:100%;padding:15px}
+  .page-head h1{font-size:19px}
+  .stats{gap:8px}
+  .stat{padding:12px}.stat strong{font-size:19px}
+  .form-grid,.form-grid.two{grid-template-columns:1fr 1fr}
+}
+@media(max-width:390px){
+  .form-grid,.form-grid.two{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
-<div class="layout">
-
-  <div class="mobile-overlay" id="mobileOverlay"></div>
-
-  <aside class="sidebar" id="sidebar">
-    <a href="#" class="brand">
-      <span class="brand-mark">✓</span>
-      <span>
-        <span class="brand-name">CPO<span>VERIFY</span></span>
-        <small>Verify. Connect. Trust.</small>
-      </span>
-    </a>
-
-    <div class="nav-label">Workspace</div>
-    <nav class="nav-list">
-      <button class="nav-item active" data-section="overview"><span class="nav-icon">▦</span> Overview</button>
-      <button class="nav-item" data-section="wallets"><span class="nav-icon">₦</span> Wallets & Deposits</button>
-      <button class="nav-item" data-section="numbers"><span class="nav-icon">▤</span> WickSpend Numbers</button>
-      <button class="nav-item" data-section="logs"><span class="nav-icon">▣</span> Account Logs</button>
-      <button class="nav-item" data-section="boost"><span class="nav-icon">↗</span> Account Boosting</button>
-      <button class="nav-item" data-section="users"><span class="nav-icon">♙</span> Users</button>
-      <button class="nav-item" data-section="announcements"><span class="nav-icon">◉</span> Announcements</button>
-      <button class="nav-item" data-section="resources"><span class="nav-icon">▧</span> Tools & Resources</button>
-    </nav>
-
-    <div class="sidebar-bottom">
-      <div class="admin-mini">
-        <div class="avatar">A</div>
-        <div>
-          <strong>Administrator</strong>
-          <small id="adminEmail">Checking account...</small>
-        </div>
-      </div>
-      <button class="logout-btn" id="logoutBtn">Sign out</button>
-    </div>
-  </aside>
-
-  <main class="main">
-    <header class="topbar">
-      <div class="top-left">
-        <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
-        <div>
-          <h1 id="pageTitle">Overview</h1>
-          <p id="pageSubtitle">Your CPOVERIFY operations at a glance.</p>
-        </div>
-      </div>
-      <div class="top-actions">
-        <span class="online-pill">● Admin session</span>
-        <button class="btn btn-light btn-small" id="refreshBtn">↻ Refresh</button>
-      </div>
-    </header>
-
-    <div class="content">
-
-      <!-- OVERVIEW -->
-      <section class="page-section active" id="section-overview">
-        <div class="section-heading">
-          <div>
-            <h2>Overview</h2>
-            <p>Monitor users, wallet activity and service operations.</p>
-          </div>
-        </div>
-
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-top"><span class="stat-label">Total users</span><span class="stat-icon">♙</span></div>
-            <div class="stat-value" id="statUsers">—</div>
-            <div class="stat-note">Registered accounts</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-top"><span class="stat-label">Wallet funds</span><span class="stat-icon">₦</span></div>
-            <div class="stat-value" id="statWallet">—</div>
-            <div class="stat-note">Combined user balances</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-top"><span class="stat-label">Total orders</span><span class="stat-icon">▤</span></div>
-            <div class="stat-value" id="statOrders">—</div>
-            <div class="stat-note">Service requests recorded</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-top"><span class="stat-label">Pending orders</span><span class="stat-icon">◷</span></div>
-            <div class="stat-value" id="statPending">—</div>
-            <div class="stat-note">Awaiting completion</div>
-          </div>
-        </div>
-
-        <div class="two-col">
-          <div class="panel">
-            <div class="panel-head">
-              <div><h3>Recent activity</h3><p>Latest recorded platform activity</p></div>
-              <button class="btn btn-light btn-small" data-go="wallets">Wallets</button>
-            </div>
-            <div class="table-wrap" id="recentActivity"><div class="loading">Loading activity...</div></div>
-          </div>
-          <div class="panel">
-            <div class="panel-head"><div><h3>Admin shortcuts</h3><p>Quick access to common tasks</p></div></div>
-            <div class="panel-body" style="display:grid;gap:9px">
-              <button class="btn btn-light" data-go="wallets">₦ Manage user wallets</button>
-              <button class="btn btn-light" data-go="numbers">▤ Manage WickSpend offers</button>
-              <button class="btn btn-light" data-go="logs">▣ Manage Account Logs</button>
-              <button class="btn btn-light" data-go="boost">↗ Boosting services & orders</button>
-              <button class="btn btn-light" data-go="announcements">◉ Publish announcement</button>
-              <button class="btn btn-light" data-go="resources">▧ Manage tools & resources</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- WALLETS -->
-      <section class="page-section" id="section-wallets">
-        <div class="section-heading">
-          <div><h2>Wallets & Deposits</h2><p>Find a user, credit or debit their naira balance, and review wallet transactions.</p></div>
-        </div>
-
-        <div class="notice">Wallet adjustments are administrative actions. Always confirm the user's identity and the amount before submitting a credit or debit.</div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Find a user</h3><p>Search by email, account ID or name.</p></div></div>
-          <div class="panel-body">
-            <div class="toolbar">
-              <div class="search"><input id="walletSearch" placeholder="Enter email, account ID or name"></div>
-              <button class="btn btn-primary" id="walletSearchBtn">Search users</button>
-            </div>
-            <div id="walletSearchResults"><div class="empty">Search for a user to manage their wallet.</div></div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Wallet transactions</h3><p>Recent credits, debits and other recorded wallet movements.</p></div><button class="btn btn-light btn-small" id="walletTransactionsBtn">Reload</button></div>
-          <div class="table-wrap" id="walletTransactions"><div class="loading">Load transactions to view records.</div></div>
-        </div>
-      </section>
-
-      <!-- WICKSPEND -->
-      <section class="page-section" id="section-numbers">
-        <div class="section-heading">
-          <div><h2>WickSpend Numbers</h2><p>Configure the virtual-number offers customers can see and purchase.</p></div>
-          <button class="btn btn-primary" id="addNumberOfferBtn">+ Add number offer</button>
-        </div>
-
-        <div class="notice">WickSpend is used for virtual-number purchases only. Customers see your active offers and retail prices, not the provider's private catalogue or API credentials.</div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Number offers & pricing</h3><p>Manage country, service, provider identifiers and your customer price.</p></div><button class="btn btn-light btn-small" id="loadNumberOffersBtn">Reload offers</button></div>
-          <div class="table-wrap" id="numberOffers"><div class="loading">Loading configured offers...</div></div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Provider catalogue</h3><p>Reference data from WickSpend. Use it to configure your own offers above.</p></div><button class="btn btn-light btn-small" id="loadProviderCatalogBtn">Load provider catalogue</button></div>
-          <div class="panel-body">
-            <pre id="providerCatalog" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:10px;color:#475467;margin:0">Provider catalogue has not been loaded.</pre>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Number orders</h3><p>Review customer orders and provider status.</p></div><button class="btn btn-light btn-small" id="loadNumberOrdersBtn">Reload orders</button></div>
-          <div class="table-wrap" id="numberOrders"><div class="loading">Load number orders to view records.</div></div>
-        </div>
-      </section>
-
-      <!-- ACCOUNT LOGS -->
-      <section class="page-section" id="section-logs">
-        <div class="section-heading">
-          <div><h2>Account Logs</h2><p>Manage Sameeha provider products and your own manual listings separately.</p></div>
-        </div>
-
-        <div class="notice warning">
-          Customer credentials must never appear in the public catalogue. A customer may browse product names, descriptions and prices, but credentials are released only after successful payment has been verified.
-        </div>
-
-        <div class="subtabs">
-          <button class="subtab active" data-logtab="sameeha">Sameeha provider products</button>
-          <button class="subtab" data-logtab="manual">Manual listings</button>
-          <button class="subtab" data-logtab="fulfilment">Paid order fulfilment</button>
-        </div>
-
-        <div id="logs-sameeha">
-          <div class="panel">
-            <div class="panel-head">
-              <div><h3>Sameeha product catalogue</h3><p>Provider products and your customer-facing retail prices.</p></div>
-              <button class="btn btn-light btn-small" id="loadSameehaBtn">Reload products</button>
-            </div>
-            <div class="table-wrap" id="sameehaProducts"><div class="loading">Loading Sameeha products...</div></div>
-          </div>
-        </div>
-
-        <div id="logs-manual" class="hidden">
-          <div class="panel">
-            <div class="panel-head">
-              <div><h3>Manual Account Logs</h3><p>Create and manage listings that you supply yourself.</p></div>
-              <button class="btn btn-primary" id="addManualLogBtn">+ Add listing</button>
-            </div>
-            <div class="table-wrap" id="manualLogs"><div class="loading">Loading manual listings...</div></div>
-          </div>
-        </div>
-
-        <div id="logs-fulfilment" class="hidden">
-          <div class="notice success">Only orders confirmed as paid should be fulfilled. Enter the purchased credentials in the fulfilment action for that specific customer order.</div>
-          <div class="panel">
-            <div class="panel-head"><div><h3>Paid orders awaiting fulfilment</h3><p>Check payment status before releasing any credentials.</p></div><button class="btn btn-light btn-small" id="loadLogOrdersBtn">Reload orders</button></div>
-            <div class="table-wrap" id="logOrders"><div class="loading">Loading Account Logs orders...</div></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- BOOSTING -->
-      <section class="page-section" id="section-boost">
-        <div class="section-heading">
-          <div><h2>Account Boosting</h2><p>Manage MySMM services, customer pricing and boosting orders.</p></div>
-        </div>
-
-        <div class="notice">Boosting services are supplied through MySMM. Customer prices are calculated in naira using your configured exchange rate and markup.</div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Pricing settings</h3><p>Set the USD-to-NGN conversion rate and your markup.</p></div></div>
-          <div class="panel-body">
-            <form id="boostSettingsForm">
-              <div class="form-grid">
-                <div class="field"><label>USD to NGN rate</label><input id="usdToNgnRate" type="number" min="1" step="0.01" placeholder="1400" required></div>
-                <div class="field"><label>Markup percentage</label><input id="boostMarkup" type="number" min="0" step="0.01" placeholder="20" required></div>
-              </div>
-              <p class="inline-note">Retail price formula: provider rate × quantity ÷ 1000 × USD/NGN rate × (1 + markup ÷ 100).</p>
-              <div class="form-actions"><button class="btn btn-primary" type="submit">Save pricing settings</button></div>
-            </form>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>MySMM services</h3><p>Provider service catalogue and calculated retail rates.</p></div><button class="btn btn-light btn-small" id="loadBoostServicesBtn">Reload services</button></div>
-          <div class="table-wrap" id="boostServices"><div class="loading">Loading MySMM services...</div></div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Boosting orders</h3><p>Review status and available order actions.</p></div><button class="btn btn-light btn-small" id="loadBoostOrdersBtn">Reload orders</button></div>
-          <div class="table-wrap" id="boostOrders"><div class="loading">Load boosting orders to view records.</div></div>
-        </div>
-      </section>
-
-      <!-- USERS -->
-      <section class="page-section" id="section-users">
-        <div class="section-heading"><div><h2>Users</h2><p>Search accounts, view user details and manage account access.</p></div></div>
-        <div class="panel">
-          <div class="panel-head"><div><h3>User directory</h3><p>Search by name, email or account ID.</p></div></div>
-          <div class="panel-body">
-            <div class="toolbar">
-              <div class="search"><input id="userSearch" placeholder="Search users..."></div>
-              <button class="btn btn-primary" id="userSearchBtn">Search</button>
-            </div>
-            <div id="usersTable"><div class="empty">Enter a search term to find users.</div></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ANNOUNCEMENTS -->
-      <section class="page-section" id="section-announcements">
-        <div class="section-heading">
-          <div><h2>Announcements</h2><p>Publish official updates and messages to CPOVERIFY users.</p></div>
-          <button class="btn btn-primary" id="addAnnouncementBtn">+ New announcement</button>
-        </div>
-        <div class="notice">Announcements are for official updates and notices only. Wallet deposits, payment events and order status changes belong in History, not in the announcement bell.</div>
-        <div class="panel">
-          <div class="panel-head"><div><h3>Published announcements</h3><p>Manage active and previous announcements.</p></div><button class="btn btn-light btn-small" id="loadAnnouncementsBtn">Reload</button></div>
-          <div class="table-wrap" id="announcementsTable"><div class="loading">Loading announcements...</div></div>
-        </div>
-      </section>
-
-      <!-- RESOURCES -->
-      <section class="page-section" id="section-resources">
-        <div class="section-heading">
-          <div><h2>Tools & Resources</h2><p>Manage useful links, guides, tools and resources shown to users.</p></div>
-          <button class="btn btn-primary" id="addResourceBtn">+ Add resource</button>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><div><h3>Resources directory</h3><p>Create, edit, activate or remove resources.</p></div><button class="btn btn-light btn-small" id="loadResourcesBtn">Reload</button></div>
-          <div class="table-wrap" id="resourcesTable"><div class="loading">Loading resources...</div></div>
-        </div>
-      </section>
-
-    </div>
-  </main>
-</div>
-
-<!-- GENERAL MODAL -->
-<div class="modal-backdrop hidden" id="modalBackdrop">
-  <div class="modal">
-    <div class="modal-head">
-      <h3 id="modalTitle">Edit item</h3>
-      <button class="modal-close" id="modalClose" type="button">×</button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
+<header class="topbar">
+  <div class="brand">
+    <button class="btn light mobile-menu" id="menuToggle">☰</button>
+    <div class="brand-mark">✓</div>
+    <div>CPOVERIFY<small>ADMINISTRATION</small></div>
   </div>
+  <div class="top-actions">
+    <span id="adminEmail" class="muted" style="font-size:11px"></span>
+    <button class="btn light" id="logoutBtn">Log out</button>
+  </div>
+</header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="nav-label">MAIN</div>
+  <button class="nav-btn active" data-page="overview"><span class="nav-icon">▦</span>Overview</button>
+  <button class="nav-btn" data-page="wallets"><span class="nav-icon">₦</span>Wallets & Deposits</button>
+
+  <div class="nav-label">SERVICES</div>
+  <button class="nav-btn" data-page="wickspend"><span class="nav-icon">▤</span>WickSpend Numbers</button>
+  <button class="nav-btn" data-page="logs"><span class="nav-icon">▣</span>Account Logs</button>
+  <button class="nav-btn" data-page="boosting"><span class="nav-icon">↗</span>Account Boosting</button>
+
+  <div class="nav-label">MANAGEMENT</div>
+  <button class="nav-btn" data-page="users"><span class="nav-icon">♙</span>Users</button>
+  <button class="nav-btn" data-page="announcements"><span class="nav-icon">♧</span>Announcements</button>
+  <button class="nav-btn" data-page="resources"><span class="nav-icon">▧</span>Tools & Resources</button>
+</aside>
+
+<main class="main">
+
+<!-- OVERVIEW -->
+<section class="page active" id="page-overview">
+  <div class="page-head"><div><h1>Dashboard overview</h1>
+    <p>Monitor CPOVERIFY activity and manage your services.</p></div>
+    <button class="btn secondary" onclick="loadOverview()">Refresh</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><span>Total users</span><strong id="statUsers">—</strong></div>
+    <div class="stat"><span>Total wallet balance</span><strong id="statWallet">—</strong></div>
+    <div class="stat"><span>Number orders</span><strong id="statNumbers">—</strong></div>
+    <div class="stat"><span>Boosting orders</span><strong id="statBoosts">—</strong></div>
+  </div>
+  <div class="panel" style="margin-top:17px">
+    <div class="panel-head"><div><h2>Recent activity</h2>
+      <p>Latest activity recorded by the platform.</p></div></div>
+    <div class="table-wrap"><table><thead><tr>
+      <th>Activity</th><th>User</th><th>Details</th><th>Date</th>
+    </tr></thead><tbody id="activityTable"><tr><td colspan="4" class="empty">Loading activity...</td></tr></tbody></table></div>
+    <div class="status" id="overviewStatus"></div>
+  </div>
+</section>
+
+<!-- WALLETS -->
+<section class="page" id="page-wallets">
+  <div class="page-head"><div><h1>Wallets & deposits</h1>
+    <p>Find a user and manually credit or debit their naira wallet.</p></div></div>
+  <div class="panel">
+    <div class="panel-head"><div><h2>Find user</h2><p>Search using email, account ID or user ID.</p></div></div>
+    <div class="toolbar"><input class="search" id="walletSearch" placeholder="Search user...">
+      <button class="btn" id="walletSearchBtn">Search</button></div>
+    <div id="walletUserResults" class="note">Search for a user to manage their wallet.</div>
+  </div>
+  <div class="panel" id="walletActionPanel">
+    <div class="panel-head"><div><h2>Wallet adjustment</h2>
+      <p id="selectedWalletUser">Select a user from the search results first.</p></div></div>
+    <div class="form-grid">
+      <div class="field"><label>Amount (₦)</label><input id="walletAmount" type="number" min="1" placeholder="Enter amount"></div>
+      <div class="field"><label>Reason</label><input id="walletReason" placeholder="e.g. Deposit confirmed"></div>
+      <div class="field"><label>Action</label><select id="walletAction"><option value="credit">Credit wallet</option><option value="debit">Debit wallet</option></select></div>
+    </div>
+    <button class="btn" style="margin-top:13px" id="walletSubmit">Apply adjustment</button>
+    <div class="status" id="walletStatus"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><div><h2>Wallet transactions</h2><p>Recent credits and debits.</p></div>
+      <button class="btn secondary" id="refreshWalletTransactions">Refresh</button></div>
+    <div class="table-wrap"><table><thead><tr><th>User</th><th>Type</th><th>Amount</th><th>Reason</th><th>Date</th></tr></thead>
+      <tbody id="walletTransactions"><tr><td colspan="5" class="empty">Load transactions to view records.</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<!-- WICKSPEND -->
+<section class="page" id="page-wickspend">
+  <div class="page-head"><div><h1>WickSpend number offers</h1>
+    <p>Review the provider catalogue, select what you want, and set your own customer prices.</p></div>
+    <button class="btn secondary" id="loadWickCatalog">Load provider catalogue</button>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><div><h2>1. Provider catalogue</h2>
+      <p>This is WickSpend's catalogue for your review. It is not automatically displayed to customers.</p></div>
+      <div class="toolbar"><input class="search" id="wickSearch" placeholder="Search country or service..."></div>
+    </div>
+    <div class="note">Tick only the services you want to sell. Enter your customer price in naira. Provider cost is shown only when the provider supplies it.</div>
+    <div class="table-wrap"><table><thead><tr>
+      <th>Select</th><th>Country</th><th>Service</th><th>Provider / Server ID</th>
+      <th>Provider cost</th><th>Your customer price (₦)</th>
+    </tr></thead><tbody id="wickCatalogTable">
+      <tr><td colspan="6" class="empty">Click “Load provider catalogue” to display WickSpend's available services.</td></tr>
+    </tbody></table></div>
+    <div class="toolbar" style="margin-top:13px">
+      <button class="btn" id="saveSelectedWick">Save selected as customer offers</button>
+      <span class="muted" id="wickSelectedCount">0 selected</span>
+    </div>
+    <div class="status" id="wickCatalogStatus"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><div><h2>2. Your active customer offers</h2>
+      <p>Only offers saved here should be returned by the customer number catalogue.</p></div>
+      <button class="btn secondary" id="refreshWickOffers">Refresh offers</button>
+    </div>
+    <div class="table-wrap"><table><thead><tr>
+      <th>Country</th><th>Service</th><th>Provider ID</th><th>Customer price</th><th>Status</th><th>Action</th>
+    </tr></thead><tbody id="wickOffersTable">
+      <tr><td colspan="6" class="empty">Loading saved offers...</td></tr>
+    </tbody></table></div>
+    <div class="status" id="wickOffersStatus"></div>
+  </div>
+</section>
+
+<!-- ACCOUNT LOGS -->
+<section class="page" id="page-logs">
+  <div class="page-head"><div><h1>Account Logs</h1>
+    <p>Manage Sameeha provider products and your own manual listings.</p></div></div>
+
+  <div class="section-tabs">
+    <button class="tab-btn active" data-subtab="sameeha">Server 1 — Sameeha</button>
+    <button class="tab-btn" data-subtab="manual">Server 2 — Manual logs</button>
+  </div>
+
+  <div class="subsection active" id="sub-sameeha">
+    <div class="panel">
+      <div class="panel-head"><div><h2>Sameeha provider products</h2>
+        <p>Provider products appear here. Set the price customers will pay on CPOVERIFY.</p></div>
+        <button class="btn secondary" id="refreshSameeha">Refresh Sameeha products</button>
+      </div>
+      <div class="toolbar" style="margin-bottom:12px">
+        <input class="search" id="sameehaSearch" placeholder="Search Sameeha products...">
+      </div>
+      <div class="table-wrap"><table><thead><tr>
+        <th>Product</th><th>Provider ID</th><th>Provider price</th>
+        <th>Your retail price (₦)</th><th>Status</th><th>Action</th>
+      </tr></thead><tbody id="sameehaTable">
+        <tr><td colspan="6" class="empty">Loading Sameeha products...</td></tr>
+      </tbody></table></div>
+      <div class="status" id="sameehaStatus"></div>
+      <p class="note"><strong>Credential protection:</strong> This table manages product listings and retail prices. Customer credentials must never be exposed in the public catalogue. They are delivered only to the customer whose payment has been confirmed.</p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sub-manual">
+    <div class="panel">
+      <div class="panel-head"><div><h2>Add a manual account log</h2>
+        <p>Create your own Server 2 listing.</p></div></div>
+      <div class="form-grid two">
+        <div class="field"><label>Product / account title</label><input id="manualTitle" placeholder="Product name"></div>
+        <div class="field"><label>Customer price (₦)</label><input id="manualPrice" type="number" min="0" placeholder="0"></div>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label>Description</label>
+        <textarea id="manualDescription" placeholder="Account information, instructions, notes or warnings. Use this one description field for all of them."></textarea>
+      </div>
+      <div class="toolbar" style="margin-top:12px">
+        <label style="font-size:11px"><input type="checkbox" id="manualActive" checked> Active listing</label>
+        <button class="btn" id="saveManualLog">Save listing</button>
+        <button class="btn light hidden" id="cancelManualEdit">Cancel edit</button>
+      </div>
+      <div class="status" id="manualStatus"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h2>Your manual listings</h2>
+        <p>These are separate from Sameeha provider products.</p></div>
+        <button class="btn secondary" id="refreshManualLogs">Refresh</button>
+      </div>
+      <div class="table-wrap"><table><thead><tr>
+        <th>Product</th><th>Price</th><th>Description</th><th>Status</th><th>Actions</th>
+      </tr></thead><tbody id="manualLogsTable">
+        <tr><td colspan="5" class="empty">Loading manual listings...</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOSTING -->
+<section class="page" id="page-boosting">
+  <div class="page-head"><div><h1>Account Boosting</h1>
+    <p>Set your selling prices for MySMM services and manage customer orders.</p></div></div>
+  <div class="section-tabs">
+    <button class="tab-btn active" data-subtab="boost-services">Service pricing</button>
+    <button class="tab-btn" data-subtab="boost-orders">Customer orders</button>
+  </div>
+
+  <div class="subsection active" id="sub-boost-services">
+    <div class="panel">
+      <div class="panel-head"><div><h2>MySMM service catalogue & selling prices</h2>
+        <p>Provider rate is a reference. You control the retail price customers pay.</p></div>
+        <button class="btn secondary" id="refreshBoostServices">Refresh services</button>
+      </div>
+      <div class="toolbar" style="margin-bottom:12px">
+        <input class="search" id="boostSearch" placeholder="Search services...">
+      </div>
+      <div class="table-wrap"><table><thead><tr>
+        <th>Service ID</th><th>Service name</th><th>Type</th>
+        <th>Provider rate / 1k</th><th>Your price / 1k (₦)</th>
+        <th>Minimum</th><th>Maximum</th><th>Save</th>
+      </tr></thead><tbody id="boostServicesTable">
+        <tr><td colspan="8" class="empty">Loading MySMM services...</td></tr>
+      </tbody></table></div>
+      <div class="status" id="boostServicesStatus"></div>
+      <p class="note">Your retail price is the amount used to calculate the customer's order charge. Do not confuse the provider's rate with your selling price.</p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sub-boost-orders">
+    <div class="panel">
+      <div class="panel-head"><div><h2>Customer boosting orders</h2>
+        <p>Track orders and perform available order actions.</p></div>
+        <button class="btn secondary" id="refreshBoostOrders">Refresh orders</button>
+      </div>
+      <div class="table-wrap"><table><thead><tr>
+        <th>Order ID</th><th>Customer</th><th>Service</th><th>Quantity</th>
+        <th>Customer charge</th><th>Status</th><th>Actions</th>
+      </tr></thead><tbody id="boostOrdersTable">
+        <tr><td colspan="7" class="empty">Loading customer orders...</td></tr>
+      </tbody></table></div>
+      <div class="status" id="boostOrdersStatus"></div>
+    </div>
+  </div>
+</section>
+
+<!-- USERS -->
+<section class="page" id="page-users">
+  <div class="page-head"><div><h1>Users</h1><p>Search accounts and manage user access.</p></div></div>
+  <div class="panel">
+    <div class="toolbar"><input class="search" id="userSearch" placeholder="Search email, name or account ID">
+      <button class="btn" id="userSearchBtn">Search users</button></div>
+    <div class="table-wrap" style="margin-top:14px"><table><thead><tr>
+      <th>User</th><th>Email</th><th>Account ID</th><th>Wallet</th><th>Status</th><th>Action</th>
+    </tr></thead><tbody id="usersTable"><tr><td colspan="6" class="empty">Search for users.</td></tr></tbody></table></div>
+    <div class="status" id="usersStatus"></div>
+  </div>
+</section>
+
+<!-- ANNOUNCEMENTS -->
+<section class="page" id="page-announcements">
+  <div class="page-head"><div><h1>Announcements</h1>
+    <p>Messages published by admin for CPOVERIFY users.</p></div></div>
+  <div class="panel">
+    <div class="form-grid two">
+      <div class="field"><label>Announcement title</label><input id="announcementTitle" placeholder="Title"></div>
+      <div class="field"><label>Status</label><select id="announcementActive"><option value="true">Active</option><option value="false">Inactive</option></select></div>
+    </div>
+    <div class="field" style="margin-top:12px"><label>Message</label>
+      <textarea id="announcementMessage" placeholder="Write your announcement..."></textarea></div>
+    <button class="btn" id="saveAnnouncement" style="margin-top:12px">Publish announcement</button>
+    <div class="status" id="announcementStatus"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>Published announcements</h2>
+      <button class="btn secondary" id="refreshAnnouncements">Refresh</button></div>
+    <div class="table-wrap"><table><thead><tr><th>Title</th><th>Message</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="announcementsTable"><tr><td colspan="4" class="empty">Loading announcements...</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section class="page" id="page-resources">
+  <div class="page-head"><div><h1>Tools & Resources</h1>
+    <p>Manage useful links and resources shown to users.</p></div></div>
+  <div class="panel">
+    <div class="form-grid two">
+      <div class="field"><label>Resource title</label><input id="resourceTitle" placeholder="Resource name"></div>
+      <div class="field"><label>Resource URL</label><input id="resourceUrl" type="url" placeholder="https://..."></div>
+    </div>
+    <div class="field" style="margin-top:12px"><label>Description</label>
+      <textarea id="resourceDescription" placeholder="What is this resource for?"></textarea></div>
+    <button class="btn" id="saveResource" style="margin-top:12px">Save resource</button>
+    <div class="status" id="resourceStatus"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>Saved resources</h2>
+      <button class="btn secondary" id="refreshResources">Refresh</button></div>
+    <div class="table-wrap"><table><thead><tr><th>Title</th><th>URL</th><th>Description</th><th>Actions</th></tr></thead>
+      <tbody id="resourcesTable"><tr><td colspan="4" class="empty">Loading resources...</td></tr></tbody></table></div>
+  </div>
+</section>
+
+</main>
 </div>
 
-<div class="toast hidden" id="toast"></div>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="app.js"></script>
 
 <script>
 (() => {
-  "use strict";
+"use strict";
 
-  const API = "https://cpoverify-backend.onrender.com/api";
-  const $ = id => document.getElementById(id);
-  const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-  })[c]);
+const API = "https://cpoverify-backend.onrender.com";
+const $ = id => document.getElementById(id);
+let currentUser = null;
+let selectedWallet = null;
+let manualEditId = null;
+let wickCatalog = [];
+let sameehaProducts = [];
+let manualLogs = [];
+let boostServices = [];
+let wickOffers = [];
+let announcements = [];
+let resources = [];
 
-  let currentSection = "overview";
-  let currentLogTab = "sameeha";
-  let modalSave = null;
-  let toastTimer = null;
+const money = value => "₦" + Number(value || 0).toLocaleString("en-NG");
+const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+const val = (obj, keys, fallback="") => {
+  for (const key of keys) if (obj && obj[key] !== undefined && obj[key] !== null) return obj[key];
+  return fallback;
+};
+const rowsFrom = data => Array.isArray(data) ? data :
+  (data && (data.items || data.products || data.services || data.offers ||
+  data.orders || data.users || data.results) || []);
+function status(id, message, type="") {
+  const el = $(id); if (!el) return;
+  el.textContent = message || "";
+  el.className = "status " + type;
+}
+function setRows(id, html, emptyCols, emptyText="No records found.") {
+  const el = $(id);
+  if (!el) return;
+  el.innerHTML = html || `<tr><td colspan="${emptyCols}" class="empty">${esc(emptyText)}</td></tr>`;
+}
+async function token() {
+  if (!firebase?.auth) throw new Error("Firebase authentication is not available.");
+  const user = firebase.auth().currentUser;
+  if (!user) throw new Error("Please sign in again.");
+  return user.getIdToken();
+}
+async function api(path, options={}) {
+  const idToken = await token();
+  const headers = {...(options.headers || {}), Authorization:"Bearer " + idToken};
+  if (options.body && !headers["Content-Type"]) headers["Content-Type"] = "application/json";
+  const response = await fetch(API + path, {...options, headers});
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.message || data.error || `Request failed (${response.status})`);
+  return data;
+}
+function json(method, body) {
+  return {method, body:JSON.stringify(body)};
+}
+function safeDate(value) {
+  if (!value) return "—";
+  const d = typeof value === "number" ? new Date(value) : new Date(value);
+  return isNaN(d.getTime()) ? String(value) : d.toLocaleString();
+}
 
-  function toast(message) {
-    const el = $("toast");
-    el.textContent = message;
-    el.classList.remove("hidden");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.add("hidden"), 3500);
-  }
-
-  function money(value) {
-    const amount = Number(value || 0);
-    return "₦" + amount.toLocaleString("en-NG", {minimumFractionDigits:2, maximumFractionDigits:2});
-  }
-
-  function dateText(value) {
-    if (!value) return "—";
-    const date = typeof value === "number" ? new Date(value) : new Date(value);
-    return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleString();
-  }
-
-  function statusClass(value) {
-    const s = String(value || "").toLowerCase();
-    if (["active","completed","success","paid","enabled"].includes(s)) return "active";
-    if (["pending","processing","in progress","awaiting payment"].includes(s)) return "pending";
-    if (["cancelled","canceled","failed","inactive","disabled","rejected"].includes(s)) return "inactive";
-    return "pending";
-  }
-
-  function statusBadge(value) {
-    return `<span class="status ${statusClass(value)}">${esc(value || "Unknown")}</span>`;
-  }
-
-  function rowsTable(headers, rows, emptyText = "No records found.") {
-    if (!rows || !rows.length) return `<div class="empty">${esc(emptyText)}</div>`;
-    return `<div class="table-wrap"><table><thead><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table></div>`;
-  }
-
-  function normaliseArray(data, keys = []) {
-    if (Array.isArray(data)) return data;
-    for (const key of keys) if (Array.isArray(data?.[key])) return data[key];
-    return [];
-  }
-
-  async function getToken() {
-    if (!window.firebase?.auth) throw new Error("Firebase Authentication is not available.");
-    const user = firebase.auth().currentUser;
-    if (!user) throw new Error("Your admin session has expired. Please sign in again.");
-    return user.getIdToken();
-  }
-
-  async function api(path, options = {}) {
-    const token = await getToken();
-    const headers = {
-      "Authorization": "Bearer " + token,
-      ...(options.body ? {"Content-Type":"application/json"} : {}),
-      ...(options.headers || {})
-    };
-
-    const response = await fetch(API + path, {
-      ...options,
-      headers
-    });
-
-    const text = await response.text();
-    let data = {};
-    try { data = text ? JSON.parse(text) : {}; }
-    catch { data = {message:text}; }
-
-    if (!response.ok) {
-      throw new Error(data.message || data.error || `Request failed (${response.status})`);
-    }
-    return data;
-  }
-
-  function jsonBody(value) {
-    return JSON.stringify(value);
-  }
-
-  function setLoading(id, message = "Loading...") {
-    if ($(id)) $(id).innerHTML = `<div class="loading">${esc(message)}</div>`;
-  }
-
-  function showModal(title, html, onSave) {
-    $("modalTitle").textContent = title;
-    $("modalBody").innerHTML = html;
-    modalSave = onSave;
-    $("modalBackdrop").classList.remove("hidden");
-  }
-
-  function closeModal() {
-    $("modalBackdrop").classList.add("hidden");
-    $("modalBody").innerHTML = "";
-    modalSave = null;
-  }
-
-  $("modalClose").addEventListener("click", closeModal);
-  $("modalBackdrop").addEventListener("click", e => {
-    if (e.target === $("modalBackdrop")) closeModal();
-  });
-
-  // Navigation
-  const sectionTitles = {
-    overview:["Overview","Your CPOVERIFY operations at a glance."],
-    wallets:["Wallets & Deposits","Manage user wallet balances and transactions."],
-    numbers:["WickSpend Numbers","Configure virtual-number offers and orders."],
-    logs:["Account Logs","Manage Sameeha products and manual account listings."],
-    boost:["Account Boosting","Manage MySMM services, pricing and orders."],
-    users:["Users","Manage registered CPOVERIFY accounts."],
-    announcements:["Announcements","Publish official updates to your users."],
-    resources:["Tools & Resources","Manage user-facing tools and helpful resources."]
-  };
-
-  function go(section) {
-    if (!sectionTitles[section]) return;
-    currentSection = section;
-
-    document.querySelectorAll(".page-section").forEach(el => el.classList.remove("active"));
-    $("section-" + section).classList.add("active");
-
-    document.querySelectorAll(".nav-item").forEach(el => {
-      el.classList.toggle("active", el.dataset.section === section);
-    });
-
-    $("pageTitle").textContent = sectionTitles[section][0];
-    $("pageSubtitle").textContent = sectionTitles[section][1];
-    closeSidebar();
-
-    const loaders = {
-      overview:loadOverview,
-      wallets:loadWalletTransactions,
-      numbers:loadNumberOffers,
-      logs:loadSameeha,
-      boost:loadBoostSettings,
-      announcements:loadAnnouncements,
-      resources:loadResources
-    };
-    if (loaders[section]) loaders[section]();
-  }
-
-  document.querySelectorAll("[data-section]").forEach(btn => {
-    btn.addEventListener("click", () => go(btn.dataset.section));
-  });
-  document.querySelectorAll("[data-go]").forEach(btn => {
-    btn.addEventListener("click", () => go(btn.dataset.go));
-  });
-
-  function openSidebar() {
-    $("sidebar").classList.add("open");
-    $("mobileOverlay").classList.add("show");
-  }
-  function closeSidebar() {
+/* Navigation */
+document.querySelectorAll(".nav-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    button.classList.add("active");
+    $("page-" + button.dataset.page).classList.add("active");
     $("sidebar").classList.remove("open");
-    $("mobileOverlay").classList.remove("show");
-  }
-  $("menuBtn").addEventListener("click", openSidebar);
-  $("mobileOverlay").addEventListener("click", closeSidebar);
-
-  // AUTH CHECK
-  async function checkAdmin() {
-    try {
-      if (!window.firebase?.auth) throw new Error("Firebase is not configured. Check app.js.");
-      await new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-          unsubscribe();
-          user ? resolve(user) : reject(new Error("Please sign in with your administrator account."));
-        });
-      });
-
-      const user = firebase.auth().currentUser;
-      $("adminEmail").textContent = user?.email || "Administrator";
-
-      const result = await api("/admin/check");
-      if (result.admin !== true) throw new Error("This account does not have administrator access.");
-
-      go("overview");
-    } catch (error) {
-      toast(error.message);
-      setTimeout(() => {
-        window.location.href = "login.html";
-      }, 1800);
-    }
-  }
-
-  $("logoutBtn").addEventListener("click", async () => {
-    try {
-      await firebase.auth().signOut();
-      window.location.href = "login.html";
-    } catch (error) {
-      toast(error.message);
-    }
+    loadPage(button.dataset.page);
   });
-
-  $("refreshBtn").addEventListener("click", () => {
-    const loaders = {
-      overview:loadOverview,
-      wallets:loadWalletTransactions,
-      numbers:loadNumberOffers,
-      logs:() => loadCurrentLogTab(),
-      boost:loadBoostSettings,
-      users:searchUsers,
-      announcements:loadAnnouncements,
-      resources:loadResources
-    };
-    if (loaders[currentSection]) loaders[currentSection]();
-  });
-
-  // OVERVIEW
-  async function loadOverview() {
-    try {
-      const [stats, activity] = await Promise.all([
-        api("/admin/dashboard"),
-        api("/admin/activity?limit=15")
-      ]);
-
-      $("statUsers").textContent = Number(stats.totalUsers ?? stats.users ?? 0).toLocaleString();
-      $("statWallet").textContent = money(stats.totalWalletBalance ?? stats.walletBalance ?? 0);
-      $("statOrders").textContent = Number(stats.totalOrders ?? stats.orders ?? 0).toLocaleString();
-      $("statPending").textContent = Number(stats.pendingOrders ?? stats.pending ?? 0).toLocaleString();
-
-      const items = normaliseArray(activity, ["activity","items","transactions"]);
-      $("recentActivity").innerHTML = rowsTable(
-        ["Activity","User","Amount","Date"],
-        items.map(item => `<tr>
-          <td><strong>${esc(item.title || item.type || item.action || "Activity")}</strong><small>${esc(item.description || item.reference || "")}</small></td>
-          <td>${esc(item.email || item.userEmail || item.user || "—")}</td>
-          <td>${item.amount != null ? money(item.amount) : "—"}</td>
-          <td>${esc(dateText(item.createdAt || item.created_at || item.date))}</td>
-        </tr>`),
-        "No recent activity."
-      );
-    } catch (error) {
-      ["statUsers","statWallet","statOrders","statPending"].forEach(id => $(id).textContent = "—");
-      $("recentActivity").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
-
-  // WALLETS
-  $("walletSearchBtn").addEventListener("click", searchWalletUsers);
-  $("walletSearch").addEventListener("keydown", e => {
-    if (e.key === "Enter") searchWalletUsers();
-  });
-
-  async function searchWalletUsers() {
-    const query = $("walletSearch").value.trim();
-    if (!query) return toast("Enter an email, account ID or name.");
-    setLoading("walletSearchResults");
-    try {
-      const data = await api("/admin/users/search?query=" + encodeURIComponent(query));
-      const users = normaliseArray(data, ["users","results"]);
-      $("walletSearchResults").innerHTML = rowsTable(
-        ["User","Account ID","Balance","Actions"],
-        users.map(user => `<tr>
-          <td><strong>${esc(user.name || user.displayName || "User")}</strong><small>${esc(user.email || "")}</small></td>
-          <td>${esc(user.accountId || user.account_id || user.uid || "—")}</td>
-          <td class="money">${money(user.balance ?? user.walletBalance ?? user.wallet?.balance ?? 0)}</td>
-          <td><div class="table-actions">
-            <button class="btn btn-success btn-small" data-wallet-action="credit" data-uid="${esc(user.uid || user.id || "")}">Credit</button>
-            <button class="btn btn-danger btn-small" data-wallet-action="debit" data-uid="${esc(user.uid || user.id || "")}">Debit</button>
-          </div></td>
-        </tr>`),
-        "No matching users."
-      );
-      $("walletSearchResults").querySelectorAll("[data-wallet-action]").forEach(btn => {
-        btn.addEventListener("click", () => openWalletAdjustment(btn.dataset.uid, btn.dataset.walletAction));
-      });
-    } catch (error) {
-      $("walletSearchResults").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
-
-  function openWalletAdjustment(uid, action) {
-    if (!uid) return toast("This user record has no usable ID.");
-    const isCredit = action === "credit";
-    showModal(isCredit ? "Credit user wallet" : "Debit user wallet", `
-      <form id="walletAdjustmentForm">
-        <div class="notice ${isCredit ? "success" : "warning"}">
-          ${isCredit ? "This will add funds to the selected user's wallet." : "This will subtract funds from the selected user's wallet."}
-        </div>
-        <div class="form-grid">
-          <div class="field full"><label>Amount (NGN)</label><input name="amount" type="number" min="1" step="0.01" required placeholder="Enter amount"></div>
-          <div class="field full"><label>Reason / reference</label><textarea name="reason" required placeholder="Explain why this adjustment is being made"></textarea></div>
-        </div>
-        <div class="form-actions">
-          <button type="button" class="btn btn-light" id="cancelWalletAdjustment">Cancel</button>
-          <button type="submit" class="btn ${isCredit ? "btn-primary" : "btn-danger"}">${isCredit ? "Confirm credit" : "Confirm debit"}</button>
-        </div>
-      </form>
-    `, async () => {});
-    $("cancelWalletAdjustment").onclick = closeModal;
-    $("walletAdjustmentForm").onsubmit = async e => {
-      e.preventDefault();
-      const form = new FormData(e.currentTarget);
-      const amount = Number(form.get("amount"));
-      const reason = String(form.get("reason") || "").trim();
-      if (!(amount > 0) || !reason) return toast("Enter a valid amount and reason.");
-      try {
-        await api(`/admin/wallet/${action}`, {
-          method:"POST",
-          body:jsonBody({user:uid, amount, reason})
-        });
-        closeModal();
-        toast("Wallet " + action + " successful.");
-        searchWalletUsers();
-        loadWalletTransactions();
-      } catch (error) { toast(error.message); }
-    };
-  }
-
-  $("walletTransactionsBtn").addEventListener("click", loadWalletTransactions);
-  async function loadWalletTransactions() {
-    setLoading("walletTransactions");
-    try {
-      const data = await api("/admin/wallet/transactions?limit=100");
-      const list = normaliseArray(data, ["transactions","items","results"]);
-      $("walletTransactions").innerHTML = rowsTable(
-        ["User","Type","Amount","Reference","Date"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.email || item.userEmail || item.user || "—")}</strong><small>${esc(item.accountId || item.uid || "")}</small></td>
-          <td>${esc(item.type || item.action || "—")}</td>
-          <td class="money">${money(item.amount)}</td>
-          <td>${esc(item.reference || item.ref || "—")}</td>
-          <td>${esc(dateText(item.createdAt || item.created_at || item.date))}</td>
-        </tr>`),
-        "No wallet transactions found."
-      );
-    } catch (error) {
-      $("walletTransactions").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
-
-  // WICKSPEND NUMBER OFFERS
-  $("addNumberOfferBtn").addEventListener("click", () => openNumberOffer());
-  $("loadNumberOffersBtn").addEventListener("click", loadNumberOffers);
-  $("loadProviderCatalogBtn").addEventListener("click", loadProviderCatalog);
-  $("loadNumberOrdersBtn").addEventListener("click", loadNumberOrders);
-
-  function openNumberOffer(item = {}) {
-    showModal(item.id ? "Edit number offer" : "Add number offer", `
-      <form id="numberOfferForm">
-        <div class="form-grid">
-          <div class="field"><label>Country name</label><input name="country" required value="${esc(item.country || item.country_name || "")}" placeholder="United States"></div>
-          <div class="field"><label>Country code</label><input name="country_code" required value="${esc(item.country_code || "")}" placeholder="US"></div>
-          <div class="field"><label>Service name</label><input name="service" required value="${esc(item.service || item.service_name || "")}" placeholder="WhatsApp"></div>
-          <div class="field"><label>Service code</label><input name="service_code" required value="${esc(item.service_code || "")}" placeholder="Service code from provider"></div>
-          <div class="field"><label>Provider ID</label><input name="provider_id" required value="${esc(item.provider_id || "")}" placeholder="Provider/server ID"></div>
-          <div class="field"><label>Offer ID (optional)</label><input name="offer_id" value="${esc(item.offer_id || "")}" placeholder="Internal offer ID"></div>
-          <div class="field"><label>Provider price (optional)</label><input name="provider_price" type="number" min="0" step="0.01" value="${esc(item.provider_price ?? "")}" placeholder="Provider cost"></div>
-          <div class="field"><label>Customer price (NGN)</label><input name="price" type="number" min="0" step="0.01" required value="${esc(item.price ?? "")}" placeholder="Your retail price"></div>
-          <div class="field full"><label>Offer description (optional)</label><textarea name="description" placeholder="Short customer-facing description">${esc(item.description || "")}</textarea></div>
-          <div class="field full"><label class="switch-row"><input name="active" type="checkbox" ${item.active === false ? "" : "checked"}> Show this offer to customers</label></div>
-        </div>
-        <div class="form-actions">
-          <button type="button" class="btn btn-light" id="cancelNumberOffer">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save offer</button>
-        </div>
-      </form>
-    `);
-    $("cancelNumberOffer").onclick = closeModal;
-    $("numberOfferForm").onsubmit = async e => {
-      e.preventDefault();
-      const f = new FormData(e.currentTarget);
-      const payload = {
-        country:String(f.get("country")).trim(),
-        country_code:String(f.get("country_code")).trim().toUpperCase(),
-        service:String(f.get("service")).trim(),
-        service_code:String(f.get("service_code")).trim(),
-        provider_id:String(f.get("provider_id")).trim(),
-        offer_id:String(f.get("offer_id") || "").trim(),
-        provider_price:f.get("provider_price") === "" ? null : Number(f.get("provider_price")),
-        price:Number(f.get("price")),
-        description:String(f.get("description") || "").trim(),
-        active:f.get("active") === "on"
-      };
-      try {
-        const path = item.id ? `/admin/wickspend/offers/numbers/${encodeURIComponent(item.id)}` : "/admin/wickspend/offers/numbers";
-        await api(path, {method:item.id ? "PUT" : "POST", body:jsonBody(payload)});
-        closeModal();
-        toast("Number offer saved.");
-        loadNumberOffers();
-      } catch (error) { toast(error.message); }
-    };
-  }
-
-  async function loadNumberOffers() {
-    setLoading("numberOffers");
-    try {
-      const data = await api("/admin/wickspend/offers/numbers");
-      const list = normaliseArray(data, ["offers","numbers","items"]);
-      $("numberOffers").innerHTML = rowsTable(
-        ["Country","Service","Provider IDs","Provider price","Customer price","Status","Actions"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.country || item.country_name || "—")}</strong><small>${esc(item.country_code || "")}</small></td>
-          <td>${esc(item.service || item.service_name || "—")}<small>${esc(item.service_code || "")}</small></td>
-          <td>${esc(item.provider_id || "—")}<small>${esc(item.offer_id || "")}</small></td>
-          <td>${item.provider_price != null ? money(item.provider_price) : "—"}</td>
-          <td class="money">${money(item.price)}</td>
-          <td>${statusBadge(item.active === false ? "Inactive" : "Active")}</td>
-          <td><div class="table-actions">
-            <button class="btn btn-light btn-small" data-number-edit="${esc(item.id)}">Edit</button>
-            <button class="btn btn-danger btn-small" data-number-delete="${esc(item.id)}">Delete</button>
-          </div></td>
-        </tr>`),
-        "No number offers configured yet."
-      );
-      $("numberOffers").querySelectorAll("[data-number-edit]").forEach(btn => {
-        btn.onclick = () => openNumberOffer(list.find(x => String(x.id) === btn.dataset.numberEdit));
-      });
-      $("numberOffers").querySelectorAll("[data-number-delete]").forEach(btn => {
-        btn.onclick = () => deleteNumberOffer(btn.dataset.numberDelete);
-      });
-    } catch (error) {
-      $("numberOffers").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
-
-  async function deleteNumberOffer(id) {
-    if (!confirm("Delete this number offer?")) return;
-    try {
-      await api(`/admin/wickspend/offers/numbers/${encodeURIComponent(id)}`, {method:"DELETE"});
-      toast("Offer deleted.");
-      loadNumberOffers();
-    } catch (error) { toast(error.message); }
-  }
-
-  async function loadProviderCatalog() {
-    $("providerCatalog").textContent = "Loading provider catalogue...";
-    try {
-      const data = await api("/admin/wickspend/provider/numbers/catalog");
-      $("providerCatalog").textContent = JSON.stringify(data, null, 2);
-    } catch (error) { $("providerCatalog").textContent = error.message; }
-  }
-
-  async function loadNumberOrders() {
-    setLoading("numberOrders");
-    try {
-      const data = await api("/admin/wickspend/numbers/orders");
-      const list = normaliseArray(data, ["orders","items","results"]);
-      $("numberOrders").innerHTML = rowsTable(
-        ["Order","Customer","Number","Service","Status","Date"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.reference || item.id || "—")}</strong><small>${esc(item.provider_reference || "")}</small></td>
-          <td>${esc(item.email || item.userEmail || item.uid || "—")}</td>
-          <td>${esc(item.phone_number || item.number || "—")}</td>
-          <td>${esc(item.service || item.service_name || "—")}<small>${esc(item.country || "")}</small></td>
-          <td>${statusBadge(item.status)}</td>
-          <td>${esc(dateText(item.createdAt || item.created_at))}</td>
-        </tr>`),
-        "No WickSpend number orders found."
-      );
-    } catch (error) {
-      $("numberOrders").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
-
-  // ACCOUNT LOGS
-  document.querySelectorAll("[data-logtab]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      currentLogTab = btn.dataset.logtab;
-      document.querySelectorAll("[data-logtab]").forEach(x => x.classList.toggle("active", x === btn));
-      ["sameeha","manual","fulfilment"].forEach(tab => $("logs-" + tab).classList.toggle("hidden", tab !== currentLogTab));
-      loadCurrentLogTab();
+});
+$("menuToggle").onclick = () => $("sidebar").classList.toggle("open");
+document.querySelectorAll(".section-tabs").forEach(group => {
+  group.querySelectorAll(".tab-btn").forEach(button => {
+    button.addEventListener("click", () => {
+      group.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+      button.classList.add("active");
+      const page = button.closest(".page");
+      page.querySelectorAll(".subsection").forEach(s=>s.classList.remove("active"));
+      const target = page.querySelector("#sub-" + button.dataset.subtab);
+      if (target) target.classList.add("active");
     });
   });
+});
 
-  function loadCurrentLogTab() {
-    if (currentLogTab === "sameeha") return loadSameeha();
-    if (currentLogTab === "manual") return loadManualLogs();
-    if (currentLogTab === "fulfilment") return loadLogOrders();
-  }
-
-  $("loadSameehaBtn").addEventListener("click", loadSameeha);
-  async function loadSameeha() {
-    setLoading("sameehaProducts");
-    try {
-      const data = await api("/admin/sameeha/products");
-      const list = normaliseArray(data, ["products","items","results"]);
-      $("sameehaProducts").innerHTML = rowsTable(
-        ["Product","Provider ID","Provider price","Retail price","Status","Action"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.name || item.product_name || "Unnamed product")}</strong><small>${esc(item.description || "")}</small></td>
-          <td>${esc(item.id || item.product_id || "—")}</td>
-          <td>${item.provider_price != null ? money(item.provider_price) : "—"}</td>
-          <td class="money">${money(item.retail_price ?? item.price ?? 0)}</td>
-          <td>${statusBadge(item.active === false ? "Inactive" : "Active")}</td>
-          <td><button class="btn btn-light btn-small" data-sameeha-edit="${esc(item.id || item.product_id)}">Edit price</button></td>
-        </tr>`),
-        "No Sameeha products were returned."
-      );
-      $("sameehaProducts").querySelectorAll("[data-sameeha-edit]").forEach(btn => {
-        btn.onclick = () => {
-          const item = list.find(x => String(x.id || x.product_id) === btn.dataset.sameehaEdit);
-          openSameehaEdit(item);
-        };
+/* Authentication and admin protection */
+async function start() {
+  try {
+    await new Promise(resolve => {
+      const unsub = firebase.auth().onAuthStateChanged(user => {
+        unsub(); resolve(user);
       });
-    } catch (error) {
-      $("sameehaProducts").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
+    });
+    currentUser = firebase.auth().currentUser;
+    if (!currentUser) { location.href="login.html"; return; }
+    $("adminEmail").textContent = currentUser.email || "";
+    await api("/api/admin/check");
+    loadOverview();
+  } catch (error) {
+    alert("Admin access could not be verified: " + error.message);
+    location.href="dashboard.html";
   }
+}
+$("logoutBtn").onclick = async () => {
+  try { await firebase.auth().signOut(); } finally { location.href="login.html"; }
+};
 
-  function openSameehaEdit(item = {}) {
-    showModal("Update Sameeha retail price", `
-      <form id="sameehaForm">
-        <div class="field"><label>Product</label><input value="${esc(item.name || item.product_name || "")}" disabled></div>
-        <div class="field" style="margin-top:12px"><label>Customer retail price (NGN)</label><input name="retail_price" type="number" min="0" step="0.01" required value="${esc(item.retail_price ?? item.price ?? "")}"></div>
-        <div class="field" style="margin-top:12px"><label class="switch-row"><input type="checkbox" name="active" ${item.active === false ? "" : "checked"}> Available to customers</label></div>
-        <div class="form-actions"><button type="button" class="btn btn-light" id="cancelSameeha">Cancel</button><button class="btn btn-primary">Save changes</button></div>
-      </form>
-    `);
-    $("cancelSameeha").onclick = closeModal;
-    $("sameehaForm").onsubmit = async e => {
-      e.preventDefault();
-      const f = new FormData(e.currentTarget);
-      const id = item.id || item.product_id;
-      try {
-        await api(`/admin/sameeha/products/${encodeURIComponent(id)}`, {
-          method:"PUT",
-          body:jsonBody({retail_price:Number(f.get("retail_price")), active:f.get("active") === "on"})
-        });
-        closeModal();
-        toast("Sameeha product updated.");
-        loadSameeha();
-      } catch (error) { toast(error.message); }
-    };
-  }
+/* Overview */
+async function loadOverview() {
+  status("overviewStatus","Loading dashboard...");
+  try {
+    const [stats, activity] = await Promise.all([
+      api("/api/admin/dashboard"),
+      api("/api/admin/activity?limit=15")
+    ]);
+    const s = stats.stats || stats;
+    $("statUsers").textContent = val(s,["totalUsers","users","total_users"],"—");
+    $("statWallet").textContent = money(val(s,["totalWalletBalance","walletBalance","total_wallet_balance"],0));
+    $("statNumbers").textContent = val(s,["numberOrders","totalNumberOrders","number_orders"],"—");
+    $("statBoosts").textContent = val(s,["boostOrders","totalBoostOrders","boost_orders"],"—");
+    const list = rowsFrom(activity);
+    setRows("activityTable",list.map(x=>`<tr>
+      <td>${esc(val(x,["type","activity","action"],"Activity"))}</td>
+      <td>${esc(val(x,["email","userEmail","user"],"—"))}</td>
+      <td>${esc(val(x,["description","details","message"],"—"))}</td>
+      <td>${esc(safeDate(val(x,["createdAt","created_at","date","timestamp"])))}</td>
+    </tr>`).join(""),4);
+    status("overviewStatus","");
+  } catch(e) { status("overviewStatus",e.message,"error"); }
+}
 
-  $("addManualLogBtn").addEventListener("click", () => openManualLog());
-  async function loadManualLogs() {
-    setLoading("manualLogs");
-    try {
-      const data = await api("/admin/logs/manual");
-      const list = normaliseArray(data, ["products","listings","items"]);
-      $("manualLogs").innerHTML = rowsTable(
-        ["Listing","Email / account","Retail price","Status","Actions"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.name || item.title || "Account listing")}</strong><small>${esc(item.description || "")}</small></td>
-          <td>${esc(item.email || item.username || "Stored securely")}<small>Credentials are not shown in this table.</small></td>
-          <td class="money">${money(item.price ?? item.retail_price)}</td>
-          <td>${statusBadge(item.active === false ? "Inactive" : "Active")}</td>
-          <td><div class="table-actions">
-            <button class="btn btn-light btn-small" data-manual-edit="${esc(item.id)}">Edit</button>
-            <button class="btn btn-danger btn-small" data-manual-delete="${esc(item.id)}">Delete</button>
-          </div></td>
-        </tr>`),
-        "No manual listings created."
-      );
-      $("manualLogs").querySelectorAll("[data-manual-edit]").forEach(btn => {
-        btn.onclick = () => openManualLog(list.find(x => String(x.id) === btn.dataset.manualEdit));
-      });
-      $("manualLogs").querySelectorAll("[data-manual-delete]").forEach(btn => {
-        btn.onclick = () => deleteManualLog(btn.dataset.manualDelete);
-      });
-    } catch (error) {
-      $("manualLogs").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
-
-  function openManualLog(item = {}) {
-    showModal(item.id ? "Edit manual listing" : "Add manual listing", `
-      <form id="manualLogForm">
-        <div class="form-grid">
-          <div class="field full"><label>Listing name</label><input name="name" required value="${esc(item.name || item.title || "")}" placeholder="Product or account name"></div>
-          <div class="field"><label>Account email / username</label><input name="email" value="${esc(item.email || item.username || "")}" placeholder="Account email"></div>
-          <div class="field"><label>Account password</label><input name="password" type="text" value="${esc(item.password || "")}" placeholder="${item.id ? "Leave blank to keep current password" : "Enter account password"}"></div>
-          <div class="field"><label>Retail price (NGN)</label><input name="price" type="number" min="0" step="0.01" required value="${esc(item.price ?? item.retail_price ?? "")}"></div>
-          <div class="field"><label>Listing status</label><select name="active"><option value="true" ${item.active === false ? "" : "selected"}>Active</option><option value="false" ${item.active === false ? "selected" : ""}>Inactive</option></select></div>
-          <div class="field full"><label>Description</label><textarea name="description" placeholder="Describe the listing">${esc(item.description || "")}</textarea></div>
-          <div class="field full"><label>Guides / instructions</label><textarea name="guides" placeholder="Instructions for the purchaser">${esc(item.guides || item.instructions || "")}</textarea></div>
-          <div class="field full"><label>Warnings / notes</label><textarea name="warnings" placeholder="Important conditions or warnings">${esc(item.warnings || "")}</textarea></div>
-        </div>
-        <div class="notice warning" style="margin-top:13px;margin-bottom:0">Credentials are for fulfilment only. They must not be included in the public product catalogue. The backend must release them only to the customer whose payment is confirmed.</div>
-        <div class="form-actions"><button type="button" class="btn btn-light" id="cancelManualLog">Cancel</button><button class="btn btn-primary">Save listing</button></div>
-      </form>
-    `);
-    $("cancelManualLog").onclick = closeModal;
-    $("manualLogForm").onsubmit = async e => {
-      e.preventDefault();
-      const f = new FormData(e.currentTarget);
-      const payload = {
-        name:String(f.get("name")).trim(),
-        email:String(f.get("email") || "").trim(),
-        price:Number(f.get("price")),
-        description:String(f.get("description") || "").trim(),
-        guides:String(f.get("guides") || "").trim(),
-        warnings:String(f.get("warnings") || "").trim(),
-        active:f.get("active") === "true"
+/* Wallets */
+$("walletSearchBtn").onclick = searchWalletUsers;
+$("walletSearch").addEventListener("keydown",e=>{if(e.key==="Enter")searchWalletUsers()});
+async function searchWalletUsers() {
+  const q=$("walletSearch").value.trim();
+  if(!q) return status("walletStatus","Enter a search term.","error");
+  $("walletUserResults").textContent="Searching...";
+  try {
+    const data=await api("/api/admin/users/search?query="+encodeURIComponent(q));
+    const users=rowsFrom(data);
+    $("walletUserResults").innerHTML=users.length ? users.map(u=>{
+      const uid=val(u,["uid","id","userId"]);
+      return `<div style="padding:10px 0;border-bottom:1px solid #eee">
+        <strong>${esc(val(u,["email","displayName","name"],"User"))}</strong>
+        <span class="muted"> · ${esc(val(u,["accountId","account_id"],"No account ID"))}</span>
+        <button class="btn secondary" data-wallet-uid="${esc(uid)}" style="float:right">Select</button>
+      </div>`;
+    }).join("") : "No matching users found.";
+    $("walletUserResults").querySelectorAll("[data-wallet-uid]").forEach(btn=>{
+      btn.onclick=()=>{
+        selectedWallet=users.find(u=>String(val(u,["uid","id","userId"]))===btn.dataset.walletUid);
+        $("selectedWalletUser").textContent=
+          val(selectedWallet,["email","displayName","name"],"Selected user")+" · "+
+          val(selectedWallet,["accountId","account_id","uid"],"");
       };
-      const password = String(f.get("password") || "");
-      if (password) payload.password = password;
-      try {
-        const path = item.id ? `/admin/logs/manual/${encodeURIComponent(item.id)}` : "/admin/logs/manual";
-        await api(path, {method:item.id ? "PUT" : "POST", body:jsonBody(payload)});
-        closeModal();
-        toast("Manual listing saved.");
-        loadManualLogs();
-      } catch (error) { toast(error.message); }
-    };
-  }
+    });
+  } catch(e) { $("walletUserResults").textContent=e.message; }
+}
+$("walletSubmit").onclick=async()=>{
+  if(!selectedWallet) return status("walletStatus","Select a user first.","error");
+  const amount=Number($("walletAmount").value);
+  if(!amount||amount<=0) return status("walletStatus","Enter a valid amount.","error");
+  const action=$("walletAction").value;
+  const uid=val(selectedWallet,["uid","id","userId"]);
+  try {
+    await api("/api/admin/wallet/"+action,json("POST",{
+      user:uid,amount,reason:$("walletReason").value.trim()
+    }));
+    status("walletStatus","Wallet updated successfully.","ok");
+    $("walletAmount").value=""; $("walletReason").value="";
+    loadWalletTransactions();
+  } catch(e) { status("walletStatus",e.message,"error"); }
+};
+$("refreshWalletTransactions").onclick=loadWalletTransactions;
+async function loadWalletTransactions(){
+  try{
+    const data=await api("/api/admin/wallet/transactions?limit=100");
+    const list=rowsFrom(data);
+    setRows("walletTransactions",list.map(x=>`<tr>
+      <td>${esc(val(x,["email","userEmail","user"],"—"))}</td>
+      <td>${esc(val(x,["type","action"],"—"))}</td>
+      <td>${money(val(x,["amount","value"],0))}</td>
+      <td>${esc(val(x,["reason","description"],"—"))}</td>
+      <td>${esc(safeDate(val(x,["createdAt","created_at","date"])))}</td>
+    </tr>`).join(""),5);
+  }catch(e){$("walletTransactions").innerHTML=`<tr><td colspan="5" class="empty">${esc(e.message)}</td></tr>`;}
+}
 
-  async function deleteManualLog(id) {
-    if (!confirm("Delete this manual listing?")) return;
-    try {
-      await api(`/admin/logs/manual/${encodeURIComponent(id)}`, {method:"DELETE"});
-      toast("Listing deleted.");
-      loadManualLogs();
-    } catch (error) { toast(error.message); }
+/* WickSpend catalogue */
+$("loadWickCatalog").onclick=loadWickCatalog;
+$("refreshWickOffers").onclick=loadWickOffers;
+$("wickSearch").oninput=renderWickCatalog;
+function normalizeWick(item){
+  return {
+    raw:item,
+    country:val(item,["country_name","country","countryName","name_country"],"Unknown country"),
+    countryCode:val(item,["country_code","countryCode","code"],""),
+    service:val(item,["service_name","service","serviceName","name"],"Unknown service"),
+    serviceCode:val(item,["service_code","serviceCode","service_id"],""),
+    providerId:val(item,["provider_id","providerId","server_id","id"],""),
+    providerCost:val(item,["provider_price","cost","price","rate"],"")
+  };
+}
+async function loadWickCatalog(){
+  status("wickCatalogStatus","Loading WickSpend catalogue...");
+  setRows("wickCatalogTable","",6,"Loading provider catalogue...");
+  try{
+    const data=await api("/api/admin/wickspend/provider/numbers/catalog");
+    wickCatalog=rowsFrom(data).map(normalizeWick);
+    renderWickCatalog();
+    status("wickCatalogStatus",wickCatalog.length+" provider catalogue entries loaded.","ok");
+  }catch(e){setRows("wickCatalogTable","",6,e.message);status("wickCatalogStatus",e.message,"error");}
+}
+function renderWickCatalog(){
+  const q=$("wickSearch").value.toLowerCase();
+  const list=wickCatalog.filter(x=>(x.country+" "+x.service+" "+x.providerId).toLowerCase().includes(q));
+  setRows("wickCatalogTable",list.map((x,i)=>`<tr>
+    <td><input type="checkbox" class="wick-check" data-index="${wickCatalog.indexOf(x)}"></td>
+    <td>${esc(x.country)} <span class="muted">${esc(x.countryCode)}</span></td>
+    <td>${esc(x.service)} <span class="muted">${esc(x.serviceCode)}</span></td>
+    <td>${esc(x.providerId)}</td>
+    <td>${x.providerCost!==""?esc(x.providerCost):"Not supplied"}</td>
+    <td><input type="number" min="0" step="1" class="wick-price" data-index="${wickCatalog.indexOf(x)}" placeholder="Your price"></td>
+  </tr>`).join(""),6);
+  document.querySelectorAll(".wick-check").forEach(c=>c.onchange=updateWickCount);
+  updateWickCount();
+}
+function updateWickCount(){
+  const n=document.querySelectorAll(".wick-check:checked").length;
+  $("wickSelectedCount").textContent=n+" selected";
+}
+$("saveSelectedWick").onclick=async()=>{
+  const selected=[...document.querySelectorAll(".wick-check:checked")];
+  if(!selected.length)return status("wickCatalogStatus","Select at least one provider service.","error");
+  const offers=[];
+  for(const check of selected){
+    const i=Number(check.dataset.index),x=wickCatalog[i];
+    const priceInput=document.querySelector(`.wick-price[data-index="${i}"]`);
+    const price=Number(priceInput?.value);
+    if(!price||price<=0)return status("wickCatalogStatus","Enter a valid customer price for every selected service.","error");
+    offers.push({
+      country:x.country,country_code:x.countryCode,
+      service:x.service,service_code:x.serviceCode,
+      provider_id:x.providerId,price,active:true
+    });
   }
+  try{
+    for(const offer of offers) await api("/api/admin/wickspend/offers/numbers",json("POST",offer));
+    status("wickCatalogStatus",offers.length+" offer(s) saved. They are now in your offers list.","ok");
+    await loadWickOffers();
+  }catch(e){status("wickCatalogStatus",e.message,"error");}
+};
+async function loadWickOffers(){
+  try{
+    const data=await api("/api/admin/wickspend/offers/numbers");
+    wickOffers=rowsFrom(data);
+    setRows("wickOffersTable",wickOffers.map(o=>{
+      const id=val(o,["id","offer_id"]);
+      return `<tr>
+        <td>${esc(val(o,["country","country_name","country_code"]))}</td>
+        <td>${esc(val(o,["service","service_name","service_code"]))}</td>
+        <td>${esc(val(o,["provider_id","providerId"]))}</td>
+        <td><input type="number" min="0" data-wick-price="${esc(id)}" value="${Number(val(o,["price","retail_price"],0))}"></td>
+        <td><span class="tag ${o.active===false?"red":"green"}">${o.active===false?"Inactive":"Active"}</span></td>
+        <td><button class="btn secondary" data-wick-save="${esc(id)}">Save</button>
+        <button class="btn danger" data-wick-delete="${esc(id)}">Delete</button></td>
+      </tr>`;
+    }).join(""),6);
+    $("wickOffersTable").querySelectorAll("[data-wick-save]").forEach(b=>b.onclick=async()=>{
+      const id=b.dataset.wickSave,price=Number(document.querySelector(`[data-wick-price="${CSS.escape(id)}"]`).value);
+      const offer=wickOffers.find(x=>String(val(x,["id","offer_id"]))===id);
+      try{await api("/api/admin/wickspend/offers/numbers/"+encodeURIComponent(id),json("PUT",{...offer,price}));status("wickOffersStatus","Offer price updated.","ok");loadWickOffers();}
+      catch(e){status("wickOffersStatus",e.message,"error");}
+    });
+    $("wickOffersTable").querySelectorAll("[data-wick-delete]").forEach(b=>b.onclick=async()=>{
+      if(!confirm("Delete this customer offer?"))return;
+      try{await api("/api/admin/wickspend/offers/numbers/"+encodeURIComponent(b.dataset.wickDelete),{method:"DELETE"});loadWickOffers();}
+      catch(e){status("wickOffersStatus",e.message,"error");}
+    });
+  }catch(e){setRows("wickOffersTable","",6,e.message);status("wickOffersStatus",e.message,"error");}
+}
 
-  $("loadLogOrdersBtn").addEventListener("click", loadLogOrders);
-  async function loadLogOrders() {
-    setLoading("logOrders");
-    try {
-      const data = await api("/admin/logs/orders");
-      const list = normaliseArray(data, ["orders","items","results"]);
-      $("logOrders").innerHTML = rowsTable(
-        ["Order","Customer","Product","Payment","Order status","Action"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.id || item.orderId || "—")}</strong><small>${esc(dateText(item.createdAt || item.created_at))}</small></td>
-          <td>${esc(item.email || item.userEmail || item.uid || "—")}</td>
-          <td>${esc(item.productName || item.product_name || item.product || "—")}</td>
-          <td>${statusBadge(item.paymentStatus || item.payment_status || "Unknown")}</td>
-          <td>${statusBadge(item.status || "Pending")}</td>
-          <td>${String(item.paymentStatus || item.payment_status || "").toLowerCase() === "paid"
-            ? `<button class="btn btn-primary btn-small" data-fulfil="${esc(item.id || item.orderId)}">Fulfil</button>`
-            : `<span class="muted">Awaiting payment</span>`}</td>
-        </tr>`),
-        "No Account Logs orders found."
-      );
-      $("logOrders").querySelectorAll("[data-fulfil]").forEach(btn => {
-        btn.onclick = () => openFulfilment(btn.dataset.fulfil, list.find(x => String(x.id || x.orderId) === btn.dataset.fulfil));
-      });
-    } catch (error) {
-      $("logOrders").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
+/* Sameeha */
+$("refreshSameeha").onclick=loadSameeha;
+$("sameehaSearch").oninput=renderSameeha;
+async function loadSameeha(){
+  status("sameehaStatus","Fetching Sameeha products...");
+  try{
+    const data=await api("/api/admin/sameeha/products");
+    sameehaProducts=rowsFrom(data);
+    renderSameeha();
+    status("sameehaStatus",sameehaProducts.length+" Sameeha product(s) loaded.",
+      sameehaProducts.length?"ok":"");
+  }catch(e){
+    setRows("sameehaTable","",6,e.message);
+    status("sameehaStatus","Sameeha products could not be loaded: "+e.message,"error");
   }
-
-  function openFulfilment(orderId, item = {}) {
-    showModal("Fulfil paid Account Logs order", `
-      <div class="notice success">Confirm that this order has been paid before entering and releasing credentials.</div>
-      <p class="inline-note">Order: ${esc(orderId)} · Customer: ${esc(item.email || item.userEmail || item.uid || "—")}</p>
-      <form id="fulfilForm">
-        <div class="field"><label>Account email / username</label><input name="email" value="${esc(item.deliveryEmail || "")}" required></div>
-        <div class="field" style="margin-top:12px"><label>Password / credentials</label><textarea name="credentials" required placeholder="Enter the credentials to deliver securely"></textarea></div>
-        <div class="field" style="margin-top:12px"><label>Delivery note (optional)</label><textarea name="note" placeholder="Any instructions for the customer"></textarea></div>
-        <div class="form-actions"><button type="button" class="btn btn-light" id="cancelFulfil">Cancel</button><button class="btn btn-primary">Release credentials</button></div>
-      </form>
-    `);
-    $("cancelFulfil").onclick = closeModal;
-    $("fulfilForm").onsubmit = async e => {
-      e.preventDefault();
-      if (!confirm("Release these credentials to this paid customer?")) return;
-      const f = new FormData(e.currentTarget);
-      try {
-        await api(`/admin/logs/orders/${encodeURIComponent(orderId)}/fulfil`, {
-          method:"POST",
-          body:jsonBody({
-            email:String(f.get("email")).trim(),
-            credentials:String(f.get("credentials")),
-            note:String(f.get("note") || "").trim()
-          })
-        });
-        closeModal();
-        toast("Order fulfilment submitted.");
-        loadLogOrders();
-      } catch (error) { toast(error.message); }
-    };
-  }
-
-  // BOOSTING / MY SMM
-  $("boostSettingsForm").addEventListener("submit", async e => {
-    e.preventDefault();
-    const usdToNgnRate = Number($("usdToNgnRate").value);
-    const markupPercent = Number($("boostMarkup").value);
-    if (!(usdToNgnRate > 0) || markupPercent < 0) return toast("Enter valid pricing settings.");
-    try {
-      await api("/admin/boost/settings", {
-        method:"PUT",
-        body:jsonBody({usdToNgnRate, markupPercent})
-      });
-      toast("Boosting pricing settings saved.");
-      loadBoostServices();
-    } catch (error) { toast(error.message); }
+}
+function renderSameeha(){
+  const q=$("sameehaSearch").value.toLowerCase();
+  const list=sameehaProducts.filter(p=>(val(p,["name","title","product_name"],"")+" "+val(p,["id","product_id"],"")).toLowerCase().includes(q));
+  setRows("sameehaTable",list.map(p=>{
+    const id=val(p,["id","product_id"]);
+    return `<tr>
+      <td>${esc(val(p,["name","title","product_name"],"Unnamed product"))}</td>
+      <td>${esc(id)}</td>
+      <td>${esc(val(p,["provider_price","price","rate"],"—"))}</td>
+      <td><input type="number" min="0" data-sameeha-price="${esc(id)}" value="${Number(val(p,["retail_price","retailPrice"],0))}"></td>
+      <td><span class="tag ${p.active===false?"red":"green"}">${p.active===false?"Inactive":"Active"}</span></td>
+      <td><button class="btn secondary" data-sameeha-save="${esc(id)}">Save price</button></td>
+    </tr>`;
+  }).join(""),6);
+  $("sameehaTable").querySelectorAll("[data-sameeha-save]").forEach(b=>b.onclick=async()=>{
+    const id=b.dataset.sameehaSave;
+    const price=Number(document.querySelector(`[data-sameeha-price="${CSS.escape(id)}"]`).value);
+    if(price<0)return status("sameehaStatus","Enter a valid retail price.","error");
+    try{
+      await api("/api/admin/sameeha/products/"+encodeURIComponent(id),json("PUT",{retail_price:price}));
+      status("sameehaStatus","Sameeha retail price saved.","ok");
+    }catch(e){status("sameehaStatus",e.message,"error");}
   });
+}
 
-  async function loadBoostSettings() {
-    try {
-      const data = await api("/admin/boost/settings");
-      $("usdToNgnRate").value = data.usdToNgnRate ?? 1400;
-      $("boostMarkup").value = data.markupPercent ?? 20;
-    } catch (error) {
-      $("usdToNgnRate").value = 1400;
-      $("boostMarkup").value = 20;
-      toast("Pricing settings: " + error.message);
-    }
-    loadBoostServices();
-    loadBoostOrders();
-  }
+/* Manual Account Logs */
+$("refreshManualLogs").onclick=loadManualLogs;
+$("saveManualLog").onclick=saveManualLog;
+$("cancelManualEdit").onclick=resetManualForm;
+async function loadManualLogs(){
+  try{
+    const data=await api("/api/admin/logs/manual");
+    manualLogs=rowsFrom(data);
+    setRows("manualLogsTable",manualLogs.map(x=>{
+      const id=val(x,["id","product_id"]);
+      return `<tr>
+        <td>${esc(val(x,["title","name"]))}</td>
+        <td>${money(val(x,["price","retail_price"],0))}</td>
+        <td style="white-space:normal;min-width:190px">${esc(val(x,["description"],"—"))}</td>
+        <td><span class="tag ${x.active===false?"red":"green"}">${x.active===false?"Inactive":"Active"}</span></td>
+        <td><button class="btn secondary" data-manual-edit="${esc(id)}">Edit</button>
+        <button class="btn danger" data-manual-delete="${esc(id)}">Delete</button></td>
+      </tr>`;
+    }).join(""),5);
+    $("manualLogsTable").querySelectorAll("[data-manual-edit]").forEach(b=>b.onclick=()=>{
+      const x=manualLogs.find(v=>String(val(v,["id","product_id"]))===b.dataset.manualEdit);
+      if(!x)return;
+      manualEditId=b.dataset.manualEdit;
+      $("manualTitle").value=val(x,["title","name"]);
+      $("manualPrice").value=val(x,["price","retail_price"],0);
+      $("manualDescription").value=val(x,["description"]);
+      $("manualActive").checked=x.active!==false;
+      $("saveManualLog").textContent="Update listing";
+      $("cancelManualEdit").classList.remove("hidden");
+      document.querySelector("#sub-manual .panel").scrollIntoView({behavior:"smooth"});
+    });
+    $("manualLogsTable").querySelectorAll("[data-manual-delete]").forEach(b=>b.onclick=async()=>{
+      if(!confirm("Delete this manual listing?"))return;
+      try{await api("/api/admin/logs/manual/"+encodeURIComponent(b.dataset.manualDelete),{method:"DELETE"});loadManualLogs();}
+      catch(e){status("manualStatus",e.message,"error");}
+    });
+  }catch(e){setRows("manualLogsTable","",5,e.message);status("manualStatus",e.message,"error");}
+}
+async function saveManualLog(){
+  const title=$("manualTitle").value.trim(),price=Number($("manualPrice").value);
+  if(!title||price<0||!Number.isFinite(price))return status("manualStatus","Enter a product title and valid price.","error");
+  const body={title,price,description:$("manualDescription").value.trim(),active:$("manualActive").checked};
+  try{
+    if(manualEditId) await api("/api/admin/logs/manual/"+encodeURIComponent(manualEditId),json("PUT",body));
+    else await api("/api/admin/logs/manual",json("POST",body));
+    status("manualStatus","Manual listing saved.","ok");
+    resetManualForm();loadManualLogs();
+  }catch(e){status("manualStatus",e.message,"error");}
+}
+function resetManualForm(){
+  manualEditId=null;
+  $("manualTitle").value="";$("manualPrice").value="";
+  $("manualDescription").value="";$("manualActive").checked=true;
+  $("saveManualLog").textContent="Save listing";
+  $("cancelManualEdit").classList.add("hidden");
+}
 
-  $("loadBoostServicesBtn").addEventListener("click", loadBoostServices);
-  async function loadBoostServices() {
-    setLoading("boostServices");
-    try {
-      const data = await api("/boost/services");
-      const list = normaliseArray(data, ["services","items"]);
-      $("boostServices").innerHTML = rowsTable(
-        ["Service","Service ID","Provider rate","Min / Max","Customer rate"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.name || item.service_name || "Service")}</strong><small>${esc(item.category || item.type || "")}</small></td>
-          <td>${esc(item.service || item.id || "—")}</td>
-          <td>${esc(item.rate ?? item.provider_rate ?? "—")} USD / 1k</td>
-          <td>${esc(item.min ?? "—")} / ${esc(item.max ?? "—")}</td>
-          <td class="money">${item.retail_rate_ngn != null ? money(item.retail_rate_ngn) : item.retail_rate != null ? money(item.retail_rate) : "—"} / 1k</td>
-        </tr>`),
-        "No MySMM services returned."
-      );
-    } catch (error) {
-      $("boostServices").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
+/* Boosting services */
+$("refreshBoostServices").onclick=loadBoostServices;
+$("boostSearch").oninput=renderBoostServices;
+async function loadBoostServices(){
+  status("boostServicesStatus","Loading MySMM services...");
+  try{
+    const data=await api("/api/boost/services");
+    boostServices=rowsFrom(data);
+    renderBoostServices();
+    status("boostServicesStatus",boostServices.length+" boosting services loaded.","ok");
+  }catch(e){setRows("boostServicesTable","",8,e.message);status("boostServicesStatus",e.message,"error");}
+}
+function renderBoostServices(){
+  const q=$("boostSearch").value.toLowerCase();
+  const list=boostServices.filter(s=>(val(s,["name","service_name"],"")+" "+val(s,["service","id"],"")).toLowerCase().includes(q));
+  setRows("boostServicesTable",list.map(s=>{
+    const id=val(s,["service","id","service_id"]);
+    return `<tr>
+      <td>${esc(id)}</td><td>${esc(val(s,["name","service_name"],"Unnamed service"))}</td>
+      <td>${esc(val(s,["type"],"—"))}</td>
+      <td>${esc(val(s,["rate","provider_rate"],"—"))}</td>
+      <td><input type="number" min="0" data-boost-price="${esc(id)}" value="${Number(val(s,["retail_rate_ngn","retail_rate","rate_ngn","retail_price_ngn"],0))}"></td>
+      <td>${esc(val(s,["min","minimum"],"—"))}</td><td>${esc(val(s,["max","maximum"],"—"))}</td>
+      <td><button class="btn secondary" data-boost-save="${esc(id)}">Save</button></td>
+    </tr>`;
+  }).join(""),8);
+  $("boostServicesTable").querySelectorAll("[data-boost-save]").forEach(b=>b.onclick=async()=>{
+    const id=b.dataset.boostSave;
+    const price=Number(document.querySelector(`[data-boost-price="${CSS.escape(id)}"]`).value);
+    if(!price||price<=0)return status("boostServicesStatus","Enter a valid customer price per 1,000.","error");
+    try{
+      await api("/api/admin/boost/services/"+encodeURIComponent(id),json("PUT",{retail_price_ngn:price}));
+      status("boostServicesStatus","Customer selling price saved.","ok");
+    }catch(e){status("boostServicesStatus",e.message,"error");}
+  });
+}
 
-  $("loadBoostOrdersBtn").addEventListener("click", loadBoostOrders);
-  async function loadBoostOrders() {
-    setLoading("boostOrders");
-    try {
-      const data = await api("/admin/boost/orders");
-      const list = normaliseArray(data, ["orders","items","results"]);
-      $("boostOrders").innerHTML = rowsTable(
-        ["Order","Customer","Service","Quantity","Amount","Status","Actions"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.orderId || item.id || "—")}</strong><small>${esc(dateText(item.createdAt || item.created_at))}</small></td>
-          <td>${esc(item.email || item.userEmail || item.uid || "—")}</td>
-          <td>${esc(item.serviceName || item.service_name || item.service || "—")}</td>
-          <td>${esc(item.quantity ?? "—")}</td>
-          <td class="money">${money(item.amount ?? item.price)}</td>
-          <td>${statusBadge(item.status)}</td>
-          <td><div class="table-actions">
-            <button class="btn btn-light btn-small" data-boost-status="${esc(item.id || item.orderId)}">Update</button>
-            <button class="btn btn-danger btn-small" data-boost-cancel="${esc(item.id || item.orderId)}">Cancel</button>
-            <button class="btn btn-light btn-small" data-boost-refill="${esc(item.id || item.orderId)}">Refill</button>
-          </div></td>
-        </tr>`),
-        "No boosting orders found."
-      );
-      $("boostOrders").querySelectorAll("[data-boost-status]").forEach(btn => {
-        btn.onclick = () => updateBoostStatus(btn.dataset.boostStatus);
-      });
-      $("boostOrders").querySelectorAll("[data-boost-cancel]").forEach(btn => {
-        btn.onclick = () => boostOrderAction(btn.dataset.boostCancel, "cancel");
-      });
-      $("boostOrders").querySelectorAll("[data-boost-refill]").forEach(btn => {
-        btn.onclick = () => boostOrderAction(btn.dataset.boostRefill, "refill");
-      });
-    } catch (error) {
-      $("boostOrders").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
+/* Boosting orders */
+$("refreshBoostOrders").onclick=loadBoostOrders;
+async function loadBoostOrders(){
+  try{
+    const data=await api("/api/admin/boost/orders");
+    const list=rowsFrom(data);
+    setRows("boostOrdersTable",list.map(o=>{
+      const id=val(o,["id","order_id","provider_order_id"]);
+      return `<tr>
+        <td>${esc(id)}</td><td>${esc(val(o,["email","user_email","user"],"—"))}</td>
+        <td>${esc(val(o,["service_name","service"],"—"))}</td>
+        <td>${esc(val(o,["quantity"],"—"))}</td>
+        <td>${money(val(o,["charge","customer_charge"],0))}</td>
+        <td>${esc(val(o,["status"],"—"))}</td>
+        <td><button class="btn secondary" data-boost-status="${esc(id)}">Update status</button>
+        <button class="btn danger" data-boost-cancel="${esc(id)}">Cancel</button>
+        <button class="btn light" data-boost-refill="${esc(id)}">Refill</button></td>
+      </tr>`;
+    }).join(""),7);
+    $("boostOrdersTable").querySelectorAll("[data-boost-status]").forEach(b=>b.onclick=async()=>{
+      const next=prompt("Enter the order status:");
+      if(!next)return;
+      try{await api("/api/admin/boost/orders/"+encodeURIComponent(b.dataset.boostStatus)+"/status",json("PUT",{status:next}));loadBoostOrders();}
+      catch(e){status("boostOrdersStatus",e.message,"error");}
+    });
+    $("boostOrdersTable").querySelectorAll("[data-boost-cancel]").forEach(b=>b.onclick=async()=>{
+      if(!confirm("Request cancellation for this order?"))return;
+      try{await api("/api/admin/boost/orders/"+encodeURIComponent(b.dataset.boostCancel)+"/cancel",{method:"POST"});loadBoostOrders();}
+      catch(e){status("boostOrdersStatus",e.message,"error");}
+    });
+    $("boostOrdersTable").querySelectorAll("[data-boost-refill]").forEach(b=>b.onclick=async()=>{
+      if(!confirm("Request a refill for this order?"))return;
+      try{await api("/api/admin/boost/orders/"+encodeURIComponent(b.dataset.boostRefill)+"/refill",{method:"POST"});loadBoostOrders();}
+      catch(e){status("boostOrdersStatus",e.message,"error");}
+    });
+  }catch(e){setRows("boostOrdersTable","",7,e.message);status("boostOrdersStatus",e.message,"error");}
+}
 
-  function updateBoostStatus(id) {
-    showModal("Update boosting order status", `
-      <form id="boostStatusForm">
-        <div class="field"><label>Status</label><select name="status">
-          <option>Pending</option><option>In progress</option><option>Completed</option><option>Partial</option><option>Cancelled</option><option>Failed</option>
-        </select></div>
-        <div class="form-actions"><button type="button" class="btn btn-light" id="cancelBoostStatus">Cancel</button><button class="btn btn-primary">Update status</button></div>
-      </form>
-    `);
-    $("cancelBoostStatus").onclick = closeModal;
-    $("boostStatusForm").onsubmit = async e => {
-      e.preventDefault();
-      const status = new FormData(e.currentTarget).get("status");
-      try {
-        await api(`/admin/boost/orders/${encodeURIComponent(id)}/status`, {method:"PUT",body:jsonBody({status})});
-        closeModal(); toast("Order status updated."); loadBoostOrders();
-      } catch (error) { toast(error.message); }
-    };
-  }
+/* Users */
+$("userSearchBtn").onclick=loadUsers;
+$("userSearch").addEventListener("keydown",e=>{if(e.key==="Enter")loadUsers()});
+async function loadUsers(){
+  const q=$("userSearch").value.trim();
+  try{
+    const data=await api("/api/admin/users?query="+encodeURIComponent(q));
+    const list=rowsFrom(data);
+    setRows("usersTable",list.map(u=>{
+      const uid=val(u,["uid","id"]);
+      return `<tr>
+        <td>${esc(val(u,["displayName","name"],"User"))}</td>
+        <td>${esc(val(u,["email"],"—"))}</td>
+        <td>${esc(val(u,["accountId","account_id"],"—"))}</td>
+        <td>${money(val(u,["balance","walletBalance","wallet_balance"],0))}</td>
+        <td>${esc(val(u,["status","active"],"—"))}</td>
+        <td><button class="btn secondary" data-user-toggle="${esc(uid)}" data-active="${u.active===false?"false":"true"}">${u.active===false?"Activate":"Deactivate"}</button></td>
+      </tr>`;
+    }).join(""),6);
+    $("usersTable").querySelectorAll("[data-user-toggle]").forEach(b=>b.onclick=async()=>{
+      const active=b.dataset.active!=="true";
+      try{
+        await api("/api/admin/users/"+encodeURIComponent(b.dataset.userToggle)+"/status",json("PUT",{active,status:active?"active":"suspended"}));
+        loadUsers();
+      }catch(e){status("usersStatus",e.message,"error");}
+    });
+    status("usersStatus",list.length+" user(s) found.","ok");
+  }catch(e){status("usersStatus",e.message,"error");}
+}
 
-  async function boostOrderAction(id, action) {
-    const label = action === "cancel" ? "cancel this boosting order" : "request a refill for this order";
-    if (!confirm(`Are you sure you want to ${label}?`)) return;
-    try {
-      await api(`/admin/boost/orders/${encodeURIComponent(id)}/${action}`, {
-        method:"POST",
-        body:jsonBody({})
-      });
-      toast(action === "cancel" ? "Cancellation request submitted." : "Refill request submitted.");
-      loadBoostOrders();
-    } catch (error) { toast(error.message); }
-  }
+/* Announcements */
+$("refreshAnnouncements").onclick=loadAnnouncements;
+$("saveAnnouncement").onclick=async()=>{
+  const title=$("announcementTitle").value.trim(),message=$("announcementMessage").value.trim();
+  if(!title||!message)return status("announcementStatus","Enter a title and message.","error");
+  try{
+    await api("/api/admin/announcements",json("POST",{title,message,active:$("announcementActive").value==="true"}));
+    $("announcementTitle").value="";$("announcementMessage").value="";
+    status("announcementStatus","Announcement published.","ok");loadAnnouncements();
+  }catch(e){status("announcementStatus",e.message,"error");}
+};
+async function loadAnnouncements(){
+  try{
+    const data=await api("/api/admin/announcements");
+    announcements=rowsFrom(data);
+    setRows("announcementsTable",announcements.map(a=>{
+      const id=val(a,["id"]);
+      return `<tr><td>${esc(a.title)}</td><td style="white-space:normal;min-width:180px">${esc(a.message)}</td>
+        <td>${a.active===false?"Inactive":"Active"}</td>
+        <td><button class="btn danger" data-ann-delete="${esc(id)}">Delete</button></td></tr>`;
+    }).join(""),4);
+    $("announcementsTable").querySelectorAll("[data-ann-delete]").forEach(b=>b.onclick=async()=>{
+      if(!confirm("Delete this announcement?"))return;
+      try{await api("/api/admin/announcements/"+encodeURIComponent(b.dataset.annDelete),{method:"DELETE"});loadAnnouncements();}
+      catch(e){status("announcementStatus",e.message,"error");}
+    });
+  }catch(e){setRows("announcementsTable","",4,e.message);}
+}
 
-  // USERS
-  $("userSearchBtn").addEventListener("click", searchUsers);
-  $("userSearch").addEventListener("keydown", e => { if (e.key === "Enter") searchUsers(); });
+/* Resources */
+$("refreshResources").onclick=loadResources;
+$("saveResource").onclick=async()=>{
+  const title=$("resourceTitle").value.trim(),url=$("resourceUrl").value.trim();
+  if(!title||!url)return status("resourceStatus","Enter a title and URL.","error");
+  try{
+    await api("/api/admin/resources",json("POST",{
+      title,url,description:$("resourceDescription").value.trim()
+    }));
+    $("resourceTitle").value="";$("resourceUrl").value="";$("resourceDescription").value="";
+    status("resourceStatus","Resource saved.","ok");loadResources();
+  }catch(e){status("resourceStatus",e.message,"error");}
+};
+async function loadResources(){
+  try{
+    const data=await api("/api/admin/resources");
+    resources=rowsFrom(data);
+    setRows("resourcesTable",resources.map(r=>{
+      const id=val(r,["id"]);
+      return `<tr><td>${esc(r.title)}</td><td><a href="${esc(r.url)}" target="_blank" rel="noopener">Open resource</a></td>
+        <td style="white-space:normal;min-width:160px">${esc(r.description)}</td>
+        <td><button class="btn danger" data-resource-delete="${esc(id)}">Delete</button></td></tr>`;
+    }).join(""),4);
+    $("resourcesTable").querySelectorAll("[data-resource-delete]").forEach(b=>b.onclick=async()=>{
+      if(!confirm("Delete this resource?"))return;
+      try{await api("/api/admin/resources/"+encodeURIComponent(b.dataset.resourceDelete),{method:"DELETE"});loadResources();}
+      catch(e){status("resourceStatus",e.message,"error");}
+    });
+  }catch(e){setRows("resourcesTable","",4,e.message);}
+}
 
-  async function searchUsers() {
-    const query = $("userSearch").value.trim();
-    setLoading("usersTable");
-    try {
-      const data = await api("/admin/users?query=" + encodeURIComponent(query));
-      const list = normaliseArray(data, ["users","items","results"]);
-      $("usersTable").innerHTML = rowsTable(
-        ["User","Account ID","Wallet","Status","Actions"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.name || item.displayName || "User")}</strong><small>${esc(item.email || "")}</small></td>
-          <td>${esc(item.accountId || item.account_id || item.uid || "—")}</td>
-          <td class="money">${money(item.balance ?? item.walletBalance ?? item.wallet?.balance ?? 0)}</td>
-          <td>${statusBadge(item.status || (item.active === false ? "Inactive" : "Active"))}</td>
-          <td><div class="table-actions">
-            <button class="btn btn-light btn-small" data-user-view="${esc(item.uid || item.id)}">Details</button>
-            <button class="btn btn-light btn-small" data-user-toggle="${esc(item.uid || item.id)}" data-active="${item.active === false ? "false" : "true"}">${item.active === false ? "Activate" : "Suspend"}</button>
-          </div></td>
-        </tr>`),
-        "No users found."
-      );
-      $("usersTable").querySelectorAll("[data-user-view]").forEach(btn => btn.onclick = () => viewUser(btn.dataset.userView));
-      $("usersTable").querySelectorAll("[data-user-toggle]").forEach(btn => btn.onclick = () => toggleUser(btn.dataset.userToggle, btn.dataset.active === "true"));
-    } catch (error) {
-      $("usersTable").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
+/* Load data when an admin opens a section */
+function loadPage(page){
+  const loaders={
+    overview:loadOverview,wallets:loadWalletTransactions,
+    wickspend:()=>{loadWickOffers();},
+    logs:()=>{loadSameeha();loadManualLogs();},
+    boosting:()=>{loadBoostServices();},
+    users:loadUsers,announcements:loadAnnouncements,resources:loadResources
+  };
+  if(loaders[page])loaders[page]();
+}
 
-  async function viewUser(uid) {
-    try {
-      const data = await api(`/admin/users/${encodeURIComponent(uid)}`);
-      const user = data.user || data;
-      showModal("User details", `
-        <div class="form-grid">
-          <div class="field"><label>Name</label><input value="${esc(user.name || user.displayName || "—")}" disabled></div>
-          <div class="field"><label>Email</label><input value="${esc(user.email || "—")}" disabled></div>
-          <div class="field"><label>Account ID</label><input value="${esc(user.accountId || user.account_id || uid)}" disabled></div>
-          <div class="field"><label>Wallet balance</label><input value="${esc(money(user.balance ?? user.walletBalance ?? user.wallet?.balance ?? 0))}" disabled></div>
-          <div class="field"><label>Account status</label><input value="${esc(user.status || (user.active === false ? "Inactive" : "Active"))}" disabled></div>
-          <div class="field"><label>Joined</label><input value="${esc(dateText(user.createdAt || user.created_at))}" disabled></div>
-        </div>
-      `);
-    } catch (error) { toast(error.message); }
-  }
-
-  async function toggleUser(uid, currentlyActive) {
-    const active = !currentlyActive;
-    if (!confirm(active ? "Activate this user account?" : "Suspend this user account?")) return;
-    try {
-      await api(`/admin/users/${encodeURIComponent(uid)}/status`, {
-        method:"PUT",
-        body:jsonBody({active, status:active ? "active" : "suspended"})
-      });
-      toast(active ? "User activated." : "User suspended.");
-      searchUsers();
-    } catch (error) { toast(error.message); }
-  }
-
-  // ANNOUNCEMENTS
-  $("addAnnouncementBtn").addEventListener("click", () => openAnnouncement());
-  $("loadAnnouncementsBtn").addEventListener("click", loadAnnouncements);
-
-  function openAnnouncement(item = {}) {
-    showModal(item.id ? "Edit announcement" : "New announcement", `
-      <form id="announcementForm">
-        <div class="form-grid">
-          <div class="field full"><label>Announcement title</label><input name="title" required value="${esc(item.title || "")}"></div>
-          <div class="field full"><label>Message</label><textarea name="message" required>${esc(item.message || item.body || "")}</textarea></div>
-          <div class="field"><label>Announcement type</label><select name="type">
-            <option value="update" ${item.type === "update" ? "selected" : ""}>Official update</option>
-            <option value="notice" ${item.type === "notice" ? "selected" : ""}>General notice</option>
-            <option value="promotion" ${item.type === "promotion" ? "selected" : ""}>Promotion / giveaway</option>
-          </select></div>
-          <div class="field"><label class="switch-row"><input type="checkbox" name="active" ${item.active === false ? "" : "checked"}> Active / visible to users</label></div>
-        </div>
-        <div class="form-actions"><button type="button" class="btn btn-light" id="cancelAnnouncement">Cancel</button><button class="btn btn-primary">Save announcement</button></div>
-      </form>
-    `);
-    $("cancelAnnouncement").onclick = closeModal;
-    $("announcementForm").onsubmit = async e => {
-      e.preventDefault();
-      const f = new FormData(e.currentTarget);
-      const payload = {
-        title:String(f.get("title")).trim(),
-        message:String(f.get("message")).trim(),
-        type:String(f.get("type")),
-        active:f.get("active") === "on"
-      };
-      try {
-        const path = item.id ? `/admin/announcements/${encodeURIComponent(item.id)}` : "/admin/announcements";
-        await api(path, {method:item.id ? "PUT" : "POST",body:jsonBody(payload)});
-        closeModal(); toast("Announcement saved."); loadAnnouncements();
-      } catch (error) { toast(error.message); }
-    };
-  }
-
-  async function loadAnnouncements() {
-    setLoading("announcementsTable");
-    try {
-      const data = await api("/admin/announcements");
-      const list = normaliseArray(data, ["announcements","items"]);
-      $("announcementsTable").innerHTML = rowsTable(
-        ["Announcement","Type","Status","Created","Actions"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.title || "Announcement")}</strong><small>${esc(item.message || item.body || "")}</small></td>
-          <td>${esc(item.type || "notice")}</td>
-          <td>${statusBadge(item.active === false ? "Inactive" : "Active")}</td>
-          <td>${esc(dateText(item.createdAt || item.created_at))}</td>
-          <td><div class="table-actions">
-            <button class="btn btn-light btn-small" data-ann-edit="${esc(item.id)}">Edit</button>
-            <button class="btn btn-danger btn-small" data-ann-delete="${esc(item.id)}">Delete</button>
-          </div></td>
-        </tr>`),
-        "No announcements yet."
-      );
-      $("announcementsTable").querySelectorAll("[data-ann-edit]").forEach(btn => {
-        btn.onclick = () => openAnnouncement(list.find(x => String(x.id) === btn.dataset.annEdit));
-      });
-      $("announcementsTable").querySelectorAll("[data-ann-delete]").forEach(btn => {
-        btn.onclick = () => deleteAnnouncement(btn.dataset.annDelete);
-      });
-    } catch (error) {
-      $("announcementsTable").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
-
-  async function deleteAnnouncement(id) {
-    if (!confirm("Delete this announcement?")) return;
-    try {
-      await api(`/admin/announcements/${encodeURIComponent(id)}`, {method:"DELETE"});
-      toast("Announcement deleted."); loadAnnouncements();
-    } catch (error) { toast(error.message); }
-  }
-
-  // TOOLS & RESOURCES
-  $("addResourceBtn").addEventListener("click", () => openResource());
-  $("loadResourcesBtn").addEventListener("click", loadResources);
-
-  function openResource(item = {}) {
-    showModal(item.id ? "Edit resource" : "Add resource", `
-      <form id="resourceForm">
-        <div class="form-grid">
-          <div class="field full"><label>Resource name</label><input name="title" required value="${esc(item.title || item.name || "")}"></div>
-          <div class="field"><label>Category</label><input name="category" value="${esc(item.category || "")}" placeholder="Tool, guide, website..."></div>
-          <div class="field"><label>Link / URL</label><input name="url" type="url" required value="${esc(item.url || "")}" placeholder="https://"></div>
-          <div class="field full"><label>Description</label><textarea name="description">${esc(item.description || "")}</textarea></div>
-          <div class="field"><label class="switch-row"><input type="checkbox" name="active" ${item.active === false ? "" : "checked"}> Visible to users</label></div>
-        </div>
-        <div class="form-actions"><button type="button" class="btn btn-light" id="cancelResource">Cancel</button><button class="btn btn-primary">Save resource</button></div>
-      </form>
-    `);
-    $("cancelResource").onclick = closeModal;
-    $("resourceForm").onsubmit = async e => {
-      e.preventDefault();
-      const f = new FormData(e.currentTarget);
-      const payload = {
-        title:String(f.get("title")).trim(),
-        category:String(f.get("category") || "").trim(),
-        url:String(f.get("url")).trim(),
-        description:String(f.get("description") || "").trim(),
-        active:f.get("active") === "on"
-      };
-      try {
-        const path = item.id ? `/admin/resources/${encodeURIComponent(item.id)}` : "/admin/resources";
-        await api(path, {method:item.id ? "PUT" : "POST",body:jsonBody(payload)});
-        closeModal(); toast("Resource saved."); loadResources();
-      } catch (error) { toast(error.message); }
-    };
-  }
-
-  async function loadResources() {
-    setLoading("resourcesTable");
-    try {
-      const data = await api("/admin/resources");
-      const list = normaliseArray(data, ["resources","items"]);
-      $("resourcesTable").innerHTML = rowsTable(
-        ["Resource","Category","Link","Status","Actions"],
-        list.map(item => `<tr>
-          <td><strong>${esc(item.title || item.name || "Resource")}</strong><small>${esc(item.description || "")}</small></td>
-          <td>${esc(item.category || "—")}</td>
-          <td><a href="${esc(item.url || "#")}" target="_blank" rel="noopener noreferrer" style="color:var(--blue)">Open link ↗</a></td>
-          <td>${statusBadge(item.active === false ? "Inactive" : "Active")}</td>
-          <td><div class="table-actions">
-            <button class="btn btn-light btn-small" data-resource-edit="${esc(item.id)}">Edit</button>
-            <button class="btn btn-danger btn-small" data-resource-delete="${esc(item.id)}">Delete</button>
-          </div></td>
-        </tr>`),
-        "No resources added yet."
-      );
-      $("resourcesTable").querySelectorAll("[data-resource-edit]").forEach(btn => {
-        btn.onclick = () => openResource(list.find(x => String(x.id) === btn.dataset.resourceEdit));
-      });
-      $("resourcesTable").querySelectorAll("[data-resource-delete]").forEach(btn => {
-        btn.onclick = () => deleteResource(btn.dataset.resourceDelete);
-      });
-    } catch (error) {
-      $("resourcesTable").innerHTML = `<div class="empty">${esc(error.message)}</div>`;
-    }
-  }
-
-  async function deleteResource(id) {
-    if (!confirm("Delete this resource?")) return;
-    try {
-      await api(`/admin/resources/${encodeURIComponent(id)}`, {method:"DELETE"});
-      toast("Resource deleted."); loadResources();
-    } catch (error) { toast(error.message); }
-  }
-
-  // INITIALISE
-  checkAdmin();
-
+if(typeof firebase!=="undefined" && firebase.auth) {
+  start();
+} else {
+  alert("Firebase could not load. Check that app.js and Firebase configuration are available.");
+}
 })();
 </script>
 </body>
